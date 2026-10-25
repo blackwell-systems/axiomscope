@@ -105,7 +105,7 @@ def signatureOf {α : Type u} (M : Experiment005.ArithmeticSystem α) :
 theorem full_induction_implies_first_order {α : Type u}
     (M : Experiment005.ArithmeticSystem α) :
     FirstOrderInduction (signatureOf M) := by
-  intro p x ρ hzero hstep a
+  intro p x ρ ⟨hzero, hstep⟩ a
   exact M.induction
     (fun b => satisfies (signatureOf M) (bind ρ x b) p)
     hzero hstep a
@@ -147,7 +147,7 @@ theorem twoTracks_not_first_order_inductive :
     apply (zeroOrSuccessor_iff twoTracks _).2
     right
     exact ⟨a, by simp⟩
-  have hall := (h zeroOrSuccessor 0 ρ) hz hs
+  have hall := (h zeroOrSuccessor 0 ρ) ⟨hz, hs⟩
   have hbad := (zeroOrSuccessor_iff twoTracks
     (bind ρ 0 (Experiment004.Number.zero, true))).1
     (hall (Experiment004.Number.zero, true))
