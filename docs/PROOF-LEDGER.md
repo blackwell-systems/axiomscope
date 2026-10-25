@@ -17,6 +17,10 @@ Axiom dependencies are extracted from Lean after successfully elaborating the de
 | `Axiomscope.Experiment002.sound` | Provable Γ φ → ∀ w, holds Γ w → forces w φ | Induction over every rule of the explicit natural-deduction calculus (Experiment 002 local semantic proof) | `kernel_only` | None reported |
 | `Axiomscope.Experiment002.root_not_forces_em` | ¬ forces root (atom ∨ (atom → ⊥)) | Two-world Kripke countermodel with atom forced only in the future (Experiment 002 local semantic proof) | `choice_free` | `propext` |
 | `Axiomscope.Experiment002.excludedMiddle_notDerivable` | ¬ Provable ∅ (atom ∨ (atom → ⊥)) | Soundness plus root countermodel yields a contradiction (Experiment 002 local semantic proof) | `choice_free` | `propext` |
+| `Axiomscope.Experiment003.forces_mono` | ∀ φ w z, w ≤ z → forces M w φ → forces M z φ | Induction proving formula persistence (General semantic proof) | `kernel_only` | None reported |
+| `Axiomscope.Experiment003.sound` | Derives Γ φ → ∀ w, holds M Γ w → forces M w φ | Soundness by induction over the deduction rules (General semantic proof) | `kernel_only` | None reported |
+| `Axiomscope.Experiment003.generic_em_not_derivable` | atom unforced at w, forced at z ≥ w → ¬ Derives ∅ (atom ∨ ¬atom) | Countermodel criterion using general soundness (General semantic proof) | `kernel_only` | None reported |
+| `Axiomscope.Experiment003.two_world_em_not_derivable` | ¬ Derives ∅ (atom ∨ ¬atom) in a specific two-world model | Two-world instance with accessibility and atomic witness proofs (Concrete specialization) | `classical_choice` | `Classical.choice`, `Quot.sound`, `propext` |
 
 ## Scope of the audit
 

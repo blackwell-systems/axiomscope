@@ -30,6 +30,12 @@ This is stronger than Experiment 001's proof-dependency inspection. It is a math
 
 Read the [formal explanation](docs/experiments/002-kripke-countermodel.md), [Lean code](Axiomscope/Experiments/KripkeCountermodel.lean), and [machine-readable comparison](proofs/experiments/002-kripke-countermodel.json).
 
+## Experiment 003 — generalized Kripke models
+
+We now formalize arbitrary atomic propositions and preordered worlds with persistent forcing. The [general soundness and nonderivability criterion](Axiomscope/Experiments/GeneralKripke.lean) uses **no additional Lean axioms**. The present concrete two-world specialization uses `propext`, `Quot.sound`, and `Classical.choice` in its proof and is labeled accordingly. This is a proof-level dependency, not a requirement of the general countermodel theorem.
+
+See the [experiment write-up](docs/experiments/003-general-kripke.md) and [audited comparison](proofs/experiments/003-general-kripke.json).
+
 ## Build
 
 Install [Lean 4 through elan](https://lean-lang.org/install/manual/), then run:
@@ -40,6 +46,7 @@ lake build
 lake env lean Axiomscope/CardinalExamples.lean
 lake env lean Axiomscope/Experiments/ExcludedMiddle.lean
 lake env lean Axiomscope/Experiments/KripkeCountermodel.lean
+lake env lean Axiomscope/Experiments/GeneralKripke.lean
 python3 -m unittest discover -s scripts/tests -v
 python3 scripts/generate_proof_ledger.py --check
 ```
@@ -64,6 +71,7 @@ The proof ledger is **generated**, not manually maintained. After editing proofs
 - [Machine-readable axiom dependencies](proofs/dependencies.json)
 - [Experiment 001 comparison](proofs/experiments/001-excluded-middle.json)
 - [Experiment 002: Kripke countermodel and soundness](docs/experiments/002-kripke-countermodel.md)
+- [Experiment 003: generalized Kripke models](docs/experiments/003-general-kripke.md)
 - [Declaration metadata catalogue](proofs/catalog.json)
 - [Research roadmap](docs/ROADMAP.md)
 
