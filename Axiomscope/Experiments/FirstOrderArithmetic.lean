@@ -152,10 +152,14 @@ theorem twoTracks_not_first_order_inductive :
     (bind ρ 0 (Experiment004.Number.zero, true))).1
     (hall (Experiment004.Number.zero, true))
   rcases hbad with hzero | ⟨a, hsucc⟩
-  · have hb : true = false := congrArg Prod.snd (by simpa using hzero)
+  · change (Experiment004.Number.zero, true) =
+        (Experiment004.Number.zero, false) at hzero
+    have hb : true = false := congrArg Prod.snd hzero
     cases hb
-  · have hn : Experiment004.Number.zero = Experiment004.Number.succ a.1 :=
-      congrArg Prod.fst (by simpa [twoTracks] using hsucc)
+  · change (Experiment004.Number.zero, true) =
+        (Experiment004.Number.succ a.1, a.2) at hsucc
+    have hn : Experiment004.Number.zero = Experiment004.Number.succ a.1 :=
+      congrArg Prod.fst hsucc
     exact Experiment004.zero_ne_succ a.1 hn
 
 end Axiomscope.Experiment006
