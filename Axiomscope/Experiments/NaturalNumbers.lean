@@ -120,38 +120,47 @@ theorem mul_succ (a b : Number) :
 theorem toNat_add (a b : Number) :
     toNat (add a b) = toNat a + toNat b := by
   induction b with
-  | zero => simp [add, toNat]
-  | succ b ih => simp [add, toNat, ih, Nat.add_succ]
+  | zero => rfl
+  | succ b ih =>
+      change Nat.succ (toNat (add a b)) = toNat a + Nat.succ (toNat b)
+      rw [ih, Nat.add_succ]
 
 /-- Our recursive multiplication agrees with Nat multiplication. -/
 theorem toNat_mul (a b : Number) :
     toNat (mul a b) = toNat a * toNat b := by
   induction b with
-  | zero => simp [mul, toNat]
+  | zero => rfl
   | succ b ih =>
-      simp [mul, toNat_add, toNat, ih, Nat.mul_succ]
+      change toNat (add (mul a b) a) = toNat a * Nat.succ (toNat b)
+      rw [toNat_add, ih, Nat.mul_succ]
+
+/-- The forward conversion is injective because the two maps are inverses. -/
+theorem toNat_injective : Function.Injective toNat := by
+  intro a b h
+  have h' := congrArg ofNat h
+  simpa only [ofNat_toNat] using h'
 
 /-- Addition is associative. -/
 theorem add_assoc (a b c : Number) :
     add (add a b) c = add a (add b c) := by
-  apply equivNat.injective
+  apply toNat_injective
   simp [toNat_add, Nat.add_assoc]
 
 /-- Addition is commutative. -/
 theorem add_comm (a b : Number) : add a b = add b a := by
-  apply equivNat.injective
+  apply toNat_injective
   simp [toNat_add, Nat.add_comm]
 
 /-- Multiplication is associative. -/
 theorem mul_assoc (a b c : Number) :
     mul (mul a b) c = mul a (mul b c) := by
-  apply equivNat.injective
+  apply toNat_injective
   simp [toNat_mul, Nat.mul_assoc]
 
 /-- Multiplication distributes over addition. -/
 theorem mul_add (a b c : Number) :
     mul a (add b c) = add (mul a b) (mul a c) := by
-  apply equivNat.injective
+  apply toNat_injective
   simp [toNat_mul, toNat_add, Nat.mul_add]
 
 end Axiomscope.Experiment004
@@ -163,6 +172,7 @@ end Axiomscope.Experiment004
 #print axioms Axiomscope.Experiment004.toNat_ofNat
 #print axioms Axiomscope.Experiment004.ofNat_toNat
 #print axioms Axiomscope.Experiment004.equivNat
+#print axioms Axiomscope.Experiment004.toNat_injective
 #print axioms Axiomscope.Experiment004.toNat_add
 #print axioms Axiomscope.Experiment004.toNat_mul
 #print axioms Axiomscope.Experiment004.add_assoc
