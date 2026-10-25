@@ -36,6 +36,14 @@ We now formalize arbitrary atomic propositions and preordered worlds with persis
 
 See the [experiment write-up](docs/experiments/003-general-kripke.md) and [audited comparison](proofs/experiments/003-general-kripke.json).
 
+## Experiment 004 — rebuilding the natural numbers
+
+We declare a **fresh inductive number type** with zero and successor, independent of the *definition* of Lean's `Nat`. From its constructors we recover an induction rule and a recursion principle with uniqueness, and recursively define addition and multiplication. Explicit functions in both directions establish `Experiment004.Number ≃ Nat`. We prove the operations agree with ordinary arithmetic and recover familiar laws.
+
+**Foundational boundary:** this uses Lean's existing inductive-type rules. It does **not** derive infinity from our propositional Kripke calculus, and transporting arithmetic laws from built-in `Nat` is not an independent proof of arithmetic's foundations. The experiment's contribution is auditable construction provenance and compatibility.
+
+See [the Lean module](Axiomscope/Experiments/NaturalNumbers.lean), [experiment explanation](docs/experiments/004-natural-numbers.md), and [axiom report](proofs/experiments/004-natural-numbers.json).
+
 ## Build
 
 Install [Lean 4 through elan](https://lean-lang.org/install/manual/), then run:
@@ -47,6 +55,7 @@ lake env lean Axiomscope/CardinalExamples.lean
 lake env lean Axiomscope/Experiments/ExcludedMiddle.lean
 lake env lean Axiomscope/Experiments/KripkeCountermodel.lean
 lake env lean Axiomscope/Experiments/GeneralKripke.lean
+lake env lean Axiomscope/Experiments/NaturalNumbers.lean
 python3 -m unittest discover -s scripts/tests -v
 python3 scripts/generate_proof_ledger.py --check
 ```
@@ -72,6 +81,7 @@ The proof ledger is **generated**, not manually maintained. After editing proofs
 - [Experiment 001 comparison](proofs/experiments/001-excluded-middle.json)
 - [Experiment 002: Kripke countermodel and soundness](docs/experiments/002-kripke-countermodel.md)
 - [Experiment 003: generalized Kripke models](docs/experiments/003-general-kripke.md)
+- [Experiment 004: natural numbers reconstruction](docs/experiments/004-natural-numbers.md)
 - [Declaration metadata catalogue](proofs/catalog.json)
 - [Research roadmap](docs/ROADMAP.md)
 
