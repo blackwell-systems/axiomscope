@@ -21,6 +21,7 @@ ROOT = Path(__file__).resolve().parent.parent
 CATALOG = ROOT / "proofs/catalog.json"
 OUTPUT_JSON = ROOT / "proofs/dependencies.json"
 OUTPUT_MD = ROOT / "docs/PROOF-LEDGER.md"
+EXPERIMENTS_DIR = ROOT / "proofs/experiments"
 B = chr(96)  # Markdown code delimiter
 REPORT = re.compile(
     r"'([^']+)' (?:depends on axioms: \[([^\]]*)\]|(does not depend on any axioms))"
@@ -53,20 +54,24 @@ def parse_axioms(output: str, expected: set[str]) -> dict[str, list[str]]:
     return results
 
 
-def run_lean() -> str:
-    try:
-        process = subprocess.run(
-            ["lake", "env", "lean", "Axiomscope/CardinalExamples.lean"],
-            cwd=ROOT, capture_output=True, text=True, check=False
-        )
-    except FileNotFoundError as error:
-        raise LedgerError("Lake is unavailable; install Lean and run lake build.") from error
-    if process.returncode:
-        raise LedgerError(
-            f"Lean failed (exit {process.returncode}); refusing to generate records:\n"
-            + (process.stdout + process.stderr)[-3500:]
-        )
-    return process.stdout + "\n" + process.stderr
+def run_lean(sources: list[str]) -> str:
+    """Elaborate every registered proof module, rejecting failures."""
+    outputs = []
+    for source in sources:
+        try:
+            process = subprocess.run(
+                ["lake", "env", "lean", source],
+                cwd=ROOT, capture_output=True, text=True, check=False
+            )
+        except FileNotFoundError as error:
+            raise LedgerError("Lake is unavailable; install Lean and run lake build.") from error
+        if process.returncode:
+            raise LedgerError(
+                f"Lean failed on {source} (exit {process.returncode}); refusing records:\n"
+                + (process.stdout + process.stderr)[-3500:]
+            )
+        outputs.append(process.stdout + "\n" + process.stderr)
+    return "\n".join(outputs)
 
 
 def collect(catalog: dict, output: str, toolchain: str) -> dict:
@@ -74,6 +79,9 @@ def collect(catalog: dict, output: str, toolchain: str) -> dict:
         raise LedgerError("Unsupported catalog schema")
     entries = catalog.get("declarations")
     allowed = catalog.get("allowed_axioms")
+    profiles = catalog.get("axiom_profiles", {})
+    if not isinstance(profiles, dict):
+        raise LedgerError("Invalid axiom profiles")
     if not isinstance(entries, list) or not entries:
         raise LedgerError("Empty or invalid declaration catalog")
     if not isinstance(allowed, list) or len(set(allowed)) != len(allowed):
@@ -85,6 +93,9 @@ def collect(catalog: dict, output: str, toolchain: str) -> dict:
         for key in ("declaration", "statement", "source", "kind", "construction", "provenance"):
             if not isinstance(entry.get(key), str) or not entry[key].strip():
                 raise LedgerError(f"Missing {key} metadata")
+        profile = entry.get("foundation_profile", "choice_free")
+        if profile not in profiles:
+            raise LedgerError(f"Unknown foundation profile: {profile}")
         source = (ROOT / entry["source"]).resolve()
         if not source.is_file() or not source.is_relative_to(ROOT):
             raise LedgerError(f"Missing/outside source file: {entry['source']}")
@@ -99,6 +110,22 @@ def collect(catalog: dict, output: str, toolchain: str) -> dict:
                 + ", ".join(sorted(unapproved))
                 + ". Explicit review and catalog change required."
             )
+        profile_name = entry.get("foundation_profile", "choice_free")
+        profile = profiles[profile_name]
+        permitted = set(profile["allowed_axioms"])
+        required = set(profile["required_axioms"])
+        if not permitted <= set(allowed) or not required <= permitted:
+            raise LedgerError(f"Invalid profile rules: {profile_name}")
+        if set(axioms) - permitted:
+            raise LedgerError(
+                entry["declaration"] + " violates profile " + profile_name
+                + ": " + ", ".join(sorted(set(axioms) - permitted))
+            )
+        if required - set(axioms):
+            raise LedgerError(
+                entry["declaration"] + " does not exhibit required axioms for "
+                + profile_name + ": " + ", ".join(sorted(required - set(axioms)))
+            )
         records.append({
             "declaration": entry["declaration"],
             "statement": entry["statement"],
@@ -106,6 +133,9 @@ def collect(catalog: dict, output: str, toolchain: str) -> dict:
             "kind": entry["kind"],
             "construction": entry["construction"],
             "provenance": entry["provenance"],
+            "foundation_profile": profile_name,
+            **({"experiment": entry["experiment"], "variant": entry["variant"]}
+               if "experiment" in entry else {}),
             "axioms": axioms,
             "uses_classical_choice": "Classical.choice" in axioms,
         })
@@ -129,8 +159,8 @@ def markdown(data: dict) -> str:
         + "[proofs/catalog.json](../proofs/catalog.json); machine-readable output: "
         + "[proofs/dependencies.json](../proofs/dependencies.json).",
         "",
-        "| Declaration | Statement | Implementation | Axioms used |",
-        "| --- | --- | --- | --- |",
+        "| Declaration | Statement | Implementation | Profile | Axioms used |",
+        "| --- | --- | --- | --- | --- |",
     ]
     for record in data["records"]:
         axioms = ", ".join(B + a + B for a in record["axioms"]) or "None reported"
@@ -138,7 +168,8 @@ def markdown(data: dict) -> str:
             "| " + B + record["declaration"] + B + " | "
             + record["statement"].replace("|", "\\|") + " | "
             + record["construction"].replace("|", "\\|") + " ("
-            + record["provenance"] + ") | " + axioms + " |"
+            + record["provenance"] + ") | "
+            + B + record["foundation_profile"] + B + " | " + axioms + " |"
         )
     lines.extend([
         "", "## Scope of the audit", "",
@@ -148,8 +179,11 @@ def markdown(data: dict) -> str:
         "a logical system, trusted kernel, or definitions.",
         "- Absence of " + B + "Classical.choice" + B
         + " in the report does not by itself guarantee executable content.",
-        "- The allowlist prevents newly introduced, unreviewed axioms from "
-        "silently entering a verified record.",
+        "- The global allowlist and per-proof profiles reject unexpected axioms or "
+        "missing required classical assumptions.",
+        "- Lean's " + B + "Classical.choice" + B + " is not the ZFC Axiom of Choice.",
+        "- This audits particular proofs; it does not prove alternative proofs "
+        "or models are impossible.",
         "", "## Regenerate or verify", "", B * 3 + "sh",
         "lake exe cache get",
         "lake build",
@@ -161,6 +195,40 @@ def markdown(data: dict) -> str:
         "successful Lean run.", "",
     ])
     return "\n".join(lines)
+
+
+def experiment_reports(catalog: dict, data: dict) -> dict[str, str]:
+    """Build independently checkable comparison records from audited declarations."""
+    by_name = {record["declaration"]: record for record in data["records"]}
+    generated = {}
+    for exp in catalog.get("experiments", []):
+        exp_id = exp["id"]
+        if not re.fullmatch(r"[0-9]{3}-[a-z0-9-]+", exp_id) or exp_id in generated:
+            raise LedgerError(f"Invalid or duplicate experiment ID: {exp_id}")
+        names = exp["variants"]
+        if not names or len(set(names)) != len(names):
+            raise LedgerError(f"Invalid variants in {exp_id}")
+        for name in names:
+            if name not in by_name or by_name[name].get("experiment") != exp_id:
+                raise LedgerError(f"Experiment variant not registered: {name}")
+        actual = {record["declaration"] for record in data["records"]
+                  if record.get("experiment") == exp_id}
+        if actual != set(names):
+            raise LedgerError(f"Incomplete experiment variant list: {exp_id}")
+        report = {
+            "schema_version": 1,
+            "id": exp_id,
+            "question": exp["question"],
+            "scope": exp["scope"],
+            "toolchain": data["toolchain"],
+            "variants": [by_name[name] for name in names],
+        }
+        generated[exp_id] = json.dumps(report, ensure_ascii=False, indent=2) + "\n"
+    recorded = {record["experiment"] for record in data["records"]
+                if "experiment" in record}
+    if recorded != set(generated):
+        raise LedgerError(f"Missing experiment registration: {recorded - set(generated)}")
+    return generated
 
 
 def sync_file(path: Path, content: str, check: bool) -> bool:
@@ -184,13 +252,17 @@ def main() -> int:
     args = parser.parse_args()
     try:
         catalog = json.loads(CATALOG.read_text(encoding="utf-8"))
-        output = run_lean()
+        output = run_lean(sorted({e["source"] for e in catalog["declarations"]}))
         toolchain = (ROOT / "lean-toolchain").read_text(encoding="utf-8").strip()
         data = collect(catalog, output, toolchain)
         as_json = json.dumps(data, ensure_ascii=False, indent=2) + "\n"
         one = sync_file(OUTPUT_JSON, as_json, args.check)
         two = sync_file(OUTPUT_MD, markdown(data), args.check)
-        return 0 if one and two else 1
+        additional = [
+            sync_file(EXPERIMENTS_DIR / (exp_id + ".json"), report, args.check)
+            for exp_id, report in experiment_reports(catalog, data).items()
+        ]
+        return 0 if one and two and all(additional) else 1
     except (LedgerError, ValueError, KeyError, OSError) as error:
         print(f"Proof ledger error: {error}", file=sys.stderr)
         return 1

@@ -20,9 +20,9 @@
 
 ## Phase 2 — explicit changes of foundation
 
-- [ ] Choose *one* controlled comparison: constructive vs classical existence, or two presentations of sets.
-- [ ] Formulate exactly what is transported and which definitions change.
-- [ ] Implement and verify a nontrivial example where assumption provenance matters.
+- [x] Choose a controlled comparison: excluded middle under decidability and unrestricted classical reasoning.
+- [x] Specify the different logical statements, context assumptions, and the scope of proof-level comparison.
+- [ ] Complete CI verification of Experiment 001 and compare axiom profiles in generated machine-readable records.
 - [ ] Document related systems (CZF, ETCS, type theory, proof assistants) and avoid duplicate novelty claims.
 
 ## Phase 3 — mathematical research

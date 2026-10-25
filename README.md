@@ -16,6 +16,12 @@ The initial work uses **Lean 4 and Mathlib**, which provide an established logic
 
 The even-number bijection is written out explicitly. The integer bijection initially reuses Mathlib's constructive equivalence `Equiv.intEquivNat`; rewriting it from scratch is a later educational exercise. Cantor's diagonal argument is written out directly.
 
+## Experiment 001 — changing logical assumptions
+
+Four Lean proofs examine the difference between constructively provable double-negated excluded middle, excluded middle with an explicit decision procedure, and unrestricted classical excluded middle and double-negation elimination. The experiment generates a [comparison record](proofs/experiments/001-excluded-middle.json) from proof-checked axiom output. See [the experiment explanation](docs/experiments/001-excluded-middle.md).
+
+**Scope:** This compares specific Lean proofs and their assumptions, not different ZFC models; it does not establish an independence theorem. Lean's `Classical.choice` is not synonymous with the set-theoretic Axiom of Choice.
+
 ## Build
 
 Install [Lean 4 through elan](https://lean-lang.org/install/manual/), then run:
@@ -24,6 +30,7 @@ Install [Lean 4 through elan](https://lean-lang.org/install/manual/), then run:
 lake exe cache get
 lake build
 lake env lean Axiomscope/CardinalExamples.lean
+lake env lean Axiomscope/Experiments/ExcludedMiddle.lean
 python3 -m unittest discover -s scripts/tests -v
 python3 scripts/generate_proof_ledger.py --check
 ```
@@ -46,6 +53,7 @@ The proof ledger is **generated**, not manually maintained. After editing proofs
 - [Foundations v0.1 specification](docs/FOUNDATIONS-v0.1.md)
 - [Generated proof ledger](docs/PROOF-LEDGER.md)
 - [Machine-readable axiom dependencies](proofs/dependencies.json)
+- [Experiment 001 comparison](proofs/experiments/001-excluded-middle.json)
 - [Declaration metadata catalogue](proofs/catalog.json)
 - [Research roadmap](docs/ROADMAP.md)
 
