@@ -141,21 +141,33 @@ def twoWorldModel : Model Unit (Fin 2) where
     intro w z _ hwz hp
     exact Nat.le_trans hp hwz
 
+/-- Root is accessible to the later world. -/
+theorem two_world_accessible : (0 : Fin 2) ≤ (1 : Fin 2) := by decide
+
+/-- The atom does not hold at the root. -/
+theorem two_world_root_not_atom :
+    ¬ twoWorldModel.atomForces (0 : Fin 2) () := by
+  change ¬ (1 ≤ (0 : Fin 2).val)
+  decide
+
+/-- The atom holds at the later world. -/
+theorem two_world_later_atom :
+    twoWorldModel.atomForces (1 : Fin 2) () := by
+  change 1 ≤ (1 : Fin 2).val
+  decide
+
 theorem two_world_em_not_derivable :
     ¬ Derives (∅ : Set (Formula Unit))
         (.disj (.atom ()) (.impl (.atom ()) .bottom)) := by
   exact generic_em_not_derivable twoWorldModel () (0 : Fin 2) (1 : Fin 2)
-    (by decide)
-    (by
-      change ¬ (1 ≤ (0 : Fin 2).val)
-      decide)
-    (by
-      change 1 ≤ (1 : Fin 2).val
-      decide)
+    two_world_accessible two_world_root_not_atom two_world_later_atom
 
 end Axiomscope.Experiment003
 
 #print axioms Axiomscope.Experiment003.forces_mono
 #print axioms Axiomscope.Experiment003.sound
 #print axioms Axiomscope.Experiment003.generic_em_not_derivable
+#print axioms Axiomscope.Experiment003.two_world_accessible
+#print axioms Axiomscope.Experiment003.two_world_root_not_atom
+#print axioms Axiomscope.Experiment003.two_world_later_atom
 #print axioms Axiomscope.Experiment003.two_world_em_not_derivable
