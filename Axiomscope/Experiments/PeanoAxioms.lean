@@ -101,10 +101,14 @@ theorem encode_surjective {α : Type u} (M : PeanoSystem α) :
     change M.succ (encode M n) = M.succ y
     rw [hn]
 
-/-- Full induction and constructor axioms uniquely determine the carrier
-up to equivalence, with a canonical zero/successor-preserving forward map. -/
+/-- A canonical bijection, established without invoking choice. -/
+theorem encode_bijective {α : Type u} (M : PeanoSystem α) :
+    Function.Bijective (encode M) :=
+  ⟨encode_injective M, encode_surjective M⟩
+
+/-- Packaging a bijection as an explicit inverse invokes Lean's Classical.choice. -/
 noncomputable def equivalence {α : Type u} (M : PeanoSystem α) : Number ≃ α :=
-  Equiv.ofBijective (encode M) ⟨encode_injective M, encode_surjective M⟩
+  Equiv.ofBijective (encode M) (encode_bijective M)
 
 /-- The interpreter also respects the recursively axiomatized addition. -/
 theorem encode_add {α : Type u} (M : ArithmeticSystem α) (a b : Number) :
@@ -192,6 +196,7 @@ end Axiomscope.Experiment005
 #print axioms Axiomscope.Experiment005.encode_unique
 #print axioms Axiomscope.Experiment005.encode_injective
 #print axioms Axiomscope.Experiment005.encode_surjective
+#print axioms Axiomscope.Experiment005.encode_bijective
 #print axioms Axiomscope.Experiment005.equivalence
 #print axioms Axiomscope.Experiment005.encode_add
 #print axioms Axiomscope.Experiment005.encode_mul

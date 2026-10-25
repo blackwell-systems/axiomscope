@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "id": "005-peano-axioms",
+  "question": "Do full induction and Peano-style constructor axioms characterize natural numbers, and what happens without induction?",
+  "scope": "Full second-order-style predicate induction inside Lean's higher-order type theory, not first-order PA. Seven original structural/countermodel proofs plus choice-free bijectivity use no additional Lean axioms. Explicit Equiv.ofBijective packaging uses Classical.choice; constructor and induction fields are explicit model assumptions, not kernel axioms.",
+  "toolchain": "leanprover/lean4:v4.35.0",
+  "variants": [
+    {
+      "declaration": "Axiomscope.Experiment005.encode_succ",
+      "statement": "∀ M n, encode M (succ n) = M.succ (encode M n)",
+      "source": "Axiomscope/Experiments/PeanoAxioms.lean",
+      "kind": "theorem",
+      "construction": "Definitional preservation of successor",
+      "provenance": "Experiment 005 axiomatic characterization",
+      "foundation_profile": "kernel_only",
+      "experiment": "005-peano-axioms",
+      "variant": "successor_preservation",
+      "axioms": [],
+      "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.Experiment005.encode_unique",
+      "statement": "Any zero/successor-preserving map Number → α equals encode M",
+      "source": "Axiomscope/Experiments/PeanoAxioms.lean",
+      "kind": "theorem",
+      "construction": "Structural induction on Number",
+      "provenance": "Experiment 005 axiomatic characterization",
+      "foundation_profile": "kernel_only",
+      "experiment": "005-peano-axioms",
+      "variant": "unique_morphism",
+      "axioms": [],
+      "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.Experiment005.encode_injective",
+      "statement": "∀ M, Function.Injective (encode M)",
+      "source": "Axiomscope/Experiments/PeanoAxioms.lean",
+      "kind": "theorem",
+      "construction": "Constructor disjointness and successor injectivity",
+      "provenance": "Experiment 005 axiomatic characterization",
+      "foundation_profile": "kernel_only",
+      "experiment": "005-peano-axioms",
+      "variant": "injectivity",
+      "axioms": [],
+      "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.Experiment005.encode_surjective",
+      "statement": "∀ M, Function.Surjective (encode M)",
+      "source": "Axiomscope/Experiments/PeanoAxioms.lean",
+      "kind": "theorem",
+      "construction": "Full predicate induction on reachability",
+      "provenance": "Experiment 005 axiomatic characterization",
+      "foundation_profile": "kernel_only",
+      "experiment": "005-peano-axioms",
+      "variant": "surjectivity",
+      "axioms": [],
+      "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.Experiment005.encode_bijective",
+      "statement": "∀ M, Function.Bijective (encode M)",
+      "source": "Axiomscope/Experiments/PeanoAxioms.lean",
+      "kind": "theorem",
+      "construction": "Assemble injectivity and surjectivity without choice",
+      "provenance": "Experiment 005 axiomatic characterization",
+      "foundation_profile": "kernel_only",
+      "experiment": "005-peano-axioms",
+      "variant": "bijectivity",
+      "axioms": [],
+      "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.Experiment005.equivalence",
+      "statement": "∀ M, Number ≃ α",
+      "source": "Axiomscope/Experiments/PeanoAxioms.lean",
+      "kind": "equivalence",
+      "construction": "Equiv.ofBijective packages a noncomputable inverse",
+      "provenance": "Experiment 005 axiomatic characterization",
+      "foundation_profile": "classical_choice",
+      "experiment": "005-peano-axioms",
+      "variant": "explicit_equivalence",
+      "axioms": [
+        "Classical.choice"
+      ],
+      "uses_classical_choice": true
+    },
+    {
+      "declaration": "Axiomscope.Experiment005.encode_add",
+      "statement": "∀ M a b, encode M (Number.add a b) = M.add (encode M a) (encode M b)",
+      "source": "Axiomscope/Experiments/PeanoAxioms.lean",
+      "kind": "theorem",
+      "construction": "Induction and explicit recursive addition equations",
+      "provenance": "Experiment 005 axiomatic characterization",
+      "foundation_profile": "kernel_only",
+      "experiment": "005-peano-axioms",
+      "variant": "addition_preservation",
+      "axioms": [],
+      "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.Experiment005.encode_mul",
+      "statement": "∀ M a b, encode M (Number.mul a b) = M.mul (encode M a) (encode M b)",
+      "source": "Axiomscope/Experiments/PeanoAxioms.lean",
+      "kind": "theorem",
+      "construction": "Induction and explicit recursive multiplication equations",
+      "provenance": "Experiment 005 axiomatic characterization",
+      "foundation_profile": "kernel_only",
+      "experiment": "005-peano-axioms",
+      "variant": "multiplication_preservation",
+      "axioms": [],
+      "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.Experiment005.twoTracks_not_inductive",
+      "statement": "WeakSuccessor (Number × Bool) fails full induction",
+      "source": "Axiomscope/Experiments/PeanoAxioms.lean",
+      "kind": "theorem",
+      "construction": "An extra successor track satisfies weak axioms but violates induction",
+      "provenance": "Experiment 005 axiomatic characterization",
+      "foundation_profile": "kernel_only",
+      "experiment": "005-peano-axioms",
+      "variant": "weak_axioms_countermodel",
+      "axioms": [],
+      "uses_classical_choice": false
+    }
+  ]
+}

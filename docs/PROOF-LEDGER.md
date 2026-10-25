@@ -35,6 +35,15 @@ Axiom dependencies are extracted from Lean after successfully elaborating the de
 | `Axiomscope.Experiment004.add_comm` | ∀ a b, add a b = add b a | Transport Nat commutativity across injective conversion (Experiment 004 local proof) | `choice_free` | `propext` |
 | `Axiomscope.Experiment004.mul_assoc` | ∀ a b c, mul (mul a b) c = mul a (mul b c) | Transport Nat associativity across injective conversion (Experiment 004 local proof) | `choice_free` | `propext` |
 | `Axiomscope.Experiment004.mul_add` | ∀ a b c, mul a (add b c) = add (mul a b) (mul a c) | Transport Nat distributivity across injective conversion (Experiment 004 local proof) | `choice_free` | `propext` |
+| `Axiomscope.Experiment005.encode_succ` | ∀ M n, encode M (succ n) = M.succ (encode M n) | Definitional preservation of successor (Experiment 005 axiomatic characterization) | `kernel_only` | None reported |
+| `Axiomscope.Experiment005.encode_unique` | Any zero/successor-preserving map Number → α equals encode M | Structural induction on Number (Experiment 005 axiomatic characterization) | `kernel_only` | None reported |
+| `Axiomscope.Experiment005.encode_injective` | ∀ M, Function.Injective (encode M) | Constructor disjointness and successor injectivity (Experiment 005 axiomatic characterization) | `kernel_only` | None reported |
+| `Axiomscope.Experiment005.encode_surjective` | ∀ M, Function.Surjective (encode M) | Full predicate induction on reachability (Experiment 005 axiomatic characterization) | `kernel_only` | None reported |
+| `Axiomscope.Experiment005.encode_bijective` | ∀ M, Function.Bijective (encode M) | Assemble injectivity and surjectivity without choice (Experiment 005 axiomatic characterization) | `kernel_only` | None reported |
+| `Axiomscope.Experiment005.equivalence` | ∀ M, Number ≃ α | Equiv.ofBijective packages a noncomputable inverse (Experiment 005 axiomatic characterization) | `classical_choice` | `Classical.choice` |
+| `Axiomscope.Experiment005.encode_add` | ∀ M a b, encode M (Number.add a b) = M.add (encode M a) (encode M b) | Induction and explicit recursive addition equations (Experiment 005 axiomatic characterization) | `kernel_only` | None reported |
+| `Axiomscope.Experiment005.encode_mul` | ∀ M a b, encode M (Number.mul a b) = M.mul (encode M a) (encode M b) | Induction and explicit recursive multiplication equations (Experiment 005 axiomatic characterization) | `kernel_only` | None reported |
+| `Axiomscope.Experiment005.twoTracks_not_inductive` | WeakSuccessor (Number × Bool) fails full induction | An extra successor track satisfies weak axioms but violates induction (Experiment 005 axiomatic characterization) | `kernel_only` | None reported |
 
 ## Scope of the audit
 

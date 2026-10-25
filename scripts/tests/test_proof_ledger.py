@@ -31,6 +31,12 @@ NAMES = {"Axiomscope.natEquivEven", "Axiomscope.natEquivInt", "Axiomscope.cantor
         "toNat_add", "toNat_mul", "add_assoc", "add_comm",
         "mul_assoc", "mul_add"
     )
+} | {
+    "Axiomscope.Experiment005." + name for name in (
+        "encode_succ", "encode_unique", "encode_injective", "encode_surjective",
+        "encode_bijective", "equivalence", "encode_add", "encode_mul",
+        "twoTracks_not_inductive"
+    )
 }
 RESULT = (
     "'Axiomscope.natEquivEven' depends on axioms: [propext, Quot.sound]\n"
@@ -62,6 +68,15 @@ RESULT = (
     "'Axiomscope.Experiment004.add_comm' depends on axioms: [propext]\n"
     "'Axiomscope.Experiment004.mul_assoc' depends on axioms: [propext]\n"
     "'Axiomscope.Experiment004.mul_add' depends on axioms: [propext]\n"
+    "'Axiomscope.Experiment005.encode_succ' does not depend on any axioms\n"
+    "'Axiomscope.Experiment005.encode_unique' does not depend on any axioms\n"
+    "'Axiomscope.Experiment005.encode_injective' does not depend on any axioms\n"
+    "'Axiomscope.Experiment005.encode_surjective' does not depend on any axioms\n"
+    "'Axiomscope.Experiment005.encode_bijective' does not depend on any axioms\n"
+    "'Axiomscope.Experiment005.equivalence' depends on axioms: [Classical.choice]\n"
+    "'Axiomscope.Experiment005.encode_add' does not depend on any axioms\n"
+    "'Axiomscope.Experiment005.encode_mul' does not depend on any axioms\n"
+    "'Axiomscope.Experiment005.twoTracks_not_inductive' does not depend on any axioms\n"
 )
 
 
@@ -92,8 +107,8 @@ class LedgerTests(unittest.TestCase):
     def test_json_markdown_agree(self):
         catalog = json.loads(ledger.CATALOG.read_text(encoding="utf-8"))
         data = ledger.collect(catalog, RESULT, "leanprover/lean4:v4.35.0")
-        self.assertEqual(len(data["records"]), 29)
-        self.assertEqual(sum(d["uses_classical_choice"] for d in data["records"]), 3)
+        self.assertEqual(len(data["records"]), 38)
+        self.assertEqual(sum(d["uses_classical_choice"] for d in data["records"]), 4)
         self.assertIn("Quot.sound", ledger.markdown(data))
 
     def test_classical_profile_rejects_missing_choice(self):
@@ -161,6 +176,17 @@ class LedgerTests(unittest.TestCase):
              [], [], ["propext"], ["propext"], ["propext"], ["propext"]],
         )
         self.assertTrue(all(not r["uses_classical_choice"] for r in report["variants"]))
+
+    def test_peano_axioms_comparison(self):
+        catalog = json.loads(ledger.CATALOG.read_text(encoding="utf-8"))
+        data = ledger.collect(catalog, RESULT, "leanprover/lean4:v4.35.0")
+        report = json.loads(ledger.experiment_reports(catalog, data)["005-peano-axioms"])
+        self.assertEqual(len(report["variants"]), 9)
+        self.assertEqual(
+            [r["axioms"] for r in report["variants"]],
+            [[], [], [], [], [], ["Classical.choice"], [], [], []],
+        )
+        self.assertEqual(sum(r["uses_classical_choice"] for r in report["variants"]), 1)
 
     def test_stale_artifact_rejected(self):
         with patch.object(ledger.Path, "exists", return_value=False):

@@ -33,7 +33,9 @@ map `encode M : Number → α` for any `PeanoSystem α`:
   and successor injectivity.
 - `encode_surjective`: full induction proves *every* element of the
   carrier lies in the image.
-- `equivalence`: an explicit equivalence of carriers.
+- `encode_bijective`: the forward map is bijective without `Classical.choice`.
+- `equivalence`: packaging that bijection as a noncomputable `Equiv` object
+  uses Lean's `Classical.choice` for an inverse.
 - `encode_add` and `encode_mul`: with arithmetic equations, the
   canonical map also preserves addition and multiplication.
 
@@ -58,6 +60,11 @@ It does not show that every first-order PA model looks like two tracks,
 or establish independence of an arbitrary formal axiom schema.
 
 ## Foundation accounting
+
+The generated report confirms that all eight structural and countermodel
+results use no additional Lean axioms, while the explicit `equivalence`
+declaration uses `Classical.choice`. This is a **choice dependency of the
+inverse-producing proof**, not a requirement for the bijectivity theorem.
 
 The structural assumptions are *fields* of an explicit Lean structure;
 they do not appear as global Lean kernel axioms. Consequently a theorem
