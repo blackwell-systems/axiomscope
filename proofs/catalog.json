@@ -120,6 +120,50 @@
       "foundation_profile": "choice_free",
       "experiment": "002-kripke-countermodel",
       "variant": "nonderivability"
+    },
+    {
+      "declaration": "Axiomscope.Experiment003.forces_mono",
+      "statement": "∀ φ w z, w ≤ z → forces M w φ → forces M z φ",
+      "source": "Axiomscope/Experiments/GeneralKripke.lean",
+      "kind": "theorem",
+      "construction": "Induction proving formula persistence",
+      "provenance": "General semantic proof",
+      "foundation_profile": "kernel_only",
+      "experiment": "003-general-kripke",
+      "variant": "persistence"
+    },
+    {
+      "declaration": "Axiomscope.Experiment003.sound",
+      "statement": "Derives Γ φ → ∀ w, holds M Γ w → forces M w φ",
+      "source": "Axiomscope/Experiments/GeneralKripke.lean",
+      "kind": "theorem",
+      "construction": "Soundness by induction over the deduction rules",
+      "provenance": "General semantic proof",
+      "foundation_profile": "kernel_only",
+      "experiment": "003-general-kripke",
+      "variant": "soundness"
+    },
+    {
+      "declaration": "Axiomscope.Experiment003.generic_em_not_derivable",
+      "statement": "atom unforced at w, forced at z ≥ w → ¬ Derives ∅ (atom ∨ ¬atom)",
+      "source": "Axiomscope/Experiments/GeneralKripke.lean",
+      "kind": "theorem",
+      "construction": "Countermodel criterion using general soundness",
+      "provenance": "General semantic proof",
+      "foundation_profile": "kernel_only",
+      "experiment": "003-general-kripke",
+      "variant": "general_countermodel"
+    },
+    {
+      "declaration": "Axiomscope.Experiment003.two_world_em_not_derivable",
+      "statement": "¬ Derives ∅ (atom ∨ ¬atom) in a specific two-world model",
+      "source": "Axiomscope/Experiments/GeneralKripke.lean",
+      "kind": "theorem",
+      "construction": "Two-world instance with accessibility and atomic witness proofs",
+      "provenance": "Concrete specialization",
+      "foundation_profile": "classical_choice",
+      "experiment": "003-general-kripke",
+      "variant": "two_world_instance"
     }
   ],
   "axiom_profiles": {
@@ -169,6 +213,17 @@
         "Axiomscope.Experiment002.sound",
         "Axiomscope.Experiment002.root_not_forces_em",
         "Axiomscope.Experiment002.excludedMiddle_notDerivable"
+      ]
+    },
+    {
+      "id": "003-general-kripke",
+      "question": "Can Kripke soundness and nonderivability generalize to arbitrary atoms and preordered worlds?",
+      "scope": "General results have no additional Lean axioms. The present concrete Fin 2 specialization uses Classical.choice, Quot.sound, and propext. This is a theorem for the explicit propositional calculus, not a ZFC independence or semantic completeness claim.",
+      "variants": [
+        "Axiomscope.Experiment003.forces_mono",
+        "Axiomscope.Experiment003.sound",
+        "Axiomscope.Experiment003.generic_em_not_derivable",
+        "Axiomscope.Experiment003.two_world_em_not_derivable"
       ]
     }
   ]

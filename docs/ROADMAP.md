@@ -24,6 +24,8 @@
 - [x] Specify the different logical statements, context assumptions, and the scope of proof-level comparison.
 - [x] Implement Experiment 001 and check proof-profile comparisons against audited machine-readable records in CI.
 - [x] Experiment 002: prove soundness and nonderivability of excluded middle for an explicit intuitionistic propositional calculus using a two-world Kripke model.
+- [x] Experiment 003: generalize Kripke soundness and nonderivability to arbitrary atoms and preordered worlds.
+- [ ] Explore semantic completeness for the explicit calculus or a rigorously characterized fragment.
 - [ ] Document related systems (CZF, ETCS, type theory, proof assistants) and avoid duplicate novelty claims.
 
 ## Phase 3 — mathematical research

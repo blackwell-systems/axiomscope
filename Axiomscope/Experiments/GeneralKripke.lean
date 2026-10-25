@@ -167,7 +167,4 @@ end Axiomscope.Experiment003
 #print axioms Axiomscope.Experiment003.forces_mono
 #print axioms Axiomscope.Experiment003.sound
 #print axioms Axiomscope.Experiment003.generic_em_not_derivable
-#print axioms Axiomscope.Experiment003.two_world_accessible
-#print axioms Axiomscope.Experiment003.two_world_root_not_atom
-#print axioms Axiomscope.Experiment003.two_world_later_atom
 #print axioms Axiomscope.Experiment003.two_world_em_not_derivable

@@ -41,8 +41,11 @@ general set-theoretic axioms are outside the current calculus.
 
 The module is checked explicitly by CI using
 `lake env lean Axiomscope/Experiments/GeneralKripke.lean`.
-Its exported results include `#print axioms` queries. They should be
-registered in the generated proof ledger after the Lean check confirms the
-module elaborates; do not hand-author axiom observations.
+Four principal results are registered in the generated proof ledger. Persistence,
+soundness, and the general nonderivability criterion each report no additional
+axioms. The concrete `Fin 2` specialization reports `propext`,
+`Quot.sound`, and `Classical.choice`; this reflects that particular proof
+rather than an assumption of the general theorem. The ledger is regenerated
+from successful Lean elaboration, with CI checking for drift.
 
 Source: [GeneralKripke.lean](../../Axiomscope/Experiments/GeneralKripke.lean).
