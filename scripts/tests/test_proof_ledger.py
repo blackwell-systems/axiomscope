@@ -37,6 +37,11 @@ NAMES = {"Axiomscope.natEquivEven", "Axiomscope.natEquivInt", "Axiomscope.cantor
         "encode_bijective", "equivalence", "encode_add", "encode_mul",
         "twoTracks_not_inductive"
     )
+} | {
+    "Axiomscope.Experiment006." + name for name in (
+        "bind_same", "bind_other", "zeroOrSuccessor_iff",
+        "full_induction_implies_first_order", "twoTracks_not_first_order_inductive"
+    )
 }
 RESULT = (
     "'Axiomscope.natEquivEven' depends on axioms: [propext, Quot.sound]\n"
@@ -77,6 +82,11 @@ RESULT = (
     "'Axiomscope.Experiment005.encode_add' does not depend on any axioms\n"
     "'Axiomscope.Experiment005.encode_mul' does not depend on any axioms\n"
     "'Axiomscope.Experiment005.twoTracks_not_inductive' does not depend on any axioms\n"
+    "'Axiomscope.Experiment006.bind_same' depends on axioms: [propext]\n"
+    "'Axiomscope.Experiment006.bind_other' depends on axioms: [propext]\n"
+    "'Axiomscope.Experiment006.zeroOrSuccessor_iff' depends on axioms: [Quot.sound, propext]\n"
+    "'Axiomscope.Experiment006.full_induction_implies_first_order' does not depend on any axioms\n"
+    "'Axiomscope.Experiment006.twoTracks_not_first_order_inductive' depends on axioms: [Quot.sound, propext]\n"
 )
 
 
@@ -107,7 +117,7 @@ class LedgerTests(unittest.TestCase):
     def test_json_markdown_agree(self):
         catalog = json.loads(ledger.CATALOG.read_text(encoding="utf-8"))
         data = ledger.collect(catalog, RESULT, "leanprover/lean4:v4.35.0")
-        self.assertEqual(len(data["records"]), 38)
+        self.assertEqual(len(data["records"]), 43)
         self.assertEqual(sum(d["uses_classical_choice"] for d in data["records"]), 4)
         self.assertIn("Quot.sound", ledger.markdown(data))
 
@@ -187,6 +197,18 @@ class LedgerTests(unittest.TestCase):
             [[], [], [], [], [], ["Classical.choice"], [], [], []],
         )
         self.assertEqual(sum(r["uses_classical_choice"] for r in report["variants"]), 1)
+
+    def test_first_order_induction_report(self):
+        catalog = json.loads(ledger.CATALOG.read_text(encoding="utf-8"))
+        data = ledger.collect(catalog, RESULT, "leanprover/lean4:v4.35.0")
+        report = json.loads(ledger.experiment_reports(catalog, data)["006-first-order-induction"])
+        self.assertEqual(len(report["variants"]), 5)
+        self.assertEqual(
+            [r["axioms"] for r in report["variants"]],
+            [["propext"], ["propext"], ["Quot.sound", "propext"],
+             [], ["Quot.sound", "propext"]],
+        )
+        self.assertFalse(any(r["uses_classical_choice"] for r in report["variants"]))
 
     def test_stale_artifact_rejected(self):
         with patch.object(ledger.Path, "exists", return_value=False):

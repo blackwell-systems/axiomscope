@@ -417,6 +417,61 @@
       "foundation_profile": "kernel_only",
       "experiment": "005-peano-axioms",
       "variant": "weak_axioms_countermodel"
+    },
+    {
+      "declaration": "Axiomscope.Experiment006.bind_same",
+      "statement": "∀ ρ i a, bind ρ i a i = a",
+      "source": "Axiomscope/Experiments/FirstOrderArithmetic.lean",
+      "kind": "theorem",
+      "construction": "Update an individual variable at its named index",
+      "provenance": "Experiment 006 first-order syntax and semantic schema",
+      "foundation_profile": "choice_free",
+      "experiment": "006-first-order-induction",
+      "variant": "environment_same"
+    },
+    {
+      "declaration": "Axiomscope.Experiment006.bind_other",
+      "statement": "∀ ρ i j a, j ≠ i → bind ρ i a j = ρ j",
+      "source": "Axiomscope/Experiments/FirstOrderArithmetic.lean",
+      "kind": "theorem",
+      "construction": "Update leaves other variable indices untouched",
+      "provenance": "Experiment 006 first-order syntax and semantic schema",
+      "foundation_profile": "choice_free",
+      "experiment": "006-first-order-induction",
+      "variant": "environment_other"
+    },
+    {
+      "declaration": "Axiomscope.Experiment006.zeroOrSuccessor_iff",
+      "statement": "satisfies M ρ (x=0 ∨ ∃y, x=S(y)) ↔ ρ 0=M.zero ∨ ∃a,ρ 0=M.succ a",
+      "source": "Axiomscope/Experiments/FirstOrderArithmetic.lean",
+      "kind": "theorem",
+      "construction": "Unfold first-order satisfaction and bound-variable reassignment",
+      "provenance": "Experiment 006 first-order syntax and semantic schema",
+      "foundation_profile": "choice_free",
+      "experiment": "006-first-order-induction",
+      "variant": "first_order_interpretation"
+    },
+    {
+      "declaration": "Axiomscope.Experiment006.full_induction_implies_first_order",
+      "statement": "ArithmeticSystem full predicate induction → FirstOrderInduction (signatureOf M)",
+      "source": "Axiomscope/Experiments/FirstOrderArithmetic.lean",
+      "kind": "theorem",
+      "construction": "Instantiate the full induction field with the predicate interpreted by each first-order formula",
+      "provenance": "Experiment 006 first-order syntax and semantic schema",
+      "foundation_profile": "kernel_only",
+      "experiment": "006-first-order-induction",
+      "variant": "full_to_first_order"
+    },
+    {
+      "declaration": "Axiomscope.Experiment006.twoTracks_not_first_order_inductive",
+      "statement": "¬ FirstOrderInduction twoTracks",
+      "source": "Axiomscope/Experiments/FirstOrderArithmetic.lean",
+      "kind": "theorem",
+      "construction": "Concrete refutation by the formula x=0 ∨ ∃y, x=S(y) on an extra successor chain",
+      "provenance": "Experiment 006 first-order syntax and semantic schema",
+      "foundation_profile": "choice_free",
+      "experiment": "006-first-order-induction",
+      "variant": "induction_schema_countermodel"
     }
   ],
   "axiom_profiles": {
@@ -514,6 +569,18 @@
         "Axiomscope.Experiment005.encode_add",
         "Axiomscope.Experiment005.encode_mul",
         "Axiomscope.Experiment005.twoTracks_not_inductive"
+      ]
+    },
+    {
+      "id": "006-first-order-induction",
+      "question": "How does first-order formula induction relate to full predicate induction, and what weak arithmetic structures fail a specific formula instance?",
+      "scope": "Named-variable first-order term/formula syntax and Tarski satisfaction. First-order induction is a semantic schema over object-language formulas and parameter environments, not yet a syntactic family of induction axioms with capture-avoiding substitution. Full-induction implication and a counterexample for a weak two-track signature; no model of full first-order PA or noncategoricity theorem.",
+      "variants": [
+        "Axiomscope.Experiment006.bind_same",
+        "Axiomscope.Experiment006.bind_other",
+        "Axiomscope.Experiment006.zeroOrSuccessor_iff",
+        "Axiomscope.Experiment006.full_induction_implies_first_order",
+        "Axiomscope.Experiment006.twoTracks_not_first_order_inductive"
       ]
     }
   ]

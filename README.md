@@ -52,6 +52,14 @@ Rather than introducing another inductive datatype, we specify **zero, successor
 
 See the [research explanation](docs/experiments/005-peano-axioms.md) and [generated report](proofs/experiments/005-peano-axioms.json).
 
+## Experiment 006 — first-order syntax and induction schema
+
+We now define a **first-order arithmetic language** as explicit term and formula syntax, including equality, addition, multiplication, connectives, and quantified individual variables. The [formal semantics](Axiomscope/Experiments/FirstOrderArithmetic.lean) interpret formulas in an arbitrary arithmetic signature. Crucially, the induction schema ranges over **syntax-definable formulas**, not over arbitrary predicates of the carrier.
+
+We prove that Experiment 005's *full predicate induction* validates every semantic first-order induction instance. A two-track model fails one explicit formula instance, showing the schema imposes genuine constraints beyond an arbitrary zero/successor signature. This is **not** a nonstandard model of PA or proof that first-order PA lacks categoricity.
+
+See [Experiment 006's scope and formalization](docs/experiments/006-first-order-induction.md).
+
 ## Build
 
 Install [Lean 4 through elan](https://lean-lang.org/install/manual/), then run:
@@ -65,6 +73,7 @@ lake env lean Axiomscope/Experiments/KripkeCountermodel.lean
 lake env lean Axiomscope/Experiments/GeneralKripke.lean
 lake env lean Axiomscope/Experiments/NaturalNumbers.lean
 lake env lean Axiomscope/Experiments/PeanoAxioms.lean
+lake env lean Axiomscope/Experiments/FirstOrderArithmetic.lean
 python3 -m unittest discover -s scripts/tests -v
 python3 scripts/generate_proof_ledger.py --check
 ```
@@ -92,6 +101,7 @@ The proof ledger is **generated**, not manually maintained. After editing proofs
 - [Experiment 003: generalized Kripke models](docs/experiments/003-general-kripke.md)
 - [Experiment 004: natural numbers reconstruction](docs/experiments/004-natural-numbers.md)
 - [Experiment 005: axiomatic Peano systems](docs/experiments/005-peano-axioms.md)
+- [Experiment 006: first-order arithmetic induction schema](docs/experiments/006-first-order-induction.md)
 - [Declaration metadata catalogue](proofs/catalog.json)
 - [Research roadmap](docs/ROADMAP.md)
 
