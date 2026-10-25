@@ -148,13 +148,13 @@ theorem two_world_accessible : (0 : Fin 2) ≤ (1 : Fin 2) := by decide
 theorem two_world_root_not_atom :
     ¬ twoWorldModel.atomForces (0 : Fin 2) () := by
   change ¬ (1 ≤ (0 : Fin 2).val)
-  decide
+  omega
 
 /-- The atom holds at the later world. -/
 theorem two_world_later_atom :
     twoWorldModel.atomForces (1 : Fin 2) () := by
   change 1 ≤ (1 : Fin 2).val
-  decide
+  omega
 
 theorem two_world_em_not_derivable :
     ¬ Derives (∅ : Set (Formula Unit))
