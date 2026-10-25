@@ -4,3 +4,4 @@ import Axiomscope.Experiments.KripkeCountermodel
 import Axiomscope.Experiments.GeneralKripke
 import Axiomscope.Experiments.NaturalNumbers
 import Axiomscope.Experiments.PeanoAxioms
+import Axiomscope.Experiments.FirstOrderArithmetic

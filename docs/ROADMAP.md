@@ -34,7 +34,10 @@
 - [ ] Distinguish proof dependencies from the underlying Lean inductive-type rules in a cross-foundation comparison.
 - [x] Experiment 005: characterize natural numbers using an arbitrary carrier with full predicate induction, and prove equivalence and arithmetic preservation.
 - [x] Give a weak-axiom structure that satisfies successor disjointness/injectivity but fails induction.
-- [ ] Compare **first-order** Peano induction (formula schema) against full predicate induction, avoiding false categoricity claims.
+- [x] Experiment 006: define first-order arithmetic formula syntax and semantic induction schema, and prove full induction validates all its instances.
+- [x] Give an explicit first-order induction instance refuted by a weak two-track signature.
+- [ ] Construct syntactic induction axiom formulas with capture-avoiding substitution and prove their semantics agrees with the schema.
+- [ ] Compare **first-order** PA with full predicate induction through independently modeled nonstandard models or interpretation results, without claiming first-order categoricity.
 - [ ] Interpret natural-number arithmetic in a separate set-theoretic theory and compare assumptions.
 
 ## Phase 3 — mathematical research
