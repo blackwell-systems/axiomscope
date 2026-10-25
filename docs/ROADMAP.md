@@ -28,6 +28,12 @@
 - [ ] Explore semantic completeness for the explicit calculus or a rigorously characterized fragment.
 - [ ] Document related systems (CZF, ETCS, type theory, proof assistants) and avoid duplicate novelty claims.
 
+## Phase 2b — reconstructing standard mathematics
+
+- [x] Experiment 004: declare an independent natural-number inductive type and derive recursion, induction, arithmetic, and equivalence to Lean `Nat`.
+- [ ] Distinguish proof dependencies from the underlying Lean inductive-type rules in a cross-foundation comparison.
+- [ ] Formally interpret arithmetic in a separate axiomatic presentation (e.g. Peano axioms or a set-theoretic theory) and compare what assumptions are needed.
+
 ## Phase 3 — mathematical research
 
 - [ ] Identify a precise conjecture or technical limitation of existing frameworks.

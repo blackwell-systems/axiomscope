@@ -164,6 +164,160 @@
       "foundation_profile": "classical_choice",
       "experiment": "003-general-kripke",
       "variant": "two_world_instance"
+    },
+    {
+      "declaration": "Axiomscope.Experiment004.induction_rule",
+      "statement": "∀ P : Number → Prop, P zero → (∀ n, P n → P (succ n)) → ∀ n, P n",
+      "source": "Axiomscope/Experiments/NaturalNumbers.lean",
+      "kind": "theorem",
+      "construction": "Structural induction over the fresh inductive type",
+      "provenance": "Experiment 004 local proof",
+      "foundation_profile": "kernel_only",
+      "experiment": "004-natural-numbers",
+      "variant": "induction"
+    },
+    {
+      "declaration": "Axiomscope.Experiment004.recurse_unique",
+      "statement": "A recursive function with specified zero and successor equations is unique",
+      "source": "Axiomscope/Experiments/NaturalNumbers.lean",
+      "kind": "theorem",
+      "construction": "Induction on Number with recursion equations",
+      "provenance": "Experiment 004 local proof",
+      "foundation_profile": "kernel_only",
+      "experiment": "004-natural-numbers",
+      "variant": "recursion_uniqueness"
+    },
+    {
+      "declaration": "Axiomscope.Experiment004.zero_ne_succ",
+      "statement": "∀ n : Number, zero ≠ succ n",
+      "source": "Axiomscope/Experiments/NaturalNumbers.lean",
+      "kind": "theorem",
+      "construction": "Constructor disjointness by case analysis",
+      "provenance": "Experiment 004 local proof",
+      "foundation_profile": "kernel_only",
+      "experiment": "004-natural-numbers",
+      "variant": "zero_disjointness"
+    },
+    {
+      "declaration": "Axiomscope.Experiment004.succ_injective",
+      "statement": "Injective Number.succ",
+      "source": "Axiomscope/Experiments/NaturalNumbers.lean",
+      "kind": "theorem",
+      "construction": "Constructor injectivity via equality elimination",
+      "provenance": "Experiment 004 local proof",
+      "foundation_profile": "kernel_only",
+      "experiment": "004-natural-numbers",
+      "variant": "successor_injectivity"
+    },
+    {
+      "declaration": "Axiomscope.Experiment004.toNat_ofNat",
+      "statement": "∀ n : Nat, toNat (ofNat n) = n",
+      "source": "Axiomscope/Experiments/NaturalNumbers.lean",
+      "kind": "theorem",
+      "construction": "Induction on built-in Nat",
+      "provenance": "Experiment 004 local proof",
+      "foundation_profile": "choice_free",
+      "experiment": "004-natural-numbers",
+      "variant": "nat_round_trip"
+    },
+    {
+      "declaration": "Axiomscope.Experiment004.ofNat_toNat",
+      "statement": "∀ n : Number, ofNat (toNat n) = n",
+      "source": "Axiomscope/Experiments/NaturalNumbers.lean",
+      "kind": "theorem",
+      "construction": "Induction on custom Number",
+      "provenance": "Experiment 004 local proof",
+      "foundation_profile": "choice_free",
+      "experiment": "004-natural-numbers",
+      "variant": "number_round_trip"
+    },
+    {
+      "declaration": "Axiomscope.Experiment004.equivNat",
+      "statement": "Number ≃ Nat",
+      "source": "Axiomscope/Experiments/NaturalNumbers.lean",
+      "kind": "equivalence",
+      "construction": "Explicit forward/inverse functions with inverse laws",
+      "provenance": "Local recursive definitions and inverse proofs",
+      "foundation_profile": "choice_free",
+      "experiment": "004-natural-numbers",
+      "variant": "equivalence"
+    },
+    {
+      "declaration": "Axiomscope.Experiment004.toNat_injective",
+      "statement": "Injective toNat",
+      "source": "Axiomscope/Experiments/NaturalNumbers.lean",
+      "kind": "theorem",
+      "construction": "Apply inverse function to an equality",
+      "provenance": "Experiment 004 local proof",
+      "foundation_profile": "choice_free",
+      "experiment": "004-natural-numbers",
+      "variant": "conversion_injectivity"
+    },
+    {
+      "declaration": "Axiomscope.Experiment004.toNat_add",
+      "statement": "∀ a b, toNat (add a b) = toNat a + toNat b",
+      "source": "Axiomscope/Experiments/NaturalNumbers.lean",
+      "kind": "theorem",
+      "construction": "Induction on second argument and Nat addition recursion",
+      "provenance": "Experiment 004 local proof",
+      "foundation_profile": "kernel_only",
+      "experiment": "004-natural-numbers",
+      "variant": "addition_correspondence"
+    },
+    {
+      "declaration": "Axiomscope.Experiment004.toNat_mul",
+      "statement": "∀ a b, toNat (mul a b) = toNat a * toNat b",
+      "source": "Axiomscope/Experiments/NaturalNumbers.lean",
+      "kind": "theorem",
+      "construction": "Induction on second argument and Nat multiplication recursion",
+      "provenance": "Experiment 004 local proof",
+      "foundation_profile": "kernel_only",
+      "experiment": "004-natural-numbers",
+      "variant": "multiplication_correspondence"
+    },
+    {
+      "declaration": "Axiomscope.Experiment004.add_assoc",
+      "statement": "∀ a b c, add (add a b) c = add a (add b c)",
+      "source": "Axiomscope/Experiments/NaturalNumbers.lean",
+      "kind": "theorem",
+      "construction": "Transport Nat associativity across injective conversion",
+      "provenance": "Experiment 004 local proof",
+      "foundation_profile": "choice_free",
+      "experiment": "004-natural-numbers",
+      "variant": "addition_associativity"
+    },
+    {
+      "declaration": "Axiomscope.Experiment004.add_comm",
+      "statement": "∀ a b, add a b = add b a",
+      "source": "Axiomscope/Experiments/NaturalNumbers.lean",
+      "kind": "theorem",
+      "construction": "Transport Nat commutativity across injective conversion",
+      "provenance": "Experiment 004 local proof",
+      "foundation_profile": "choice_free",
+      "experiment": "004-natural-numbers",
+      "variant": "addition_commutativity"
+    },
+    {
+      "declaration": "Axiomscope.Experiment004.mul_assoc",
+      "statement": "∀ a b c, mul (mul a b) c = mul a (mul b c)",
+      "source": "Axiomscope/Experiments/NaturalNumbers.lean",
+      "kind": "theorem",
+      "construction": "Transport Nat associativity across injective conversion",
+      "provenance": "Experiment 004 local proof",
+      "foundation_profile": "choice_free",
+      "experiment": "004-natural-numbers",
+      "variant": "multiplication_associativity"
+    },
+    {
+      "declaration": "Axiomscope.Experiment004.mul_add",
+      "statement": "∀ a b c, mul a (add b c) = add (mul a b) (mul a c)",
+      "source": "Axiomscope/Experiments/NaturalNumbers.lean",
+      "kind": "theorem",
+      "construction": "Transport Nat distributivity across injective conversion",
+      "provenance": "Experiment 004 local proof",
+      "foundation_profile": "choice_free",
+      "experiment": "004-natural-numbers",
+      "variant": "distributivity"
     }
   ],
   "axiom_profiles": {
@@ -224,6 +378,27 @@
         "Axiomscope.Experiment003.sound",
         "Axiomscope.Experiment003.generic_em_not_derivable",
         "Axiomscope.Experiment003.two_world_em_not_derivable"
+      ]
+    },
+    {
+      "id": "004-natural-numbers",
+      "question": "What arithmetic structure can be reconstructed from a new zero/successor inductive type inside Lean?",
+      "scope": "Reconstruction using Lean's existing inductive-type rules. Arithmetic laws partly transport standard Nat theorems; not a derivation of infinity from propositional logic or an independent axiom system.",
+      "variants": [
+        "Axiomscope.Experiment004.induction_rule",
+        "Axiomscope.Experiment004.recurse_unique",
+        "Axiomscope.Experiment004.zero_ne_succ",
+        "Axiomscope.Experiment004.succ_injective",
+        "Axiomscope.Experiment004.toNat_ofNat",
+        "Axiomscope.Experiment004.ofNat_toNat",
+        "Axiomscope.Experiment004.equivNat",
+        "Axiomscope.Experiment004.toNat_injective",
+        "Axiomscope.Experiment004.toNat_add",
+        "Axiomscope.Experiment004.toNat_mul",
+        "Axiomscope.Experiment004.add_assoc",
+        "Axiomscope.Experiment004.add_comm",
+        "Axiomscope.Experiment004.mul_assoc",
+        "Axiomscope.Experiment004.mul_add"
       ]
     }
   ]

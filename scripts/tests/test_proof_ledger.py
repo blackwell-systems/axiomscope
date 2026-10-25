@@ -24,6 +24,13 @@ NAMES = {"Axiomscope.natEquivEven", "Axiomscope.natEquivInt", "Axiomscope.cantor
         "forces_mono", "sound", "generic_em_not_derivable",
         "two_world_em_not_derivable"
     )
+} | {
+    "Axiomscope.Experiment004." + name for name in (
+        "induction_rule", "recurse_unique", "zero_ne_succ", "succ_injective",
+        "toNat_ofNat", "ofNat_toNat", "equivNat", "toNat_injective",
+        "toNat_add", "toNat_mul", "add_assoc", "add_comm",
+        "mul_assoc", "mul_add"
+    )
 }
 RESULT = (
     "'Axiomscope.natEquivEven' depends on axioms: [propext, Quot.sound]\n"
@@ -41,6 +48,20 @@ RESULT = (
     "'Axiomscope.Experiment003.sound' does not depend on any axioms\n"
     "'Axiomscope.Experiment003.generic_em_not_derivable' does not depend on any axioms\n"
     "'Axiomscope.Experiment003.two_world_em_not_derivable' depends on axioms: [propext, Classical.choice, Quot.sound]\n"
+    "'Axiomscope.Experiment004.induction_rule' does not depend on any axioms\n"
+    "'Axiomscope.Experiment004.recurse_unique' does not depend on any axioms\n"
+    "'Axiomscope.Experiment004.zero_ne_succ' does not depend on any axioms\n"
+    "'Axiomscope.Experiment004.succ_injective' does not depend on any axioms\n"
+    "'Axiomscope.Experiment004.toNat_ofNat' depends on axioms: [propext]\n"
+    "'Axiomscope.Experiment004.ofNat_toNat' depends on axioms: [propext]\n"
+    "'Axiomscope.Experiment004.equivNat' depends on axioms: [propext]\n"
+    "'Axiomscope.Experiment004.toNat_injective' depends on axioms: [propext]\n"
+    "'Axiomscope.Experiment004.toNat_add' does not depend on any axioms\n"
+    "'Axiomscope.Experiment004.toNat_mul' does not depend on any axioms\n"
+    "'Axiomscope.Experiment004.add_assoc' depends on axioms: [propext]\n"
+    "'Axiomscope.Experiment004.add_comm' depends on axioms: [propext]\n"
+    "'Axiomscope.Experiment004.mul_assoc' depends on axioms: [propext]\n"
+    "'Axiomscope.Experiment004.mul_add' depends on axioms: [propext]\n"
 )
 
 
@@ -71,7 +92,7 @@ class LedgerTests(unittest.TestCase):
     def test_json_markdown_agree(self):
         catalog = json.loads(ledger.CATALOG.read_text(encoding="utf-8"))
         data = ledger.collect(catalog, RESULT, "leanprover/lean4:v4.35.0")
-        self.assertEqual(len(data["records"]), 15)
+        self.assertEqual(len(data["records"]), 29)
         self.assertEqual(sum(d["uses_classical_choice"] for d in data["records"]), 3)
         self.assertIn("Quot.sound", ledger.markdown(data))
 
@@ -128,6 +149,18 @@ class LedgerTests(unittest.TestCase):
             [r["uses_classical_choice"] for r in report["variants"]],
             [False, False, False, True],
         )
+
+    def test_reconstructed_naturals_report(self):
+        catalog = json.loads(ledger.CATALOG.read_text(encoding="utf-8"))
+        data = ledger.collect(catalog, RESULT, "leanprover/lean4:v4.35.0")
+        report = json.loads(ledger.experiment_reports(catalog, data)["004-natural-numbers"])
+        self.assertEqual(len(report["variants"]), 14)
+        self.assertEqual(
+            [r["axioms"] for r in report["variants"]],
+            [[], [], [], [], ["propext"], ["propext"], ["propext"], ["propext"],
+             [], [], ["propext"], ["propext"], ["propext"], ["propext"]],
+        )
+        self.assertTrue(all(not r["uses_classical_choice"] for r in report["variants"]))
 
     def test_stale_artifact_rejected(self):
         with patch.object(ledger.Path, "exists", return_value=False):

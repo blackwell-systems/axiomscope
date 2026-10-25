@@ -20,6 +20,8 @@ jobs:
           test: "false"
       - name: Check generalized Kripke experiment
         run: lake env lean Axiomscope/Experiments/GeneralKripke.lean
+      - name: Check natural number reconstruction
+        run: lake env lean Axiomscope/Experiments/NaturalNumbers.lean
       - name: Test ledger generator
         run: python3 -m unittest discover -s scripts/tests -v
       - name: Check generated proof records against Lean
