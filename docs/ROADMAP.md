@@ -32,7 +32,10 @@
 
 - [x] Experiment 004: declare an independent natural-number inductive type and derive recursion, induction, arithmetic, and equivalence to Lean `Nat`.
 - [ ] Distinguish proof dependencies from the underlying Lean inductive-type rules in a cross-foundation comparison.
-- [ ] Formally interpret arithmetic in a separate axiomatic presentation (e.g. Peano axioms or a set-theoretic theory) and compare what assumptions are needed.
+- [x] Experiment 005: characterize natural numbers using an arbitrary carrier with full predicate induction, and prove equivalence and arithmetic preservation.
+- [x] Give a weak-axiom structure that satisfies successor disjointness/injectivity but fails induction.
+- [ ] Compare **first-order** Peano induction (formula schema) against full predicate induction, avoiding false categoricity claims.
+- [ ] Interpret natural-number arithmetic in a separate set-theoretic theory and compare assumptions.
 
 ## Phase 3 — mathematical research
 
