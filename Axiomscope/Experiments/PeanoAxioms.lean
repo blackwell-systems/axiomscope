@@ -88,7 +88,7 @@ theorem encode_injective {α : Type u} (M : PeanoSystem α) :
           exact (M.zero_ne_succ _ h.symm).elim
       | succ b =>
           change M.succ (encode M a) = M.succ (encode M b) at h
-          exact congrArg Number.succ (ih b (M.succ_injective h))
+          exact congrArg Number.succ (ih (M.succ_injective h))
 
 /-- Full induction says every element is reached by the interpreter. -/
 theorem encode_surjective {α : Type u} (M : PeanoSystem α) :
@@ -103,7 +103,7 @@ theorem encode_surjective {α : Type u} (M : PeanoSystem α) :
 
 /-- Full induction and constructor axioms uniquely determine the carrier
 up to equivalence, with a canonical zero/successor-preserving forward map. -/
-def equivalence {α : Type u} (M : PeanoSystem α) : Number ≃ α :=
+noncomputable def equivalence {α : Type u} (M : PeanoSystem α) : Number ≃ α :=
   Equiv.ofBijective (encode M) ⟨encode_injective M, encode_surjective M⟩
 
 /-- The interpreter also respects the recursively axiomatized addition. -/
@@ -162,9 +162,17 @@ def twoTracks : WeakSuccessor (Number × Bool) where
     exact Experiment004.zero_ne_succ x.1 hfst
   succ_injective := by
     intro x y h
-    apply Prod.ext
-    · exact Experiment004.succ_injective (congrArg Prod.fst h)
-    · exact congrArg Prod.snd h
+    cases x with
+    | mk n b =>
+        cases y with
+        | mk m c =>
+            change (Number.succ n, b) = (Number.succ m, c) at h
+            have hn : n = m :=
+              Experiment004.succ_injective (congrArg Prod.fst h)
+            have hb : b = c := congrArg Prod.snd h
+            cases hn
+            cases hb
+            rfl
 
 /-- Weak successor axioms alone do not entail full induction. -/
 theorem twoTracks_not_inductive :
