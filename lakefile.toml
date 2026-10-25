@@ -1,0 +1,11 @@
+name = "axiomscope"
+version = "0.1.0"
+defaultTargets = ["Axiomscope"]
+
+[[lean_lib]]
+name = "Axiomscope"
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "v4.35.0"
