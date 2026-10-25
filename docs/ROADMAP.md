@@ -6,8 +6,8 @@
 - [x] Add pinned Lean and Mathlib configuration.
 - [x] Draft the three elementary infinity proofs.
 - [x] Add a GitHub Actions build check.
-- [ ] **Obtain a green Lean build**, including all three theorems.
-- [ ] Record actual `#print axioms` output in the proof ledger.
+- [x] **Obtain a green Lean build**, including all three theorems.
+- [x] Record actual `#print axioms` output in the proof ledger.
 - [ ] Require zero `sorry` and zero user-defined axioms.
 
 ## Phase 1 — proof metadata and traceability

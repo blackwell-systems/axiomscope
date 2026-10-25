@@ -21,13 +21,12 @@ The even-number bijection is written out explicitly. The integer bijection initi
 Install [Lean 4 through elan](https://lean-lang.org/install/manual/), then run:
 
 ```sh
-lake update
 lake exe cache get
 lake build
 lake env lean Axiomscope/CardinalExamples.lean
 ```
 
-The `lean-toolchain` and Mathlib dependency are paired at **v4.35.0**. The CI workflow checks the build automatically. **Until CI passes, treat the source as a formalization candidate, not as a verified theorem.**
+The `lean-toolchain`, Mathlib dependency, and committed `lake-manifest.json` are pinned to **v4.35.0** and its exact dependency revisions. Run `lake update` only when intentionally updating and recommitting the lockfile. **All three initial formal results have passed Lean compilation and axiom inspection** in the [successful CI run](https://github.com/blackwell-systems/axiomscope/actions/runs/40219540458). See the [proof ledger](docs/PROOF-LEDGER.md) for the observed axiom dependencies.
 
 ## Working principles
 
@@ -46,4 +45,4 @@ The `lean-toolchain` and Mathlib dependency are paired at **v4.35.0**. The CI wo
 
 ## Status
 
-**Experimental / v0.1.** Formal proof compilation and assumption auditing are the first acceptance gates. No replacement theory or new independence theorem is claimed.
+**Experimental / v0.1.** The three baseline infinity results are machine-verified, with observed axiom dependencies documented. The proposed foundational framework itself is not established as a new mathematical theory; no new independence theorem is claimed.
