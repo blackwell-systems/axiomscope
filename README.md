@@ -22,6 +22,14 @@ Four Lean proofs examine the difference between constructively provable double-n
 
 **Scope:** This compares specific Lean proofs and their assumptions, not different ZFC models; it does not establish an independence theorem. Lean's `Classical.choice` is not synonymous with the set-theoretic Axiom of Choice.
 
+## Experiment 002 — a genuine nonderivability proof
+
+A two-world Kripke model shows that `atom ∨ ¬atom` is not forced at the root, even though the atom becomes true at a later accessible world. We define a small intuitionistic natural-deduction calculus for implication, disjunction, and falsity, prove **every derivation is sound in this semantics**, and conclude that this excluded-middle instance is **not derivable in that calculus**.
+
+This is stronger than Experiment 001's proof-dependency inspection. It is a mathematically checked nonderivability theorem **for the explicitly defined calculus**, not a claim of novelty or a result about ZFC independence.
+
+Read the [formal explanation](docs/experiments/002-kripke-countermodel.md), [Lean code](Axiomscope/Experiments/KripkeCountermodel.lean), and [machine-readable comparison](proofs/experiments/002-kripke-countermodel.json).
+
 ## Build
 
 Install [Lean 4 through elan](https://lean-lang.org/install/manual/), then run:
@@ -31,6 +39,7 @@ lake exe cache get
 lake build
 lake env lean Axiomscope/CardinalExamples.lean
 lake env lean Axiomscope/Experiments/ExcludedMiddle.lean
+lake env lean Axiomscope/Experiments/KripkeCountermodel.lean
 python3 -m unittest discover -s scripts/tests -v
 python3 scripts/generate_proof_ledger.py --check
 ```
@@ -54,6 +63,7 @@ The proof ledger is **generated**, not manually maintained. After editing proofs
 - [Generated proof ledger](docs/PROOF-LEDGER.md)
 - [Machine-readable axiom dependencies](proofs/dependencies.json)
 - [Experiment 001 comparison](proofs/experiments/001-excluded-middle.json)
+- [Experiment 002: Kripke countermodel and soundness](docs/experiments/002-kripke-countermodel.md)
 - [Declaration metadata catalogue](proofs/catalog.json)
 - [Research roadmap](docs/ROADMAP.md)
 

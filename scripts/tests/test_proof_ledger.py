@@ -11,6 +11,10 @@ ledger = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(ledger)
 
 NAMES = {"Axiomscope.natEquivEven", "Axiomscope.natEquivInt", "Axiomscope.cantorDiagonal"} | {
+    "Axiomscope.Experiment002." + name for name in (
+        "forces_mono", "sound", "root_not_forces_em", "excludedMiddle_notDerivable"
+    )
+} | {
     "Axiomscope.Experiment001." + name for name in (
         "doubleNegatedExcludedMiddle", "decidableExcludedMiddle",
         "classicalExcludedMiddle", "classicalDoubleNegationElim"
@@ -24,6 +28,10 @@ RESULT = (
     "'Axiomscope.Experiment001.decidableExcludedMiddle' does not depend on any axioms\n"
     "'Axiomscope.Experiment001.classicalExcludedMiddle' depends on axioms: [Classical.choice]\n"
     "'Axiomscope.Experiment001.classicalDoubleNegationElim' depends on axioms: [Classical.choice]\n"
+    "'Axiomscope.Experiment002.forces_mono' does not depend on any axioms\n"
+    "'Axiomscope.Experiment002.sound' does not depend on any axioms\n"
+    "'Axiomscope.Experiment002.root_not_forces_em' depends on axioms: [propext]\n"
+    "'Axiomscope.Experiment002.excludedMiddle_notDerivable' depends on axioms: [propext]\n"
 )
 
 
@@ -54,7 +62,7 @@ class LedgerTests(unittest.TestCase):
     def test_json_markdown_agree(self):
         catalog = json.loads(ledger.CATALOG.read_text(encoding="utf-8"))
         data = ledger.collect(catalog, RESULT, "leanprover/lean4:v4.35.0")
-        self.assertEqual(len(data["records"]), 7)
+        self.assertEqual(len(data["records"]), 11)
         self.assertEqual(sum(d["uses_classical_choice"] for d in data["records"]), 2)
         self.assertIn("Quot.sound", ledger.markdown(data))
 
@@ -85,6 +93,18 @@ class LedgerTests(unittest.TestCase):
             [e["uses_classical_choice"] for e in report["variants"]],
             [False, False, True, True],
         )
+
+    def test_kripke_countermodel_report(self):
+        catalog = json.loads(ledger.CATALOG.read_text(encoding="utf-8"))
+        data = ledger.collect(catalog, RESULT, "leanprover/lean4:v4.35.0")
+        report = json.loads(ledger.experiment_reports(catalog, data)[
+            "002-kripke-countermodel"])
+        self.assertEqual(len(report["variants"]), 4)
+        self.assertEqual(
+            [r["axioms"] for r in report["variants"]],
+            [[], [], ["propext"], ["propext"]],
+        )
+        self.assertTrue(all(not r["uses_classical_choice"] for r in report["variants"]))
 
     def test_stale_artifact_rejected(self):
         with patch.object(ledger.Path, "exists", return_value=False):

@@ -76,6 +76,50 @@
       "foundation_profile": "classical_choice",
       "experiment": "001-excluded-middle",
       "variant": "classical_elimination"
+    },
+    {
+      "declaration": "Axiomscope.Experiment002.forces_mono",
+      "statement": "∀ φ w v, w.val ≤ v.val → forces w φ → forces v φ",
+      "source": "Axiomscope/Experiments/KripkeCountermodel.lean",
+      "kind": "theorem",
+      "construction": "Induction on formulas: truth persists to accessible worlds",
+      "provenance": "Experiment 002 local semantic proof",
+      "foundation_profile": "kernel_only",
+      "experiment": "002-kripke-countermodel",
+      "variant": "persistence"
+    },
+    {
+      "declaration": "Axiomscope.Experiment002.sound",
+      "statement": "Provable Γ φ → ∀ w, holds Γ w → forces w φ",
+      "source": "Axiomscope/Experiments/KripkeCountermodel.lean",
+      "kind": "theorem",
+      "construction": "Induction over every rule of the explicit natural-deduction calculus",
+      "provenance": "Experiment 002 local semantic proof",
+      "foundation_profile": "kernel_only",
+      "experiment": "002-kripke-countermodel",
+      "variant": "soundness"
+    },
+    {
+      "declaration": "Axiomscope.Experiment002.root_not_forces_em",
+      "statement": "¬ forces root (atom ∨ (atom → ⊥))",
+      "source": "Axiomscope/Experiments/KripkeCountermodel.lean",
+      "kind": "theorem",
+      "construction": "Two-world Kripke countermodel with atom forced only in the future",
+      "provenance": "Experiment 002 local semantic proof",
+      "foundation_profile": "choice_free",
+      "experiment": "002-kripke-countermodel",
+      "variant": "countermodel"
+    },
+    {
+      "declaration": "Axiomscope.Experiment002.excludedMiddle_notDerivable",
+      "statement": "¬ Provable ∅ (atom ∨ (atom → ⊥))",
+      "source": "Axiomscope/Experiments/KripkeCountermodel.lean",
+      "kind": "theorem",
+      "construction": "Soundness plus root countermodel yields a contradiction",
+      "provenance": "Experiment 002 local semantic proof",
+      "foundation_profile": "choice_free",
+      "experiment": "002-kripke-countermodel",
+      "variant": "nonderivability"
     }
   ],
   "axiom_profiles": {
@@ -114,6 +158,17 @@
         "Axiomscope.Experiment001.decidableExcludedMiddle",
         "Axiomscope.Experiment001.classicalExcludedMiddle",
         "Axiomscope.Experiment001.classicalDoubleNegationElim"
+      ]
+    },
+    {
+      "id": "002-kripke-countermodel",
+      "question": "Can a two-world Kripke countermodel and a formal soundness theorem establish nonderivability of excluded middle in an explicit intuitionistic calculus?",
+      "scope": "Formal nonderivability in the defined single-atom natural-deduction calculus for ⊥, ∨, and →. Not a ZFC-independence claim or an original metatheorem.",
+      "variants": [
+        "Axiomscope.Experiment002.forces_mono",
+        "Axiomscope.Experiment002.sound",
+        "Axiomscope.Experiment002.root_not_forces_em",
+        "Axiomscope.Experiment002.excludedMiddle_notDerivable"
       ]
     }
   ]

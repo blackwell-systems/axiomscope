@@ -13,6 +13,10 @@ Axiom dependencies are extracted from Lean after successfully elaborating the de
 | `Axiomscope.Experiment001.decidableExcludedMiddle` | ∀ P : Prop, [Decidable P] → (P ∨ ¬P) | Constructive disjunction from a Decidable instance (Experiment 001 local proof) | `kernel_only` | None reported |
 | `Axiomscope.Experiment001.classicalExcludedMiddle` | ∀ P : Prop, P ∨ ¬P | Unrestricted excluded middle under Lean classical reasoning (Experiment 001 local proof) | `classical_choice` | `Classical.choice`, `Quot.sound`, `propext` |
 | `Axiomscope.Experiment001.classicalDoubleNegationElim` | ∀ P : Prop, ¬¬P → P | Unrestricted double-negation elimination under classical reasoning (Experiment 001 local proof) | `classical_choice` | `Classical.choice`, `Quot.sound`, `propext` |
+| `Axiomscope.Experiment002.forces_mono` | ∀ φ w v, w.val ≤ v.val → forces w φ → forces v φ | Induction on formulas: truth persists to accessible worlds (Experiment 002 local semantic proof) | `kernel_only` | None reported |
+| `Axiomscope.Experiment002.sound` | Provable Γ φ → ∀ w, holds Γ w → forces w φ | Induction over every rule of the explicit natural-deduction calculus (Experiment 002 local semantic proof) | `kernel_only` | None reported |
+| `Axiomscope.Experiment002.root_not_forces_em` | ¬ forces root (atom ∨ (atom → ⊥)) | Two-world Kripke countermodel with atom forced only in the future (Experiment 002 local semantic proof) | `choice_free` | `propext` |
+| `Axiomscope.Experiment002.excludedMiddle_notDerivable` | ¬ Provable ∅ (atom ∨ (atom → ⊥)) | Soundness plus root countermodel yields a contradiction (Experiment 002 local semantic proof) | `choice_free` | `propext` |
 
 ## Scope of the audit
 

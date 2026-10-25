@@ -102,6 +102,62 @@
         "propext"
       ],
       "uses_classical_choice": true
+    },
+    {
+      "declaration": "Axiomscope.Experiment002.forces_mono",
+      "statement": "∀ φ w v, w.val ≤ v.val → forces w φ → forces v φ",
+      "source": "Axiomscope/Experiments/KripkeCountermodel.lean",
+      "kind": "theorem",
+      "construction": "Induction on formulas: truth persists to accessible worlds",
+      "provenance": "Experiment 002 local semantic proof",
+      "foundation_profile": "kernel_only",
+      "experiment": "002-kripke-countermodel",
+      "variant": "persistence",
+      "axioms": [],
+      "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.Experiment002.sound",
+      "statement": "Provable Γ φ → ∀ w, holds Γ w → forces w φ",
+      "source": "Axiomscope/Experiments/KripkeCountermodel.lean",
+      "kind": "theorem",
+      "construction": "Induction over every rule of the explicit natural-deduction calculus",
+      "provenance": "Experiment 002 local semantic proof",
+      "foundation_profile": "kernel_only",
+      "experiment": "002-kripke-countermodel",
+      "variant": "soundness",
+      "axioms": [],
+      "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.Experiment002.root_not_forces_em",
+      "statement": "¬ forces root (atom ∨ (atom → ⊥))",
+      "source": "Axiomscope/Experiments/KripkeCountermodel.lean",
+      "kind": "theorem",
+      "construction": "Two-world Kripke countermodel with atom forced only in the future",
+      "provenance": "Experiment 002 local semantic proof",
+      "foundation_profile": "choice_free",
+      "experiment": "002-kripke-countermodel",
+      "variant": "countermodel",
+      "axioms": [
+        "propext"
+      ],
+      "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.Experiment002.excludedMiddle_notDerivable",
+      "statement": "¬ Provable ∅ (atom ∨ (atom → ⊥))",
+      "source": "Axiomscope/Experiments/KripkeCountermodel.lean",
+      "kind": "theorem",
+      "construction": "Soundness plus root countermodel yields a contradiction",
+      "provenance": "Experiment 002 local semantic proof",
+      "foundation_profile": "choice_free",
+      "experiment": "002-kripke-countermodel",
+      "variant": "nonderivability",
+      "axioms": [
+        "propext"
+      ],
+      "uses_classical_choice": false
     }
   ]
 }
