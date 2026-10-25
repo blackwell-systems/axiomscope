@@ -7,7 +7,7 @@ The initial formal results intentionally use established Lean/Mathlib foundation
 Nothing in this file defines a new set theory or resolves an independent statement.
 
 The examples concern equivalences of types: a bijection witnesses equal cardinality.
--/-
+-/
 
 namespace Axiomscope
 
