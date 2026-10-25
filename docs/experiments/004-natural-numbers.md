@@ -52,5 +52,9 @@ supplied to recover induction and recursion, distinguishing
 representation-level equivalence from interpretation of formal theories.
 
 Source: [NaturalNumbers.lean](../../Axiomscope/Experiments/NaturalNumbers.lean).
-Proof assumptions are inspected using `#print axioms` and recorded in
-AxiomScope's generated ledger after verification.
+All 14 registered results have passed Lean compilation. The generated proof
+ledger records their observed `#print axioms` dependencies: the induction,
+recursion-uniqueness, constructor, and addition/multiplication-correspondence
+proofs report no additional axioms; the remaining inverse, equivalence,
+injectivity and transported arithmetic-law proofs report `propext`. No
+registered Experiment 004 result uses `Classical.choice`.

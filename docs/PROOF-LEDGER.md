@@ -21,6 +21,20 @@ Axiom dependencies are extracted from Lean after successfully elaborating the de
 | `Axiomscope.Experiment003.sound` | Derives Γ φ → ∀ w, holds M Γ w → forces M w φ | Soundness by induction over the deduction rules (General semantic proof) | `kernel_only` | None reported |
 | `Axiomscope.Experiment003.generic_em_not_derivable` | atom unforced at w, forced at z ≥ w → ¬ Derives ∅ (atom ∨ ¬atom) | Countermodel criterion using general soundness (General semantic proof) | `kernel_only` | None reported |
 | `Axiomscope.Experiment003.two_world_em_not_derivable` | ¬ Derives ∅ (atom ∨ ¬atom) in a specific two-world model | Two-world instance with accessibility and atomic witness proofs (Concrete specialization) | `classical_choice` | `Classical.choice`, `Quot.sound`, `propext` |
+| `Axiomscope.Experiment004.induction_rule` | ∀ P : Number → Prop, P zero → (∀ n, P n → P (succ n)) → ∀ n, P n | Structural induction over the fresh inductive type (Experiment 004 local proof) | `kernel_only` | None reported |
+| `Axiomscope.Experiment004.recurse_unique` | A recursive function with specified zero and successor equations is unique | Induction on Number with recursion equations (Experiment 004 local proof) | `kernel_only` | None reported |
+| `Axiomscope.Experiment004.zero_ne_succ` | ∀ n : Number, zero ≠ succ n | Constructor disjointness by case analysis (Experiment 004 local proof) | `kernel_only` | None reported |
+| `Axiomscope.Experiment004.succ_injective` | Injective Number.succ | Constructor injectivity via equality elimination (Experiment 004 local proof) | `kernel_only` | None reported |
+| `Axiomscope.Experiment004.toNat_ofNat` | ∀ n : Nat, toNat (ofNat n) = n | Induction on built-in Nat (Experiment 004 local proof) | `choice_free` | `propext` |
+| `Axiomscope.Experiment004.ofNat_toNat` | ∀ n : Number, ofNat (toNat n) = n | Induction on custom Number (Experiment 004 local proof) | `choice_free` | `propext` |
+| `Axiomscope.Experiment004.equivNat` | Number ≃ Nat | Explicit forward/inverse functions with inverse laws (Local recursive definitions and inverse proofs) | `choice_free` | `propext` |
+| `Axiomscope.Experiment004.toNat_injective` | Injective toNat | Apply inverse function to an equality (Experiment 004 local proof) | `choice_free` | `propext` |
+| `Axiomscope.Experiment004.toNat_add` | ∀ a b, toNat (add a b) = toNat a + toNat b | Induction on second argument and Nat addition recursion (Experiment 004 local proof) | `kernel_only` | None reported |
+| `Axiomscope.Experiment004.toNat_mul` | ∀ a b, toNat (mul a b) = toNat a * toNat b | Induction on second argument and Nat multiplication recursion (Experiment 004 local proof) | `kernel_only` | None reported |
+| `Axiomscope.Experiment004.add_assoc` | ∀ a b c, add (add a b) c = add a (add b c) | Transport Nat associativity across injective conversion (Experiment 004 local proof) | `choice_free` | `propext` |
+| `Axiomscope.Experiment004.add_comm` | ∀ a b, add a b = add b a | Transport Nat commutativity across injective conversion (Experiment 004 local proof) | `choice_free` | `propext` |
+| `Axiomscope.Experiment004.mul_assoc` | ∀ a b c, mul (mul a b) c = mul a (mul b c) | Transport Nat associativity across injective conversion (Experiment 004 local proof) | `choice_free` | `propext` |
+| `Axiomscope.Experiment004.mul_add` | ∀ a b c, mul a (add b c) = add (mul a b) (mul a c) | Transport Nat distributivity across injective conversion (Experiment 004 local proof) | `choice_free` | `propext` |
 
 ## Scope of the audit
 
