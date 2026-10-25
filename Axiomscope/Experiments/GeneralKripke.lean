@@ -145,7 +145,13 @@ theorem two_world_em_not_derivable :
     ¬ Derives (∅ : Set (Formula Unit))
         (.disj (.atom ()) (.impl (.atom ()) .bottom)) := by
   exact generic_em_not_derivable twoWorldModel () (0 : Fin 2) (1 : Fin 2)
-    (by decide) (by decide) (by decide)
+    (by decide)
+    (by
+      change ¬ (1 ≤ (0 : Fin 2).val)
+      decide)
+    (by
+      change 1 ≤ (1 : Fin 2).val
+      decide)
 
 end Axiomscope.Experiment003
 
