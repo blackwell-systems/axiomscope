@@ -11,6 +11,7 @@
       "kind": "equivalence",
       "construction": "Explicit doubling map and halving inverse",
       "provenance": "local construction",
+      "foundation_profile": "choice_free",
       "axioms": [
         "Quot.sound",
         "propext"
@@ -24,6 +25,7 @@
       "kind": "equivalence",
       "construction": "Reuses Mathlib's Equiv.intEquivNat.symm",
       "provenance": "Mathlib equivalence",
+      "foundation_profile": "choice_free",
       "axioms": [
         "Quot.sound",
         "propext"
@@ -37,8 +39,69 @@
       "kind": "theorem",
       "construction": "Direct diagonal contradiction",
       "provenance": "local proof",
+      "foundation_profile": "choice_free",
       "axioms": [],
       "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.Experiment001.doubleNegatedExcludedMiddle",
+      "statement": "∀ P : Prop, ¬¬ (P ∨ ¬P)",
+      "source": "Axiomscope/Experiments/ExcludedMiddle.lean",
+      "kind": "theorem",
+      "construction": "Direct intuitionistic contradiction proof",
+      "provenance": "Experiment 001 local proof",
+      "foundation_profile": "kernel_only",
+      "experiment": "001-excluded-middle",
+      "variant": "double_negation",
+      "axioms": [],
+      "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.Experiment001.decidableExcludedMiddle",
+      "statement": "∀ P : Prop, [Decidable P] → (P ∨ ¬P)",
+      "source": "Axiomscope/Experiments/ExcludedMiddle.lean",
+      "kind": "theorem",
+      "construction": "Constructive disjunction from a Decidable instance",
+      "provenance": "Experiment 001 local proof",
+      "foundation_profile": "kernel_only",
+      "experiment": "001-excluded-middle",
+      "variant": "decidable_case",
+      "axioms": [],
+      "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.Experiment001.classicalExcludedMiddle",
+      "statement": "∀ P : Prop, P ∨ ¬P",
+      "source": "Axiomscope/Experiments/ExcludedMiddle.lean",
+      "kind": "theorem",
+      "construction": "Unrestricted excluded middle under Lean classical reasoning",
+      "provenance": "Experiment 001 local proof",
+      "foundation_profile": "classical_choice",
+      "experiment": "001-excluded-middle",
+      "variant": "classical_unrestricted",
+      "axioms": [
+        "Classical.choice",
+        "Quot.sound",
+        "propext"
+      ],
+      "uses_classical_choice": true
+    },
+    {
+      "declaration": "Axiomscope.Experiment001.classicalDoubleNegationElim",
+      "statement": "∀ P : Prop, ¬¬P → P",
+      "source": "Axiomscope/Experiments/ExcludedMiddle.lean",
+      "kind": "theorem",
+      "construction": "Unrestricted double-negation elimination under classical reasoning",
+      "provenance": "Experiment 001 local proof",
+      "foundation_profile": "classical_choice",
+      "experiment": "001-excluded-middle",
+      "variant": "classical_elimination",
+      "axioms": [
+        "Classical.choice",
+        "Quot.sound",
+        "propext"
+      ],
+      "uses_classical_choice": true
     }
   ]
 }

@@ -22,7 +22,7 @@
 
 - [x] Choose a controlled comparison: excluded middle under decidability and unrestricted classical reasoning.
 - [x] Specify the different logical statements, context assumptions, and the scope of proof-level comparison.
-- [ ] Complete CI verification of Experiment 001 and compare axiom profiles in generated machine-readable records.
+- [x] Implement Experiment 001 and check proof-profile comparisons against audited machine-readable records in CI.
 - [ ] Document related systems (CZF, ETCS, type theory, proof assistants) and avoid duplicate novelty claims.
 
 ## Phase 3 — mathematical research

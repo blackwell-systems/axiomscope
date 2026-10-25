@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "id": "001-excluded-middle",
+  "question": "Which versions of excluded middle can these Lean proofs establish without Classical.choice, and which use it?",
+  "scope": "Proof-level comparison inside Lean 4 / Mathlib, not a proof of independence or a comparison of ZFC models.",
+  "toolchain": "leanprover/lean4:v4.35.0",
+  "variants": [
+    {
+      "declaration": "Axiomscope.Experiment001.doubleNegatedExcludedMiddle",
+      "statement": "∀ P : Prop, ¬¬ (P ∨ ¬P)",
+      "source": "Axiomscope/Experiments/ExcludedMiddle.lean",
+      "kind": "theorem",
+      "construction": "Direct intuitionistic contradiction proof",
+      "provenance": "Experiment 001 local proof",
+      "foundation_profile": "kernel_only",
+      "experiment": "001-excluded-middle",
+      "variant": "double_negation",
+      "axioms": [],
+      "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.Experiment001.decidableExcludedMiddle",
+      "statement": "∀ P : Prop, [Decidable P] → (P ∨ ¬P)",
+      "source": "Axiomscope/Experiments/ExcludedMiddle.lean",
+      "kind": "theorem",
+      "construction": "Constructive disjunction from a Decidable instance",
+      "provenance": "Experiment 001 local proof",
+      "foundation_profile": "kernel_only",
+      "experiment": "001-excluded-middle",
+      "variant": "decidable_case",
+      "axioms": [],
+      "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.Experiment001.classicalExcludedMiddle",
+      "statement": "∀ P : Prop, P ∨ ¬P",
+      "source": "Axiomscope/Experiments/ExcludedMiddle.lean",
+      "kind": "theorem",
+      "construction": "Unrestricted excluded middle under Lean classical reasoning",
+      "provenance": "Experiment 001 local proof",
+      "foundation_profile": "classical_choice",
+      "experiment": "001-excluded-middle",
+      "variant": "classical_unrestricted",
+      "axioms": [
+        "Classical.choice",
+        "Quot.sound",
+        "propext"
+      ],
+      "uses_classical_choice": true
+    },
+    {
+      "declaration": "Axiomscope.Experiment001.classicalDoubleNegationElim",
+      "statement": "∀ P : Prop, ¬¬P → P",
+      "source": "Axiomscope/Experiments/ExcludedMiddle.lean",
+      "kind": "theorem",
+      "construction": "Unrestricted double-negation elimination under classical reasoning",
+      "provenance": "Experiment 001 local proof",
+      "foundation_profile": "classical_choice",
+      "experiment": "001-excluded-middle",
+      "variant": "classical_elimination",
+      "axioms": [
+        "Classical.choice",
+        "Quot.sound",
+        "propext"
+      ],
+      "uses_classical_choice": true
+    }
+  ]
+}
