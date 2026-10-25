@@ -44,6 +44,14 @@ We declare a **fresh inductive number type** with zero and successor, independen
 
 See [the Lean module](Axiomscope/Experiments/NaturalNumbers.lean), [experiment explanation](docs/experiments/004-natural-numbers.md), and [axiom report](proofs/experiments/004-natural-numbers.json).
 
+## Experiment 005 — axiomatic Peano systems
+
+Rather than introducing another inductive datatype, we specify **zero, successor, addition, multiplication, and explicit laws** over an arbitrary carrier. Our `PeanoSystem` includes induction over **every** Lean predicate—not merely the first-order induction schema. The [Lean formalization](Axiomscope/Experiments/PeanoAxioms.lean) proves a canonical map from our Experiment 004 numbers is injective and surjective, and preserves the arithmetic operations. It also exhibits a two-track zero/successor structure satisfying disjointness and injectivity but **failing induction**, showing why the induction assumption matters.
+
+**Scope:** The categorical conclusion here depends on full higher-order induction. It is not a proof of categoricity for first-order Peano arithmetic, which admits nonstandard models. This also does not derive the existence of a model from pure logic: we construct a model inside Lean's inductive type theory.
+
+See the [research explanation](docs/experiments/005-peano-axioms.md) and [generated report](proofs/experiments/005-peano-axioms.json).
+
 ## Build
 
 Install [Lean 4 through elan](https://lean-lang.org/install/manual/), then run:
@@ -56,6 +64,7 @@ lake env lean Axiomscope/Experiments/ExcludedMiddle.lean
 lake env lean Axiomscope/Experiments/KripkeCountermodel.lean
 lake env lean Axiomscope/Experiments/GeneralKripke.lean
 lake env lean Axiomscope/Experiments/NaturalNumbers.lean
+lake env lean Axiomscope/Experiments/PeanoAxioms.lean
 python3 -m unittest discover -s scripts/tests -v
 python3 scripts/generate_proof_ledger.py --check
 ```
@@ -82,6 +91,7 @@ The proof ledger is **generated**, not manually maintained. After editing proofs
 - [Experiment 002: Kripke countermodel and soundness](docs/experiments/002-kripke-countermodel.md)
 - [Experiment 003: generalized Kripke models](docs/experiments/003-general-kripke.md)
 - [Experiment 004: natural numbers reconstruction](docs/experiments/004-natural-numbers.md)
+- [Experiment 005: axiomatic Peano systems](docs/experiments/005-peano-axioms.md)
 - [Declaration metadata catalogue](proofs/catalog.json)
 - [Research roadmap](docs/ROADMAP.md)
 
