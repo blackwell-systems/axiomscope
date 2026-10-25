@@ -117,7 +117,9 @@ theorem root_not_forces_em : ¬ forces (0 : World) emAtom := by
   rcases h with hAtom | hNeg
   · exact (by decide : ¬ (1 ≤ (0 : World).val)) hAtom
   · have hBottom : forces (1 : World) .bottom :=
-      hNeg 1 (by decide) (by decide)
+      hNeg 1 (by decide) (by
+        change 1 ≤ (1 : World).val
+        decide)
     exact hBottom
 
 /-- A sound derivation of excluded middle would contradict its countermodel. -/
@@ -127,7 +129,7 @@ theorem excludedMiddle_notDerivable :
   have hRoot : forces (0 : World) emAtom :=
     sound d 0 (by
       intro p hp
-      exact False.elim (Set.not_mem_empty p hp))
+      cases hp)
   exact root_not_forces_em hRoot
 
 end Axiomscope.Experiment002
