@@ -57,5 +57,15 @@ the explicit full-induction field of the Experiment 005 model is an
 independent semantic hypothesis. Both must be distinguished in the
 foundational comparison.
 
+## Verified axiom audit
+
+Five results are registered. `full_induction_implies_first_order`
+reports no additional axioms; the environment update lemmas report
+`propext`; the formula interpretation lemma and two-track countermodel
+report `propext` and `Quot.sound`. None uses `Classical.choice`.
+This is an audit of Lean proof dependencies, **not** an assertion that
+the `M.induction` field or other structure fields are axiom-free
+mathematical assumptions.
+
 Source: [FirstOrderArithmetic.lean](../../Axiomscope/Experiments/FirstOrderArithmetic.lean)
 · [Audited results](../../proofs/experiments/006-first-order-induction.json)

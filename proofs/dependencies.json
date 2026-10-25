@@ -531,6 +531,81 @@
       "variant": "weak_axioms_countermodel",
       "axioms": [],
       "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.Experiment006.bind_same",
+      "statement": "∀ ρ i a, bind ρ i a i = a",
+      "source": "Axiomscope/Experiments/FirstOrderArithmetic.lean",
+      "kind": "theorem",
+      "construction": "Update an individual variable at its named index",
+      "provenance": "Experiment 006 first-order syntax and semantic schema",
+      "foundation_profile": "choice_free",
+      "experiment": "006-first-order-induction",
+      "variant": "environment_same",
+      "axioms": [
+        "propext"
+      ],
+      "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.Experiment006.bind_other",
+      "statement": "∀ ρ i j a, j ≠ i → bind ρ i a j = ρ j",
+      "source": "Axiomscope/Experiments/FirstOrderArithmetic.lean",
+      "kind": "theorem",
+      "construction": "Update leaves other variable indices untouched",
+      "provenance": "Experiment 006 first-order syntax and semantic schema",
+      "foundation_profile": "choice_free",
+      "experiment": "006-first-order-induction",
+      "variant": "environment_other",
+      "axioms": [
+        "propext"
+      ],
+      "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.Experiment006.zeroOrSuccessor_iff",
+      "statement": "satisfies M ρ (x=0 ∨ ∃y, x=S(y)) ↔ ρ 0=M.zero ∨ ∃a,ρ 0=M.succ a",
+      "source": "Axiomscope/Experiments/FirstOrderArithmetic.lean",
+      "kind": "theorem",
+      "construction": "Unfold first-order satisfaction and bound-variable reassignment",
+      "provenance": "Experiment 006 first-order syntax and semantic schema",
+      "foundation_profile": "choice_free",
+      "experiment": "006-first-order-induction",
+      "variant": "first_order_interpretation",
+      "axioms": [
+        "Quot.sound",
+        "propext"
+      ],
+      "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.Experiment006.full_induction_implies_first_order",
+      "statement": "ArithmeticSystem full predicate induction → FirstOrderInduction (signatureOf M)",
+      "source": "Axiomscope/Experiments/FirstOrderArithmetic.lean",
+      "kind": "theorem",
+      "construction": "Instantiate the full induction field with the predicate interpreted by each first-order formula",
+      "provenance": "Experiment 006 first-order syntax and semantic schema",
+      "foundation_profile": "kernel_only",
+      "experiment": "006-first-order-induction",
+      "variant": "full_to_first_order",
+      "axioms": [],
+      "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.Experiment006.twoTracks_not_first_order_inductive",
+      "statement": "¬ FirstOrderInduction twoTracks",
+      "source": "Axiomscope/Experiments/FirstOrderArithmetic.lean",
+      "kind": "theorem",
+      "construction": "Concrete refutation by the formula x=0 ∨ ∃y, x=S(y) on an extra successor chain",
+      "provenance": "Experiment 006 first-order syntax and semantic schema",
+      "foundation_profile": "choice_free",
+      "experiment": "006-first-order-induction",
+      "variant": "induction_schema_countermodel",
+      "axioms": [
+        "Quot.sound",
+        "propext"
+      ],
+      "uses_classical_choice": false
     }
   ]
 }

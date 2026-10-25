@@ -44,6 +44,11 @@ Axiom dependencies are extracted from Lean after successfully elaborating the de
 | `Axiomscope.Experiment005.encode_add` | ∀ M a b, encode M (Number.add a b) = M.add (encode M a) (encode M b) | Induction and explicit recursive addition equations (Experiment 005 axiomatic characterization) | `kernel_only` | None reported |
 | `Axiomscope.Experiment005.encode_mul` | ∀ M a b, encode M (Number.mul a b) = M.mul (encode M a) (encode M b) | Induction and explicit recursive multiplication equations (Experiment 005 axiomatic characterization) | `kernel_only` | None reported |
 | `Axiomscope.Experiment005.twoTracks_not_inductive` | WeakSuccessor (Number × Bool) fails full induction | An extra successor track satisfies weak axioms but violates induction (Experiment 005 axiomatic characterization) | `kernel_only` | None reported |
+| `Axiomscope.Experiment006.bind_same` | ∀ ρ i a, bind ρ i a i = a | Update an individual variable at its named index (Experiment 006 first-order syntax and semantic schema) | `choice_free` | `propext` |
+| `Axiomscope.Experiment006.bind_other` | ∀ ρ i j a, j ≠ i → bind ρ i a j = ρ j | Update leaves other variable indices untouched (Experiment 006 first-order syntax and semantic schema) | `choice_free` | `propext` |
+| `Axiomscope.Experiment006.zeroOrSuccessor_iff` | satisfies M ρ (x=0 ∨ ∃y, x=S(y)) ↔ ρ 0=M.zero ∨ ∃a,ρ 0=M.succ a | Unfold first-order satisfaction and bound-variable reassignment (Experiment 006 first-order syntax and semantic schema) | `choice_free` | `Quot.sound`, `propext` |
+| `Axiomscope.Experiment006.full_induction_implies_first_order` | ArithmeticSystem full predicate induction → FirstOrderInduction (signatureOf M) | Instantiate the full induction field with the predicate interpreted by each first-order formula (Experiment 006 first-order syntax and semantic schema) | `kernel_only` | None reported |
+| `Axiomscope.Experiment006.twoTracks_not_first_order_inductive` | ¬ FirstOrderInduction twoTracks | Concrete refutation by the formula x=0 ∨ ∃y, x=S(y) on an extra successor chain (Experiment 006 first-order syntax and semantic schema) | `choice_free` | `Quot.sound`, `propext` |
 
 ## Scope of the audit
 
