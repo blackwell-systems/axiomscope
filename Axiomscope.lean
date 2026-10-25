@@ -1,3 +1,4 @@
 import Axiomscope.CardinalExamples
 import Axiomscope.Experiments.ExcludedMiddle
 import Axiomscope.Experiments.KripkeCountermodel
+import Axiomscope.Experiments.GeneralKripke
