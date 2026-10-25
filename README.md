@@ -24,9 +24,13 @@ Install [Lean 4 through elan](https://lean-lang.org/install/manual/), then run:
 lake exe cache get
 lake build
 lake env lean Axiomscope/CardinalExamples.lean
+python3 -m unittest discover -s scripts/tests -v
+python3 scripts/generate_proof_ledger.py --check
 ```
 
 The `lean-toolchain`, Mathlib dependency, and committed `lake-manifest.json` are pinned to **v4.35.0** and its exact dependency revisions. Run `lake update` only when intentionally updating and recommitting the lockfile. **All three initial formal results have passed Lean compilation and axiom inspection** in the [successful CI run](https://github.com/blackwell-systems/axiomscope/actions/runs/40219540458). See the [proof ledger](docs/PROOF-LEDGER.md) for the observed axiom dependencies.
+
+The proof ledger is **generated**, not manually maintained. After editing proofs, run `python3 scripts/generate_proof_ledger.py --write` and commit both `proofs/dependencies.json` and `docs/PROOF-LEDGER.md`. CI recomputes their axiom lists from Lean and rejects drift or unapproved axioms. Only the mathematical descriptions and construction provenance in `proofs/catalog.json` are manually curated. This is an *axiom-dependency* report, not yet a complete transitive lemma-dependency graph.
 
 ## Working principles
 
@@ -40,7 +44,9 @@ The `lean-toolchain`, Mathlib dependency, and committed `lake-manifest.json` are
 ## Documents
 
 - [Foundations v0.1 specification](docs/FOUNDATIONS-v0.1.md)
-- [Proof ledger](docs/PROOF-LEDGER.md)
+- [Generated proof ledger](docs/PROOF-LEDGER.md)
+- [Machine-readable axiom dependencies](proofs/dependencies.json)
+- [Declaration metadata catalogue](proofs/catalog.json)
 - [Research roadmap](docs/ROADMAP.md)
 
 ## Status

@@ -18,5 +18,7 @@ jobs:
         with:
           use-mathlib-cache: "true"
           test: "false"
-      - name: Inspect theorem axioms
-        run: lake env lean Axiomscope/CardinalExamples.lean
+      - name: Test ledger generator
+        run: python3 -m unittest discover -s scripts/tests -v
+      - name: Check generated proof records against Lean
+        run: python3 scripts/generate_proof_ledger.py --check

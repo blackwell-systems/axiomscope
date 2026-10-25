@@ -1,37 +1,29 @@
 # Proof ledger
 
-The three baseline formal results were checked by Lean 4.35.0 and Mathlib v4.35.0 in the [successful CI run on October 25, 2026](https://github.com/blackwell-systems/axiomscope/actions/runs/40219540458). The recorded dependencies are the **actual output of Lean's `#print axioms`**, not guesses based on imported modules.
+> **Generated file.** Do not edit directly. Regenerate with `python3 scripts/generate_proof_ledger.py --write`.
 
-| Declaration | Statement | Implementation | Observed axioms | Verification |
-| --- | --- | --- | --- | --- |
-| `natEquivEven` | `ℕ ≃ {n : ℕ // Even n}` | Explicit doubling/halving inverse | `propext`, `Quot.sound` | Passed |
-| `natEquivInt` | `ℕ ≃ ℤ` | Reuses `Equiv.intEquivNat.symm` from Mathlib | `propext`, `Quot.sound` | Passed |
-| `cantorDiagonal` | `¬ Function.Surjective (f : ℕ → Set ℕ)` for any `f` | Diagonal subset `{n | n ∉ f n}` | None listed | Passed |
+Axiom dependencies are extracted from Lean after successfully elaborating the declarations. Statements and construction descriptions come from [proofs/catalog.json](../proofs/catalog.json); machine-readable output: [proofs/dependencies.json](../proofs/dependencies.json).
 
-## Observed Lean output
+| Declaration | Statement | Implementation | Axioms used |
+| --- | --- | --- | --- |
+| `Axiomscope.natEquivEven` | ℕ ≃ {n : ℕ // Even n} | Explicit doubling map and halving inverse (local construction) | `Quot.sound`, `propext` |
+| `Axiomscope.natEquivInt` | ℕ ≃ ℤ | Reuses Mathlib's Equiv.intEquivNat.symm (Mathlib equivalence) | `Quot.sound`, `propext` |
+| `Axiomscope.cantorDiagonal` | ∀ f : ℕ → Set ℕ, ¬ Function.Surjective f | Direct diagonal contradiction (local proof) | None reported |
 
-```text
-'Axiomscope.natEquivEven' depends on axioms: [propext, Quot.sound]
-'Axiomscope.natEquivInt' depends on axioms: [propext, Quot.sound]
-'Axiomscope.cantorDiagonal' does not depend on any axioms
-```
+## Scope of the audit
 
-None of the three declarations lists `Classical.choice`. “No axioms listed” for the diagonal theorem refers to Lean's extra axiom declarations; it **does not** mean the result needs no logical system, definitions, or trusted proof checker.
+- The recorded dependencies are **axioms**, not the complete transitive graph of definitions and lemmas.
+- An empty axiom list does **not** mean a theorem was proved without a logical system, trusted kernel, or definitions.
+- Absence of `Classical.choice` in the report does not by itself guarantee executable content.
+- The allowlist prevents newly introduced, unreviewed axioms from silently entering a verified record.
 
-The comparison uses *bijection*. The even positive integers have natural density one-half among the positive integers, but the same cardinality. No definition of density is used to prove the bijection.
-
-## Reproduce
+## Regenerate or verify
 
 ```sh
 lake exe cache get
 lake build
-lake env lean Axiomscope/CardinalExamples.lean
+python3 scripts/generate_proof_ledger.py --write  # intentional updates
+python3 scripts/generate_proof_ledger.py --check  # CI
 ```
 
-Check that the last command prints the dependencies above. The manifest is intentionally committed; `lake update` is for deliberate dependency changes, not routine verification.
-
-## Remaining work
-
-- Audit the proofs' intended constructivity claims beyond the presence or absence of `Classical.choice`.
-- Implement the natural–integer bijection without delegating to Mathlib.
-- Generate a structured machine-readable ledger rather than maintaining this record manually.
+CI fails if either generated file is missing or differs from a fresh successful Lean run.

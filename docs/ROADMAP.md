@@ -12,8 +12,9 @@
 
 ## Phase 1 — proof metadata and traceability
 
-- [ ] Model a theorem record (statement, representation, assumptions, construction status, proof-checking result, dependencies).
-- [ ] Derive machine-readable dependency reports rather than copying them by hand.
+- [x] Model baseline theorem records (statement, representation, axiom dependencies, and construction provenance); proof-checking is a CI gate.
+- [x] Generate JSON and Markdown axiom-dependency reports from successful Lean output; fail CI on drift.
+- [ ] Extend the report to a transitive theorem/definition dependency graph (currently axioms only).
 - [ ] Compare “reuses a library equivalence” against “provides a direct implementation”.
 - [ ] Test whether the result meaningfully improves existing Lean functionality.
 

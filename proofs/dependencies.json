@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "toolchain": "leanprover/lean4:v4.35.0",
+  "source_of_axioms": "Lean #print axioms (successful elaboration)",
+  "generator": "scripts/generate_proof_ledger.py",
+  "records": [
+    {
+      "declaration": "Axiomscope.natEquivEven",
+      "statement": "ℕ ≃ {n : ℕ // Even n}",
+      "source": "Axiomscope/CardinalExamples.lean",
+      "kind": "equivalence",
+      "construction": "Explicit doubling map and halving inverse",
+      "provenance": "local construction",
+      "axioms": [
+        "Quot.sound",
+        "propext"
+      ],
+      "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.natEquivInt",
+      "statement": "ℕ ≃ ℤ",
+      "source": "Axiomscope/CardinalExamples.lean",
+      "kind": "equivalence",
+      "construction": "Reuses Mathlib's Equiv.intEquivNat.symm",
+      "provenance": "Mathlib equivalence",
+      "axioms": [
+        "Quot.sound",
+        "propext"
+      ],
+      "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.cantorDiagonal",
+      "statement": "∀ f : ℕ → Set ℕ, ¬ Function.Surjective f",
+      "source": "Axiomscope/CardinalExamples.lean",
+      "kind": "theorem",
+      "construction": "Direct diagonal contradiction",
+      "provenance": "local proof",
+      "axioms": [],
+      "uses_classical_choice": false
+    }
+  ]
+}
