@@ -124,10 +124,10 @@ RESULT = (
     "'Axiomscope.Experiment009.context_semantics_equiv' depends on axioms: [propext]\n"
     "'Axiomscope.Experiment009.top_not_in_image' does not depend on any axioms\n"
     "'Axiomscope.Experiment009.embedding_compose_identity' depends on axioms: [propext, Quot.sound]\n"
-    "'Axiomscope.Experiment010.certified_derivation' depends on axioms: [propext, Quot.sound]\\n"
-    "'Axiomscope.Experiment010.certified_contexts' depends on axioms: [propext, Quot.sound]\\n"
-    "'Axiomscope.Experiment010.composed_semantics' depends on axioms: [propext, Quot.sound]\\n"
-    "'Axiomscope.Experiment010.composed_derivation' depends on axioms: [propext, Quot.sound]\\n"
+    "'Axiomscope.Experiment010.certified_derivation' depends on axioms: [propext, Quot.sound]\n"
+    "'Axiomscope.Experiment010.certified_contexts' depends on axioms: [propext, Quot.sound]\n"
+    "'Axiomscope.Experiment010.composed_semantics' depends on axioms: [propext, Quot.sound]\n"
+    "'Axiomscope.Experiment010.composed_derivation' depends on axioms: [propext, Quot.sound]\n"
 )
 
 
