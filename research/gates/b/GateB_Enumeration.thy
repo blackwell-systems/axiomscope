@@ -40,7 +40,12 @@ proof -
   let ?U = "selected_union(f)"
   let ?h = "\<lambda>x\<in>?U. selected_index(f,q,x)"
   have hf: "?h \<in> ?U -> nat"
-    by (rule lam_type) (blast intro: selected_index_natural [OF f q])
+  proof (rule lam_type)
+    fix x
+    assume hx: "x \<in> ?U"
+    show "selected_index(f,q,x) \<in> nat"
+      by (rule selected_index_natural [OF f q hx])
+  qed
   have hi: "\<forall>x\<in>?U. \<forall>y\<in>?U. ?h`x = ?h`y \<longrightarrow> x=y"
   proof (intro ballI impI)
     fix x y
