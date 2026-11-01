@@ -14,13 +14,17 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 MANIFEST = ROOT / "research/gates/b/manifest.json"
 THEORY = ROOT / "research/gates/b/GateB_ZF.thy"
+CHOICE_THEORY = ROOT / "research/gates/b/GateB_CountableChoice.thy"
 REPORT = ROOT / "research/gates/b/comparison.json"
 
-FORMAL = {"injection_to_infinite", "wellorderable_to_injection"}
+FORMAL = {"injection_to_infinite", "wellorderable_to_injection",
+          "finite_injection_candidates", "countable_choice_finite_witnesses"}
 PUBLISHED = {"countable_choice", "cohen_symmetric_countermodel"}
 
 
-def validate(manifest: dict, theory: str) -> dict:
+def validate(manifest: dict, theory: str, choice_theory: str | None = None) -> dict:
+    if choice_theory is None:
+        choice_theory = CHOICE_THEORY.read_text(encoding="utf-8")
     if manifest.get("gate") != "B" or manifest.get("schema_version") != 1:
         raise ValueError("Invalid Gate B manifest")
     entries = manifest["claims"]
@@ -31,15 +35,28 @@ def validate(manifest: dict, theory: str) -> dict:
         raise ValueError("Proof is not in the Isabelle/ZF object logic")
     if re.search(r"(?m)^\s*(sorry|oops|axiomatization)\b", theory):
         raise ValueError("Admitted proof or new axiom is forbidden")
+    if not re.search(r"theory GateB_CountableChoice\s+imports GateB_ZF\s+begin", choice_theory):
+        raise ValueError("Countable choice must be within the Isabelle/ZF object theory")
+    if "definition countable_choice :: o" not in choice_theory:
+        raise ValueError("Missing explicit ZF countable-choice proposition")
+    if re.search(r"(?m)^\s*(sorry|oops|axiomatization)\b", choice_theory):
+        raise ValueError("Untrusted choice theory proof or new axiom forbidden")
     by_id = {claim["id"]: claim for claim in entries}
     for key in FORMAL:
         c = by_id[key]
         if c["status"] != "formal_isabelle_kernel":
             raise ValueError("Incorrect proof evidence class " + key)
-        if c["source"] != "research/gates/b/GateB_ZF.thy" or not c.get("theorem"):
+        sources = {
+            "research/gates/b/GateB_ZF.thy": ("GateB_ZF.", theory),
+            "research/gates/b/GateB_CountableChoice.thy": ("GateB_CountableChoice.", choice_theory),
+        }
+        if c.get("source") not in sources or not c.get("theorem"):
             raise ValueError("A formal claim must have exact source and theorem")
+        prefix, theorem_source = sources[c["source"]]
+        if not c["theorem"].startswith(prefix):
+            raise ValueError("Theorem name and declared theory source do not match")
         local_name = c["theorem"].split(".")[-1]
-        if not re.search(r"(?m)^lemma\s+" + re.escape(local_name) + r"\s*:", theory):
+        if not re.search(r"(?m)^lemma\s+" + re.escape(local_name) + r"\s*:", theorem_source):
             raise ValueError("Formal theorem declaration missing " + key)
     for key in PUBLISHED:
         c = by_id[key]
@@ -87,7 +104,8 @@ def main() -> int:
     try:
         manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
         theory = THEORY.read_text(encoding="utf-8")
-        out = json.dumps(validate(manifest, theory), ensure_ascii=False, indent=2) + "\n"
+        choice_theory = CHOICE_THEORY.read_text(encoding="utf-8")
+        out = json.dumps(validate(manifest, theory, choice_theory), ensure_ascii=False, indent=2) + "\n"
         if a.check:
             if not REPORT.is_file() or REPORT.read_text(encoding="utf-8") != out:
                 raise ValueError("Comparison drift: regenerate with --write")
