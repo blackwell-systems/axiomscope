@@ -66,7 +66,8 @@
 - [x] Fail closed on unknown assumptions, cross-logic claims, or published-only evidence.
 - [x] Keep machine-generated counterfactual results and explicit regression tests under CI.
 - [x] Extract the explicit quoted premise list and conclusion from registered Isabelle/ZF theorem source declarations (restricted grammar).
-- [ ] Obtain prover-elaborated statements and proof-term dependencies, beyond the restricted source-header parser.
+- [x] Cross-check source-extracted theorem signatures against Isabelle's elaborated theorem objects; consume a prover-produced session export in the scenario experiment.
+- [ ] Extract immediate or transitive theorem and axiom dependencies from prover proof-body/theory exports (beyond statement-premise correspondence).
 - [ ] Compare what the prototype adds beyond Isabelle locales, theory interpretations, Lean's axiom audit, AFP, and existing dependency tooling.
 - [ ] Prove a useful interpretation / transport correctness theorem across *explicitly linked* foundations.
 - [ ] Demonstrate measurable benefit or pivot; do not claim novelty from proof collection.

@@ -6,6 +6,9 @@ on:
     paths:
       - 'scripts/foundation_probe_v02.py'
       - 'scripts/isabelle_premises_v02.py'
+      - 'scripts/generate_prover_bridge_v03.py'
+      - 'scripts/check_prover_bridge_v03.py'
+      - 'scripts/tests/test_prover_bridge_v03.py'
       - 'scripts/tests/test_foundation_probe_v02.py'
       - 'research/foundations-v0.2/**'
       - 'research/gates/b/**'
@@ -15,6 +18,9 @@ on:
     paths:
       - 'scripts/foundation_probe_v02.py'
       - 'scripts/isabelle_premises_v02.py'
+      - 'scripts/generate_prover_bridge_v03.py'
+      - 'scripts/check_prover_bridge_v03.py'
+      - 'scripts/tests/test_prover_bridge_v03.py'
       - 'scripts/tests/test_foundation_probe_v02.py'
       - 'research/foundations-v0.2/**'
       - 'research/gates/b/**'
@@ -39,5 +45,9 @@ jobs:
           python3 scripts/check_foundation_gate_b.py --check
       - name: Validate Foundations v0.2 interpretation limits
         run: python3 -m unittest scripts.tests.test_foundation_probe_v02 -v
+      - name: Validate prover export generation and consumption
+        run: |
+          python3 scripts/generate_prover_bridge_v03.py --check
+          python3 -m unittest scripts.tests.test_prover_bridge_v03 -v
       - name: Ensure reproducible counterfactual report
         run: python3 scripts/foundation_probe_v02.py --check
