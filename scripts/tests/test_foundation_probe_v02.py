@@ -87,7 +87,7 @@ class FoundationProbeTests(unittest.TestCase):
         for claim in wrong["claims"]:
             if claim["id"] == "countable_choice":
                 claim["assumptions"] = []
-        with self.assertRaisesRegex(ValueError, "contract changed"):
+        with self.assertRaisesRegex(ValueError, "ACω.*distinct|contract changed"):
             probe.evaluate(self.config, wrong)
 
     def test_deterministic_report(self):
