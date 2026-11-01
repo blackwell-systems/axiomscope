@@ -96,6 +96,18 @@ class LedgerTests(unittest.TestCase):
         self.assertEqual(parsed["Axiomscope.natEquivEven"], ["Quot.sound", "propext"])
         self.assertEqual(parsed["Axiomscope.cantorDiagonal"], [])
 
+    def test_multiline_axiom_report(self):
+        output = (
+            "'Demo.theorem' depends on axioms: [propext,\n"
+            " Classical.choice,\n"
+            " Quot.sound]\n"
+        )
+        parsed = ledger.parse_axioms(output, {"Demo.theorem"})
+        self.assertEqual(
+            parsed["Demo.theorem"],
+            ["Classical.choice", "Quot.sound", "propext"],
+        )
+
     def test_missing_report_rejected(self):
         with self.assertRaisesRegex(ledger.LedgerError, "Missing Lean"):
             ledger.parse_axioms(RESULT.splitlines()[0], NAMES)
