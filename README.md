@@ -143,6 +143,19 @@ Kripke models.
 This is a verified **conservative encoding**, not yet a theorem between
 different mathematical foundations or a claim of novelty.
 
+## Experiment 010 — composable semantic certificates
+
+[Experiment 010](docs/experiments/010-semantic-certificates.md)
+packages both derivation preservation and Kripke meaning-preservation in a
+**single verified interpretation certificate**. Identity and composition
+are certified generically; context satisfaction follows automatically
+from the certificate. A concrete semantic mismatch rules out a proposed
+certificate when its meaning-preservation condition cannot hold.
+
+The implementation still uses one shared semantic index and one Lean
+kernel. It does not transfer arbitrary models or prove that different
+mathematical foundations are equivalent.
+
 ## Mathematical experiments
 
 The early experiments establish checked examples and probe specific
@@ -161,6 +174,7 @@ long-term research objective.
 | 007 | Which infinity arguments use explicit selection versus ambient assumptions? | [Explanation](docs/experiments/007-comparative-infinity.md) |
 | 008 | Which proofs survive a translation between intuitionistic and classical calculi, and where does the reverse identity map fail? | [Formal experiment](docs/experiments/008-foundational-interpretations.md) |
 | 009 | Can a nonidentity encoding between different formula languages preserve derivations and Kripke forcing? | [Formal experiment](docs/experiments/009-nonidentity-translation.md) |
+| 010 | Can proof-preserving interpretations carry semantic certificates that compose and reject genuine mismatches? | [Formal experiment](docs/experiments/010-semantic-certificates.md) |
 | Gate A | What changes between Isabelle/ZF and a hereditarily finite model? | [Evidence and limitations](research/gates/a/README.md) |
 | Gate B | How does countable choice establish `ω ↪ A` for nonfinite `A`? | [Formal result and open negative case](research/gates/b/README.md) |
 
