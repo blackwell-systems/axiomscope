@@ -21,9 +21,9 @@ Isabelle/HOL and not Mathlib's `Infinite α`. It contains:
 2. `wellorderable_infinite_has_nat_injection`:
    `¬Finite(A) ∧ (∃a. Ord(a) ∧ A≈a) ⟹ nat ≲ A`.
 
-The second theorem assumes an explicit witness that A is equipotent to an
-ordinal. This is **stronger than** the countable-choice assumption we'd
-ultimately like to isolate. We do not label it a proof from `ACω`.
+The second theorem is a restricted, well-orderability-based benchmark.
+Its assumption is **stronger than** countable choice; the complete
+`ACω` theorem is proved separately below.
 
 The new [Isabelle CI workflow](../../../.github/workflows/gate-b-isabelle.yml)
 checks these theorems in the first-order ZF object logic. It also checks the
@@ -42,10 +42,9 @@ The formal development proves that any infinite set has injections
 Assuming `countable_choice`, it then selects a single family of such
 finite injections indexed by every natural number.
 
-**The crucial assembly step is still missing:** the selected finite
-injections have not yet been combined into an injection `nat → A`.
-Thus we have formalized a meaningful partial countable-choice proof,
-not the full claim `ZF + ACω ⊢ Infinite(A) → DedekindInfinite(A)`.
+The subsequent enumeration and converse theories combine these finite
+injections into the full countable-choice theorem. This intermediate
+lemma remains useful because its assumptions are strictly explicit.
 
 ## Verified infinite union of selected finite injections
 
@@ -59,10 +58,9 @@ It then combines the earlier **explicit countable-choice proposition**
 with the finite-witness results to verify the existence of such an
 infinite enumerated union under `¬Finite(A) ∧ ACω`.
 
-These statements are part of the proof of the countable-choice
-converse, **not yet the converse itself**. The bridge proving that
-this union embeds in `nat` remains to be checked before claiming
-`nat ≲ A`.
+These statements are the finite-union part of the complete proof.
+The countability bridge and final injection are now checked in the
+linked enumeration and converse theories.
 
 ## Complete positive theorem — ZF plus countable choice
 
@@ -70,7 +68,7 @@ The following result is now **Isabelle2026 kernel-verified**:
 
 ```isabelle
 theorem countable_choice_infinite_has_nat_injection:
-  assumes inf: "\\<not> Finite(A)" and cc: "countable_choice"
+  assumes inf: "\<not> Finite(A)" and cc: "countable_choice"
   shows "has_nat_injection(A)"
 ```
 
@@ -91,7 +89,7 @@ copy of `nat`, and the inclusion into `A` completes the proof.
 The positive countable-choice result is standard mathematics, now
 reproduced and checked in this project. It is **not** a novel theorem.
 
-## Published, but not kernel-checked here
+## External mathematical context and the unverified negative model
 
 The countable choice principle `ACω` suffices to show every infinite set
 contains an injection of `ω`. The Open Logic Project, *Set Theory*,
