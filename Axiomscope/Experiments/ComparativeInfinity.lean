@@ -42,14 +42,13 @@ theorem earlier_mem_prefix {α : Type u} (s : FiniteAvoidance α)
     (m n : Nat) (h : m < n) : chosen s m ∈ selectedPrefix s n := by
   induction n with
   | zero =>
-      omega
+      exact (Nat.not_lt_zero m h).elim
   | succ n ih =>
-      by_cases heq : m = n
+      rcases Nat.lt_or_eq_of_le (Nat.le_of_lt_succ h) with hlt | heq
+      · simp only [selectedPrefix, List.mem_cons]
+        exact Or.inr (ih hlt)
       · subst m
         simp [selectedPrefix, chosen]
-      · have hlt : m < n := by omega
-        simp only [selectedPrefix, List.mem_cons]
-        exact Or.inr (ih hlt)
 
 /-- A uniform finite-avoidance selector generates an injection of Nat. -/
 theorem chosen_injective {α : Type u} (s : FiniteAvoidance α) :
