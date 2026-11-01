@@ -3,3 +3,4 @@ session GateB_ZF = ZF +
     GateB_ZF
     GateB_CountableChoice
     GateB_Assemble
+    GateB_Enumeration
