@@ -67,7 +67,11 @@ proof -
         (\<mu> v. \<exists>n\<in>nat. \<exists>k\<in>n.
            v = q`\<langle>n,k\<rangle> \<and> x = (f`n)`k)
          = q`\<langle>n,k\<rangle> \<and> x = (f`n)`k)"
-    using property j by (blast intro: LeastI nat_into_Ord)
+  proof (rule_tac i=j in LeastI)
+    show "\<exists>n\<in>nat. \<exists>k\<in>n.
+       j = q`\<langle>n,k\<rangle> \<and> x = (f`n)`k" using property .
+    show "Ord(j)" by (rule nat_into_Ord [OF j])
+  qed
   thus ?thesis unfolding selected_index_def .
 qed
 
@@ -83,7 +87,11 @@ proof -
     using selected_code_candidate [OF f q x] by blast
   have le: "(\<mu> v. \<exists>n\<in>nat. \<exists>k\<in>n.
            v = q`\<langle>n,k\<rangle> \<and> x = (f`n)`k) \<le> j"
-    using property j by (blast intro: Least_le nat_into_Ord)
+  proof (rule_tac i=j in Least_le)
+    show "\<exists>n\<in>nat. \<exists>k\<in>n.
+       j = q`\<langle>n,k\<rangle> \<and> x = (f`n)`k" using property .
+    show "Ord(j)" by (rule nat_into_Ord [OF j])
+  qed
   have "(\<mu> v. \<exists>n\<in>nat. \<exists>k\<in>n.
            v = q`\<langle>n,k\<rangle> \<and> x = (f`n)`k) \<in> nat"
     using j le by (blast intro: lt_trans1)
