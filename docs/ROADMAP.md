@@ -108,6 +108,15 @@
 - [ ] Exhibit an explicit counterexample showing a monotone world map without the back condition changes implication truth.
 - [ ] Audit Lean axioms and generated artifacts; compare against established bounded-morphism and institution-morphism theory before claiming novelty.
 
+## Experiment 012 — institution-theory comparison baseline
+
+- [ ] Verify sentence translation identity and composition for signature morphisms between atom vocabularies.
+- [ ] Verify model reduct identity and contravariant composition.
+- [ ] Prove the full propositional satisfaction condition and its assumption-context extension.
+- [ ] Show by concrete counterexample that an incorrect reduct violates satisfaction.
+- [ ] Audit Lean axioms and the updated generated proof ledger; keep Gate A green.
+- [ ] Assess whether an assumption/witness-preservation task exposes a real deficiency in existing institution/theory-interpretation frameworks. **Do not continue adding abstractions solely to increase the experiment count.**
+
 ## Phase 3 — mathematical research
 
 - [ ] Identify a precise conjecture or technical limitation of existing frameworks.

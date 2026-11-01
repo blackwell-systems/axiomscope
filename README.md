@@ -170,6 +170,20 @@ back-lifting accessible futures** is not sufficient to preserve implication.
 These are established results about Kripke models, not a new foundational
 system or proof of mathematical novelty.
 
+## Experiment 012 — institution-theory baseline
+
+[Experiment 012](docs/experiments/012-signature-satisfaction.md)
+formalizes the classical institution **satisfaction condition** for
+signature-indexed propositional languages. Renaming atomic symbols
+translates formulas covariantly and reduces valuations contravariantly;
+Lean verifies identity, composition and invariance of satisfaction.
+A mismatched model reduct is rejected by an explicit counterexample.
+
+**This is established institution theory, not new mathematics.**
+Its purpose is to provide an honest baseline and sharpen the next
+research decision: demonstrate a useful assumption/witness analysis
+beyond existing frameworks, or pivot.
+
 ## Mathematical experiments
 
 The early experiments establish checked examples and probe specific
@@ -190,6 +204,7 @@ long-term research objective.
 | 009 | Can a nonidentity encoding between different formula languages preserve derivations and Kripke forcing? | [Formal experiment](docs/experiments/009-nonidentity-translation.md) |
 | 010 | Can proof-preserving interpretations carry semantic certificates that compose and reject genuine mismatches? | [Formal experiment](docs/experiments/010-semantic-certificates.md) |
 | 011 | Can a bounded world map and nonidentity formula translation preserve proofs and truth across different model classes? | [Formal experiment](docs/experiments/011-model-translation.md) |
+| 012 | Do signature-indexed sentence renaming and model reducts satisfy the established institution laws? | [Formal experiment](docs/experiments/012-signature-satisfaction.md) |
 | Gate A | What changes between Isabelle/ZF and a hereditarily finite model? | [Evidence and limitations](research/gates/a/README.md) |
 | Gate B | How does countable choice establish `ω ↪ A` for nonfinite `A`? | [Formal result and open negative case](research/gates/b/README.md) |
 

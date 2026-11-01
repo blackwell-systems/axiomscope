@@ -69,6 +69,12 @@ NAMES = {"Axiomscope.natEquivEven", "Axiomscope.natEquivInt", "Axiomscope.cantor
         "cover_transports_derivation", "composed_cover_satisfaction",
         "bad_projection_not_back", "bad_projection_changes_implication"
     )
+} | {
+    "Axiomscope.Experiment012." + name for name in (
+        "sentence_id", "sentence_comp", "reduct_comp",
+        "satisfaction_condition", "satisfaction_comp",
+        "context_satisfaction", "wrong_reduct_counterexample"
+    )
 }
 RESULT = (
     "'Axiomscope.natEquivEven' depends on axioms: [propext, Quot.sound]\n"
@@ -140,6 +146,13 @@ RESULT = (
     "'Axiomscope.Experiment011.composed_cover_satisfaction' depends on axioms: [propext, Quot.sound]\n"
     "'Axiomscope.Experiment011.bad_projection_not_back' depends on axioms: [propext]\n"
     "'Axiomscope.Experiment011.bad_projection_changes_implication' depends on axioms: [propext, Classical.choice, Quot.sound]\n"
+    "'Axiomscope.Experiment012.sentence_id' depends on axioms: [propext]\n"
+    "'Axiomscope.Experiment012.sentence_comp' depends on axioms: [propext]\n"
+    "'Axiomscope.Experiment012.reduct_comp' does not depend on any axioms\n"
+    "'Axiomscope.Experiment012.satisfaction_condition' does not depend on any axioms\n"
+    "'Axiomscope.Experiment012.satisfaction_comp' does not depend on any axioms\n"
+    "'Axiomscope.Experiment012.context_satisfaction' does not depend on any axioms\n"
+    "'Axiomscope.Experiment012.wrong_reduct_counterexample' does not depend on any axioms\n"
 )
 
 
@@ -182,7 +195,7 @@ class LedgerTests(unittest.TestCase):
     def test_json_markdown_agree(self):
         catalog = json.loads(ledger.CATALOG.read_text(encoding="utf-8"))
         data = ledger.collect(catalog, RESULT, "leanprover/lean4:v4.35.0")
-        self.assertEqual(len(data["records"]), 69)
+        self.assertEqual(len(data["records"]), 76)
         self.assertEqual(sum(d["uses_classical_choice"] for d in data["records"]), 8)
         self.assertIn("Quot.sound", ledger.markdown(data))
 
@@ -353,6 +366,20 @@ class LedgerTests(unittest.TestCase):
             [r["uses_classical_choice"] for r in report["variants"]],
             [False, False, False, False, False, True],
         )
+
+    def test_signature_satisfaction_baseline(self):
+        catalog = json.loads(ledger.CATALOG.read_text(encoding="utf-8"))
+        data = ledger.collect(catalog, RESULT, "leanprover/lean4:v4.35.0")
+        report = json.loads(ledger.experiment_reports(catalog, data)[
+            "012-signature-satisfaction"])
+        self.assertEqual(len(report["variants"]), 7)
+        self.assertEqual(
+            [r["axioms"] for r in report["variants"]],
+            [["propext"], ["propext"], [], [], [], [], []],
+        )
+        self.assertFalse(any(
+            r["uses_classical_choice"] for r in report["variants"]
+        ))
 
     def test_stale_artifact_rejected(self):
         with patch.object(ledger.Path, "exists", return_value=False):
