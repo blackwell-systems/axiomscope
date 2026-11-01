@@ -25,6 +25,18 @@ This is a **prototype of contextual proof analysis**, not yet a new
 axiomatic system, automated cross-foundation transport, or a demonstrated
 improvement on Isabelle/Lean's existing tooling.
 
+## Foundations v0.3 — prover-certified signature evidence
+
+The [Foundations v0.3 experiment](docs/FOUNDATIONS-v0.3.md) validates the
+v0.2 source-derived assumptions against **actual elaborated Isabelle/ZF
+theorem propositions**. A generated Isabelle/ML bridge checks theorem
+objects before exporting their rendered statements; the Python scenario
+consumer records the exported evidence. Failures abort CI.
+
+This is statement correspondence, **not** a proof-term dependency graph,
+cross-foundation interpretation, new axiom system, or discovery of a new
+theorem.
+
 ## First experiment: three facts about infinity
 
 | Result | Formal artifact | Interpretation |
