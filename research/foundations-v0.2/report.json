@@ -1,0 +1,248 @@
+{
+  "schema_version": 1,
+  "experiment": "foundations-v0.2-assumption-probe",
+  "logic": "Isabelle/ZF",
+  "source_manifest": "research/gates/b/manifest.json",
+  "scope": "Conditional application of known, formally classified proofs within one object logic; not proof translation, theorem search, or independence.",
+  "scenarios": [
+    {
+      "id": "zf_nonfinite",
+      "conditions": [
+        "nonfinite_A"
+      ],
+      "goals": [
+        {
+          "goal": "nonfinite_to_nat_injection",
+          "status": "no_registered_witness",
+          "witnesses": [],
+          "candidate_requirements": [
+            {
+              "claim_id": "countable_choice",
+              "theorem": "GateB_CountableConverse.countable_choice_infinite_has_nat_injection",
+              "source": "research/gates/b/GateB_CountableConverse.thy",
+              "missing_conditions": [
+                "AComega"
+              ]
+            },
+            {
+              "claim_id": "wellorderable_to_injection",
+              "theorem": "GateB_ZF.wellorderable_infinite_has_nat_injection",
+              "source": "research/gates/b/GateB_ZF.thy",
+              "missing_conditions": [
+                "wellorder_A"
+              ]
+            }
+          ],
+          "caveat": "No registered witness applies in this context; this does not establish non-provability, a countermodel, or independence."
+        },
+        {
+          "goal": "nat_injection_to_nonfinite",
+          "status": "no_registered_witness",
+          "witnesses": [],
+          "candidate_requirements": [
+            {
+              "claim_id": "injection_to_infinite",
+              "theorem": "GateB_ZF.countable_injection_implies_infinite",
+              "source": "research/gates/b/GateB_ZF.thy",
+              "missing_conditions": [
+                "nat_injection_A"
+              ]
+            }
+          ],
+          "caveat": "No registered witness applies in this context; this does not establish non-provability, a countermodel, or independence."
+        }
+      ]
+    },
+    {
+      "id": "zf_acomega",
+      "conditions": [
+        "AComega",
+        "nonfinite_A"
+      ],
+      "goals": [
+        {
+          "goal": "nonfinite_to_nat_injection",
+          "status": "supported_by_registered_proof",
+          "witnesses": [
+            {
+              "claim_id": "countable_choice",
+              "theorem": "GateB_CountableConverse.countable_choice_infinite_has_nat_injection",
+              "source": "research/gates/b/GateB_CountableConverse.thy"
+            }
+          ],
+          "candidate_requirements": [],
+          "caveat": null
+        },
+        {
+          "goal": "nat_injection_to_nonfinite",
+          "status": "no_registered_witness",
+          "witnesses": [],
+          "candidate_requirements": [
+            {
+              "claim_id": "injection_to_infinite",
+              "theorem": "GateB_ZF.countable_injection_implies_infinite",
+              "source": "research/gates/b/GateB_ZF.thy",
+              "missing_conditions": [
+                "nat_injection_A"
+              ]
+            }
+          ],
+          "caveat": "No registered witness applies in this context; this does not establish non-provability, a countermodel, or independence."
+        }
+      ]
+    },
+    {
+      "id": "zf_wellordered",
+      "conditions": [
+        "nonfinite_A",
+        "wellorder_A"
+      ],
+      "goals": [
+        {
+          "goal": "nonfinite_to_nat_injection",
+          "status": "supported_by_registered_proof",
+          "witnesses": [
+            {
+              "claim_id": "wellorderable_to_injection",
+              "theorem": "GateB_ZF.wellorderable_infinite_has_nat_injection",
+              "source": "research/gates/b/GateB_ZF.thy"
+            }
+          ],
+          "candidate_requirements": [],
+          "caveat": null
+        },
+        {
+          "goal": "nat_injection_to_nonfinite",
+          "status": "no_registered_witness",
+          "witnesses": [],
+          "candidate_requirements": [
+            {
+              "claim_id": "injection_to_infinite",
+              "theorem": "GateB_ZF.countable_injection_implies_infinite",
+              "source": "research/gates/b/GateB_ZF.thy",
+              "missing_conditions": [
+                "nat_injection_A"
+              ]
+            }
+          ],
+          "caveat": "No registered witness applies in this context; this does not establish non-provability, a countermodel, or independence."
+        }
+      ]
+    },
+    {
+      "id": "zf_nat_witness",
+      "conditions": [
+        "nat_injection_A"
+      ],
+      "goals": [
+        {
+          "goal": "nonfinite_to_nat_injection",
+          "status": "no_registered_witness",
+          "witnesses": [],
+          "candidate_requirements": [
+            {
+              "claim_id": "countable_choice",
+              "theorem": "GateB_CountableConverse.countable_choice_infinite_has_nat_injection",
+              "source": "research/gates/b/GateB_CountableConverse.thy",
+              "missing_conditions": [
+                "AComega",
+                "nonfinite_A"
+              ]
+            },
+            {
+              "claim_id": "wellorderable_to_injection",
+              "theorem": "GateB_ZF.wellorderable_infinite_has_nat_injection",
+              "source": "research/gates/b/GateB_ZF.thy",
+              "missing_conditions": [
+                "nonfinite_A",
+                "wellorder_A"
+              ]
+            }
+          ],
+          "caveat": "No registered witness applies in this context; this does not establish non-provability, a countermodel, or independence."
+        },
+        {
+          "goal": "nat_injection_to_nonfinite",
+          "status": "supported_by_registered_proof",
+          "witnesses": [
+            {
+              "claim_id": "injection_to_infinite",
+              "theorem": "GateB_ZF.countable_injection_implies_infinite",
+              "source": "research/gates/b/GateB_ZF.thy"
+            }
+          ],
+          "candidate_requirements": [],
+          "caveat": null
+        }
+      ]
+    },
+    {
+      "id": "zf_both",
+      "conditions": [
+        "AComega",
+        "nat_injection_A",
+        "nonfinite_A",
+        "wellorder_A"
+      ],
+      "goals": [
+        {
+          "goal": "nonfinite_to_nat_injection",
+          "status": "supported_by_registered_proof",
+          "witnesses": [
+            {
+              "claim_id": "countable_choice",
+              "theorem": "GateB_CountableConverse.countable_choice_infinite_has_nat_injection",
+              "source": "research/gates/b/GateB_CountableConverse.thy"
+            },
+            {
+              "claim_id": "wellorderable_to_injection",
+              "theorem": "GateB_ZF.wellorderable_infinite_has_nat_injection",
+              "source": "research/gates/b/GateB_ZF.thy"
+            }
+          ],
+          "candidate_requirements": [],
+          "caveat": null
+        },
+        {
+          "goal": "nat_injection_to_nonfinite",
+          "status": "supported_by_registered_proof",
+          "witnesses": [
+            {
+              "claim_id": "injection_to_infinite",
+              "theorem": "GateB_ZF.countable_injection_implies_infinite",
+              "source": "research/gates/b/GateB_ZF.thy"
+            }
+          ],
+          "candidate_requirements": [],
+          "caveat": null
+        }
+      ]
+    }
+  ],
+  "contrasts": [
+    {
+      "from": "zf_acomega",
+      "to": "zf_nonfinite",
+      "lost_registered_support": [
+        "nonfinite_to_nat_injection"
+      ],
+      "interpretation": "Loss of a registered usable proof, not a proof of nonderivability."
+    },
+    {
+      "from": "zf_wellordered",
+      "to": "zf_nonfinite",
+      "lost_registered_support": [
+        "nonfinite_to_nat_injection"
+      ],
+      "interpretation": "Loss of a registered usable proof, not a proof of nonderivability."
+    },
+    {
+      "from": "zf_nat_witness",
+      "to": "zf_nonfinite",
+      "lost_registered_support": [
+        "nat_injection_to_nonfinite"
+      ],
+      "interpretation": "Loss of a registered usable proof, not a proof of nonderivability."
+    }
+  ]
+}
