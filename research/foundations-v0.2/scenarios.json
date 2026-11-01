@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "logic": "Isabelle/ZF",
+  "scenarios": [
+    {
+      "id": "zf_nonfinite",
+      "conditions": [
+        "nonfinite_A"
+      ]
+    },
+    {
+      "id": "zf_acomega",
+      "conditions": [
+        "nonfinite_A",
+        "AComega"
+      ]
+    },
+    {
+      "id": "zf_wellordered",
+      "conditions": [
+        "nonfinite_A",
+        "wellorder_A"
+      ]
+    },
+    {
+      "id": "zf_nat_witness",
+      "conditions": [
+        "nat_injection_A"
+      ]
+    },
+    {
+      "id": "zf_both",
+      "conditions": [
+        "nonfinite_A",
+        "AComega",
+        "wellorder_A",
+        "nat_injection_A"
+      ]
+    }
+  ],
+  "contrasts": [
+    {
+      "from": "zf_acomega",
+      "to": "zf_nonfinite"
+    },
+    {
+      "from": "zf_wellordered",
+      "to": "zf_nonfinite"
+    },
+    {
+      "from": "zf_nat_witness",
+      "to": "zf_nonfinite"
+    }
+  ]
+}
