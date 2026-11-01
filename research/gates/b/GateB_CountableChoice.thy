@@ -44,7 +44,7 @@ proof -
     using candidates by simp
   ultimately have "(\<Prod>n\<in>nat. ?F`n) \<noteq> 0"
     using cc countable_choice_family by blast
-  then show ?thesis by simp
+  then show ?thesis by (simp cong: Pi_cong)
 qed
 
 end
