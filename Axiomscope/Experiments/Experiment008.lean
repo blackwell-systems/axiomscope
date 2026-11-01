@@ -70,7 +70,8 @@ def inclusion (Atom : Type u) :
   onFormula := id
   onProof := by
     intro Γ φ derivation
-    simpa using (intuitionistic_to_classical derivation)
+    change ClassicalDerives Γ φ
+    exact intuitionistic_to_classical derivation
 
 /-- The intended theorem transport is independent of the specific
     source context: every IPC derivation survives the interpretation. -/
