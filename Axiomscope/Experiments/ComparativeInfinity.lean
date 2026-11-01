@@ -29,27 +29,27 @@ structure FiniteAvoidance (α : Type u) where
   fresh : ∀ xs : List α, pick xs ∉ xs
 
 /-- Build the first `n` selected points in reverse chronological order. -/
-def prefix {α : Type u} (s : FiniteAvoidance α) : Nat → List α
+def selectedPrefix {α : Type u} (s : FiniteAvoidance α) : Nat → List α
   | 0 => []
-  | n + 1 => s.pick (prefix s n) :: prefix s n
+  | n + 1 => s.pick (selectedPrefix s n) :: selectedPrefix s n
 
 /-- Each new point avoids every previously chosen point. -/
 def chosen {α : Type u} (s : FiniteAvoidance α) (n : Nat) : α :=
-  s.pick (prefix s n)
+  s.pick (selectedPrefix s n)
 
-/-- Previously selected points occur in every later prefix. -/
+/-- Previously selected points occur in every later selectedPrefix. -/
 theorem earlier_mem_prefix {α : Type u} (s : FiniteAvoidance α)
-    (m n : Nat) (h : m < n) : chosen s m ∈ prefix s n := by
+    (m n : Nat) (h : m < n) : chosen s m ∈ selectedPrefix s n := by
   induction n with
   | zero =>
       omega
   | succ n ih =>
       by_cases heq : m = n
       · subst m
-        change chosen s n = chosen s n ∨ chosen s n ∈ prefix s n
+        change chosen s n = chosen s n ∨ chosen s n ∈ selectedPrefix s n
         exact Or.inl rfl
       · have hlt : m < n := by omega
-        change chosen s m = chosen s n ∨ chosen s m ∈ prefix s n
+        change chosen s m = chosen s n ∨ chosen s m ∈ selectedPrefix s n
         exact Or.inr (ih hlt)
 
 /-- A uniform finite-avoidance selector generates an injection of Nat. -/
@@ -57,15 +57,15 @@ theorem chosen_injective {α : Type u} (s : FiniteAvoidance α) :
     Function.Injective (chosen s) := by
   intro m n h
   rcases lt_trichotomy m n with hlt | heq | hgt
-  · have hmem : chosen s m ∈ prefix s n :=
+  · have hmem : chosen s m ∈ selectedPrefix s n :=
       earlier_mem_prefix s m n hlt
     rw [h] at hmem
-    exact False.elim ((s.fresh (prefix s n)) hmem)
+    exact False.elim ((s.fresh (selectedPrefix s n)) hmem)
   · exact heq
-  · have hmem : chosen s n ∈ prefix s m :=
+  · have hmem : chosen s n ∈ selectedPrefix s m :=
       earlier_mem_prefix s n m hgt
     rw [← h] at hmem
-    exact False.elim ((s.fresh (prefix s m)) hmem)
+    exact False.elim ((s.fresh (selectedPrefix s m)) hmem)
 
 /-- Existence of a countably infinite subset, as a concrete injection. -/
 def HasCountableSubset (α : Type u) : Prop :=
