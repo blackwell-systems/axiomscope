@@ -151,7 +151,13 @@ proof -
     next
       fix y assume yn: "y \<in> nat"
       show "?orbit(0) = ?orbit(succ(y)) \<longrightarrow> 0 = succ(y)"
-        using yn no_repeat_base by auto
+      proof
+        assume eq: "?orbit(0) = ?orbit(succ(y))"
+        have ne: "?orbit(succ(y)) \<noteq> a"
+          by (rule no_repeat_base [OF yn])
+        have hit: "?orbit(succ(y)) = a" using eq by simp
+        from ne hit show "0 = succ(y)" by blast
+      qed
     next
       fix x y
       assume xn: "x \<in> nat" and yn: "y \<in> nat"
