@@ -59,6 +59,25 @@ inductive ExpandedDerives {Atom : Type u} :
       ExpandedDerives Γ p → ExpandedDerives Γ q
   | exFalso {Γ p} : ExpandedDerives Γ .bottom → ExpandedDerives Γ p
 
+/-- Explicit-context insertion commutes with translation of source formulas. -/
+private theorem translate_insert {Atom : Type u}
+    (p : Formula Atom) (Γ : Set (Formula Atom)) :
+    translate '' (Set.insert p Γ) =
+      Set.insert (translate p) (translate '' Γ) := by
+  ext ψ
+  constructor
+  · rintro ⟨φ, hφ, rfl⟩
+    rcases hφ with heq | hΓ
+    · subst φ
+      exact Or.inl rfl
+    · exact Or.inr ⟨φ, hΓ, rfl⟩
+  · intro hψ
+    rcases hψ with heq | hΓ
+    · subst ψ
+      exact ⟨p, Or.inl rfl, rfl⟩
+    · rcases hΓ with ⟨φ, hφ, rfl⟩
+      exact ⟨φ, Or.inr hφ, rfl⟩
+
 /-- Every source proof has a translated proof, including translated contexts. -/
 theorem translate_derivation {Atom : Type u}
     {Γ : Set (Formula Atom)} {φ : Formula Atom}
@@ -71,14 +90,11 @@ theorem translate_derivation {Atom : Type u}
   | orRight _ ih => exact ExpandedDerives.orRight ih
   | orElim _ _ _ ihp ihleft ihright =>
       apply ExpandedDerives.orElim ihp
-      · rw [Set.image_insert_eq] at ihleft
-        exact ihleft
-      · rw [Set.image_insert_eq] at ihright
-        exact ihright
+      · simpa only [translate_insert] using ihleft
+      · simpa only [translate_insert] using ihright
   | implIntro _ ih =>
       apply ExpandedDerives.implIntro
-      rw [Set.image_insert_eq] at ih
-      exact ih
+      simpa only [translate_insert] using ih
   | implElim _ _ ihp ihq =>
       exact ExpandedDerives.implElim ihp ihq
   | exFalso _ ih =>
