@@ -1,0 +1,48 @@
+name: Gate B — Isabelle/ZF infinity proof
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'research/gates/b/**'
+      - '.github/workflows/gate-b-isabelle.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/gates/b/**'
+      - '.github/workflows/gate-b-isabelle.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-zf:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify Gate B evidence classifications
+        run: |
+          python3 -m unittest scripts.tests.test_foundation_gate_b -v
+          python3 scripts/check_foundation_gate_b.py --check
+      - name: Fetch Isabelle2026
+        run: docker pull makarius/isabelle:Isabelle2026
+      - name: Prepare user heap
+        run: mkdir -p isabelle-home && chmod 777 isabelle-home
+      - name: Verify statements inside the ZF object logic
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm \
+            -v "$PWD/research/gates/b:/theories:ro" \
+            -v "$PWD/isabelle-home:/home/isabelle/.isabelle" \
+            makarius/isabelle:Isabelle2026 build -v \
+              -d /theories GateB_ZF 2>&1 | tee gate-b-zf.log
+      - name: Upload Isabelle build evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gate-b-zf-build
+          path: gate-b-zf.log
+          if-no-files-found: ignore

@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "gate": "B",
+  "claim": "For any set A: ordinary infinity need not imply Dedekind infinity without a choice principle; countable choice suffices.",
+  "definitions": {
+    "finite": "Finite(A) ≡ (∃n∈nat. A≈n), inside Isabelle/ZF's Cardinal.thy",
+    "has_nat_injection": "nat ≲ A, meaning an injective function from ω to A",
+    "properly_dedekind_infinite": "A admits an injective nonsurjective self-map; no equivalence theorem to nat ≲ A is yet verified in this Gate B session"
+  },
+  "foundations": {
+    "baseline": "Isabelle/ZF first-order set-theory object logic",
+    "choice_enriched": "ZF plus a well-orderability witness for A (formally verified); ZF plus countable choice (published only here)",
+    "negative": "Cohen's first symmetric model of ZF, which includes an infinite Dedekind-finite set of reals (published only here)"
+  },
+  "claims": [
+    {
+      "id": "injection_to_infinite",
+      "statement": "nat ≲ A ⇒ ¬Finite(A)",
+      "status": "formal_isabelle_kernel",
+      "theorem": "GateB_ZF.countable_injection_implies_infinite",
+      "source": "research/gates/b/GateB_ZF.thy",
+      "assumptions": [],
+      "foundational_scope": "Isabelle/ZF, no additional choice hypothesis",
+      "evidence": []
+    },
+    {
+      "id": "wellorderable_to_injection",
+      "statement": "¬Finite(A) ∧ (∃a. Ord(a) ∧ A≈a) ⇒ nat ≲ A",
+      "status": "formal_isabelle_kernel",
+      "theorem": "GateB_ZF.wellorderable_infinite_has_nat_injection",
+      "source": "research/gates/b/GateB_ZF.thy",
+      "assumptions": [
+        "A is equipotent to an ordinal"
+      ],
+      "foundational_scope": "Isabelle/ZF plus explicit local well-orderability; not countable choice",
+      "evidence": []
+    },
+    {
+      "id": "countable_choice",
+      "statement": "ZF + ACω ⊢ ∀A(¬Finite(A) ⇒ nat ≲ A)",
+      "status": "published_not_checked_here",
+      "theorem": null,
+      "source": null,
+      "assumptions": [
+        "Countable Choice (ACω)"
+      ],
+      "foundational_scope": "ZF + countable choice",
+      "evidence": [
+        {
+          "kind": "textbook",
+          "title": "Open Logic Project, Set Theory, Theorem 9.9",
+          "url": "https://builds.openlogicproject.org/content/set-theory/set-theory.pdf"
+        },
+        {
+          "kind": "lecture",
+          "title": "Mathematics Without the Axiom of Choice, Section 5",
+          "url": "https://spot.colorado.edu/~szendrei/ST_S21/lec-cardinals.pdf"
+        }
+      ]
+    },
+    {
+      "id": "cohen_symmetric_countermodel",
+      "statement": "Relative to consistency of ZF, there exists a model of ZF containing an infinite set of reals with no injection from ω.",
+      "status": "published_not_checked_here",
+      "theorem": null,
+      "source": null,
+      "assumptions": [
+        "Relative-consistency construction using symmetric extensions"
+      ],
+      "foundational_scope": "ZF without Choice; this model is not in the Isabelle Gate B session",
+      "evidence": [
+        {
+          "kind": "peer_reviewed",
+          "title": "Does DC imply ACω uniformly? Section 3.1, Cohen's first model, Journal of Symbolic Logic",
+          "url": "https://www.cambridge.org/core/journals/journal-of-symbolic-logic/article/does-mathsf-dc-imply-mathsf-acomega-uniformly/05069A84199B3477B3BEA2E58EF21AF6"
+        },
+        {
+          "kind": "peer_reviewed",
+          "title": "How to have more things by forgetting how to count them",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7426041/"
+        }
+      ]
+    }
+  ],
+  "known_gaps": [
+    "No Isabelle/ZF theorem that ACω implies Dedekind infinity has been built in AxiomScope.",
+    "No Isabelle implementation or kernel replay of Cohen's first symmetric model is provided.",
+    "The two notions of Dedekind infinity (nat injection versus proper self-embedding) have not been linked by a Gate B theorem.",
+    "Cross-source comparison still requires rigorous formal mappings before an independence theorem may be marked verified."
+  ]
+}
