@@ -8,8 +8,8 @@ We want to compare the *same* set-theoretic distinction:
 
 across independently specified foundations. The relevant definition of ordinary
 finite is `Finite(A) ≡ ∃n∈ω. A≈n`. A Dedekind-infinite witness may be stated
-as an injection `ω ↪ A`, or equivalently an injective nonsurjective self-map;
-the equivalence has **not** yet been proved in this Gate B theory.
+as an injection `ω ↪ A`, or equivalently an injective nonsurjective self-map.
+**Both directions are now verified by Isabelle/ZF without Choice.**
 
 ## Machine-checked Isabelle/ZF results
 
@@ -89,6 +89,25 @@ copy of `nat`, and the inclusion into `A` completes the proof.
 The positive countable-choice result is standard mathematics, now
 reproduced and checked in this project. It is **not** a novel theorem.
 
+## Verified Dedekind-infinity equivalence
+
+The Isabelle/ZF theory `GateB_CountableConverse.thy` proves without Choice:
+
+    (nat ≲ A)  iff  (∃f∈inj(A,A). f∉surj(A,A)).
+
+The forward proof embeds an extra point and restricts the resulting
+injection, leaving one point uncovered. The reverse proof starts outside
+the range of a supplied injective endomap, iterates it, then uses
+two-variable induction to prove the sequence cannot repeat.
+
+Machine-checked lemmas: `nat_injection_gives_proper_self_embedding`,
+`proper_self_embedding_gives_nat_injection`, and
+`dedekind_infinity_equivalence`.
+
+[Successful Isabelle2026 verification](https://github.com/blackwell-systems/axiomscope/actions/runs/41291106509).
+
+This is established mathematics, not a new independence result.
+
 ## External mathematical context and the unverified negative model
 
 The countable choice principle `ACω` suffices to show every infinite set
@@ -108,7 +127,6 @@ https://www.cambridge.org/core/journals/journal-of-symbolic-logic/article/does-m
 ## Exact outstanding gaps
 
 - No kernel-checked first Cohen symmetric model within this project.
-- No kernel-checked bridge from `nat ≲ A` to a proper self-embedding here.
 - No machine-checked *negative* independence result in this repository.
 - No demonstrated novel mathematical discovery.
 
@@ -116,4 +134,4 @@ The evidence compiler must reject any attempt to change the paper-backed
 claims to `formal_isabelle_kernel` or to substitute a well-order witness
 for countable choice.
 
-**Status: positive countable-choice theorem complete; Gate B independence benchmark remains open.** The negative symmetric-model result is still external literature evidence, not a kernel-checked model in this project.
+**Status: positive countable-choice theorem and Dedekind equivalence verified; the negative independence benchmark remains open.** The negative symmetric-model result is still external literature evidence, not a kernel-checked model in this project.

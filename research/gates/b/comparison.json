@@ -1,14 +1,14 @@
 {
   "schema_version": 1,
   "gate": "B",
-  "status": "POSITIVE_COUNTABLE_CHOICE_THEOREM_VERIFIED; NEGATIVE_MODEL_PUBLISHED_ONLY",
+  "status": "POSITIVE_COUNTABLE_CHOICE_AND_DEDEKIND_EQUIVALENCE_VERIFIED; NEGATIVE_MODEL_PUBLISHED_ONLY",
   "scientific_gate_passed": false,
   "same_object_logic_for_formal_results": true,
   "claim": "For any set A: ordinary infinity need not imply Dedekind infinity without a choice principle; countable choice suffices.",
   "definitions": {
     "finite": "Finite(A) ≡ (∃n∈nat. A≈n), inside Isabelle/ZF's Cardinal.thy",
     "has_nat_injection": "nat ≲ A, meaning an injective function from ω to A",
-    "properly_dedekind_infinite": "A admits an injective nonsurjective self-map; no equivalence theorem to nat ≲ A is yet verified in this Gate B session"
+    "properly_dedekind_infinite": "A admits an injective nonsurjective self-map; proven equivalent to nat ≲ A within Isabelle/ZF without Choice"
   },
   "claims": [
     {
@@ -147,6 +147,54 @@
       "machine_check": "Isabelle2026 CI build of GateB_ZF required"
     },
     {
+      "status": "formal_isabelle_kernel",
+      "source": "research/gates/b/GateB_CountableConverse.thy",
+      "assumptions": [],
+      "id": "dedekind_forward",
+      "statement": "nat ≲ A ⇒ ∃f∈inj(A,A). f∉surj(A,A)",
+      "theorem": "GateB_CountableConverse.nat_injection_gives_proper_self_embedding",
+      "foundational_scope": "Isabelle/ZF without Choice; countable injection produces a proper self-embedding",
+      "evidence": [
+        {
+          "kind": "isabelle2026_ci_success",
+          "url": "https://github.com/blackwell-systems/axiomscope/actions/runs/41290423999"
+        }
+      ],
+      "machine_check": "Isabelle2026 CI build of GateB_ZF required"
+    },
+    {
+      "status": "formal_isabelle_kernel",
+      "source": "research/gates/b/GateB_CountableConverse.thy",
+      "assumptions": [],
+      "id": "dedekind_reverse",
+      "statement": "(∃f∈inj(A,A). f∉surj(A,A)) ⇒ nat ≲ A",
+      "theorem": "GateB_CountableConverse.proper_self_embedding_gives_nat_injection",
+      "foundational_scope": "Isabelle/ZF without Choice; natural-number iteration from missing-image element",
+      "evidence": [
+        {
+          "kind": "isabelle2026_ci_success",
+          "url": "https://github.com/blackwell-systems/axiomscope/actions/runs/41291106509"
+        }
+      ],
+      "machine_check": "Isabelle2026 CI build of GateB_ZF required"
+    },
+    {
+      "status": "formal_isabelle_kernel",
+      "source": "research/gates/b/GateB_CountableConverse.thy",
+      "assumptions": [],
+      "id": "dedekind_equivalence",
+      "statement": "(nat ≲ A) ↔ (∃f∈inj(A,A). f∉surj(A,A))",
+      "theorem": "GateB_CountableConverse.dedekind_infinity_equivalence",
+      "foundational_scope": "Isabelle/ZF without Choice; canonical equivalence of Dedekind-infinity definitions",
+      "evidence": [
+        {
+          "kind": "isabelle2026_ci_success",
+          "url": "https://github.com/blackwell-systems/axiomscope/actions/runs/41291106509"
+        }
+      ],
+      "machine_check": "Isabelle2026 CI build of GateB_ZF required"
+    },
+    {
       "id": "cohen_symmetric_countermodel",
       "statement": "Relative to consistency of ZF, there exists a model of ZF containing an infinite set of reals with no injection from ω.",
       "status": "published_not_checked_here",
@@ -173,7 +221,6 @@
   ],
   "known_gaps": [
     "No Isabelle implementation or kernel replay of Cohen's first symmetric model is provided. The nonimplication in ZF without Choice remains published evidence only.",
-    "The equivalence of an injection nat→A with a proper non-surjective self-embedding A→A has not yet been kernel-checked in this Gate B development.",
     "Formal source correspondence and independently justified choice-free countermodel evidence remain required before marking the scientific independence benchmark complete.",
     "No novel mathematical result is claimed: the positive countable-choice implication is established mathematics."
   ]

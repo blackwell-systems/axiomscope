@@ -54,7 +54,7 @@
 - [x] State countable Choice as a ZF object-level proposition, not as ambient Lean/HOL choice.
 - [x] Verify that a nonfinite set admits injections from every finite ordinal with no Choice.
 - [x] Under `ACω`, select the finite injections, prove their union infinite, encode it in `nat`, and verify `nat ≲ A` in Isabelle/ZF.
-- [ ] Formally connect `nat ≲ A` to an injective nonsurjective endomap of `A` in the ZF object language.
+- [x] Prove the equivalence between `nat ≲ A` and an injective nonsurjective endomap in the Isabelle/ZF object language, without Choice.
 - [ ] Build or import a genuine machine-checked symmetric model with an infinite Dedekind-finite set, or leave the negative result clearly labeled as published-only.
 - [ ] Demonstrate a distinctive research/tooling capability beyond Isabelle/AFP's existing libraries, or decide to pivot the project.
 

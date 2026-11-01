@@ -142,7 +142,13 @@ ZF + ACω ⊢ ∀A. ¬Finite(A) → (ω ↪ A)
 ```
 
 This is established mathematics, reproduced in Isabelle/ZF with an explicit
-object-level assumption of countable choice. A machine-checked model of ZF
+object-level assumption of countable choice.
+
+Independently of Choice, Isabelle/ZF also verifies the **Dedekind-infinity
+equivalence**: a set admits an injection from the natural numbers if and
+only if it admits an injective, nonsurjective self-map. See the
+[verified Gate B bridge](research/gates/b/README.md) and
+[successful Isabelle2026 proof replay](https://github.com/blackwell-systems/axiomscope/actions/runs/41291106509). A machine-checked model of ZF
 with an infinite Dedekind-finite set has **not** been constructed in this
 repository.
 
