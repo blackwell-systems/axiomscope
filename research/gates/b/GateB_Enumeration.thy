@@ -24,8 +24,10 @@ proof
   then obtain n where n: "n \<in> nat" and xr: "x \<in> range(f`n)"
     unfolding selected_union_def by blast
   have fn: "f`n \<in> inj(n,A)" using f n by (rule apply_type)
-  from fn xr show "x \<in> A"
-    by (blast intro: inj_is_fun [THEN range_type])
+  obtain k where kn: "k \<in> n" and xeq: "x = (f`n)`k"
+    using xr inj_is_fun [OF fn] by (blast dest: Pi_memberD intro: apply_equality)
+  show "x \<in> A"
+    using xeq kn inj_is_fun [OF fn] by (blast dest: apply_type)
 qed
 
 lemma selected_code_candidate:
@@ -41,7 +43,7 @@ proof -
   have fun: "f`n \<in> n -> A" by (rule inj_is_fun [OF fn])
   obtain k where k: "k \<in> n" and eq: "x = (f`n)`k"
     using xr fun by (blast dest: Pi_memberD intro: apply_equality)
-  have kn: "k \<in> nat" using n k by (blast intro: lt_nat_in_nat)
+  have kn: "k \<in> nat" using n k by (blast intro: Ord_trans Ord_nat)
   have pr: "\<langle>n,k\<rangle> \<in> nat\<times>nat"
     using n kn by blast
   have qi: "q`\<langle>n,k\<rangle> \<in> nat"
@@ -65,7 +67,7 @@ proof -
         (\<mu> v. \<exists>n\<in>nat. \<exists>k\<in>n.
            v = q`\<langle>n,k\<rangle> \<and> x = (f`n)`k)
          = q`\<langle>n,k\<rangle> \<and> x = (f`n)`k)"
-    by (rule LeastI [OF property nat_into_Ord [OF j]])
+    using property j by (blast intro: LeastI nat_into_Ord)
   thus ?thesis unfolding selected_index_def .
 qed
 
@@ -81,7 +83,7 @@ proof -
     using selected_code_candidate [OF f q x] by blast
   have le: "(\<mu> v. \<exists>n\<in>nat. \<exists>k\<in>n.
            v = q`\<langle>n,k\<rangle> \<and> x = (f`n)`k) \<le> j"
-    by (rule Least_le [OF property nat_into_Ord [OF j]])
+    using property j by (blast intro: Least_le nat_into_Ord)
   have "(\<mu> v. \<exists>n\<in>nat. \<exists>k\<in>n.
            v = q`\<langle>n,k\<rangle> \<and> x = (f`n)`k) \<in> nat"
     using j le by (blast intro: lt_trans1)
@@ -104,8 +106,8 @@ proof -
     and cy: "selected_index(f,q,y) = q`\<langle>m,l\<rangle>"
     and vy: "y = (f`m)`l"
     using selected_index_represents [OF f q y] by blast
-  have kn: "k \<in> nat" using n k by (blast intro: lt_nat_in_nat)
-  have ln: "l \<in> nat" using m l by (blast intro: lt_nat_in_nat)
+  have kn: "k \<in> nat" using n k by (blast intro: Ord_trans Ord_nat)
+  have ln: "l \<in> nat" using m l by (blast intro: Ord_trans Ord_nat)
   have pair: "\<langle>n,k\<rangle> = \<langle>m,l\<rangle>"
     using q n kn m ln cx cy eq
     by (blast intro: inj_apply_equality)
@@ -126,7 +128,7 @@ proof -
     by (rule lam_type) (blast intro: selected_index_natural [OF f q])
   have hi: "\<forall>x\<in>?U. \<forall>y\<in>?U. ?h`x = ?h`y \<longrightarrow> x=y"
     using f q
-    by (blast intro: selected_index_injective simp add: beta)
+    by (auto intro: selected_index_injective [OF f q])
   have "?h \<in> inj(?U,nat)"
     using hf hi unfolding inj_def by blast
   thus ?thesis unfolding lepoll_def by blast
