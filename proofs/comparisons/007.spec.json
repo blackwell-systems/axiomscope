@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "experiment_id": "007-comparative-infinity",
+  "title": "Comparative infinity: assumptions versus consequences",
+  "claim": "Existence of an injective sequence of distinct elements",
+  "cases": [
+    {
+      "id": "uniform_finite_avoidance",
+      "proof": "Axiomscope.Experiment007.finite_avoidance_suffices",
+      "assumptions": [
+        "FiniteAvoidance α: uniform fresh point for each finite list"
+      ],
+      "conclusion": "∃ f : Nat → α, Injective f",
+      "interpretation": "constructive relative to supplied selector"
+    },
+    {
+      "id": "ambient_infinite",
+      "proof": "Axiomscope.Experiment007.ambient_infinite_has_countable_subset",
+      "assumptions": [
+        "Infinite α within Lean/Mathlib"
+      ],
+      "conclusion": "∃ f : Nat → α, Injective f",
+      "interpretation": "uses Mathlib's ambient existence construction"
+    },
+    {
+      "id": "injection_implies_infinite",
+      "proof": "Axiomscope.Experiment007.countable_subset_implies_infinite",
+      "assumptions": [
+        "∃ f : Nat → α, Injective f"
+      ],
+      "conclusion": "Infinite α",
+      "interpretation": "logical implication from explicit witness"
+    },
+    {
+      "id": "nat_dedekind_witness",
+      "proof": "Axiomscope.Experiment007.nat_has_proper_self_embedding",
+      "assumptions": [
+        "carrier is Nat"
+      ],
+      "conclusion": "HasProperSelfEmbedding Nat",
+      "interpretation": "successor is injective and misses zero"
+    },
+    {
+      "id": "transport_dedekind_witness",
+      "proof": "Axiomscope.Experiment007.proper_self_embedding_of_equiv_nat",
+      "assumptions": [
+        "explicit e : α ≃ Nat"
+      ],
+      "conclusion": "HasProperSelfEmbedding α",
+      "interpretation": "transport along a provided equivalence"
+    }
+  ],
+  "limitations": [
+    "All profiles use Lean as their ambient foundation.",
+    "A particular proof using Classical.choice does not establish a ZF independence theorem.",
+    "No choice-free set-theoretic countermodel is constructed."
+  ]
+}

@@ -5,3 +5,4 @@ import Axiomscope.Experiments.GeneralKripke
 import Axiomscope.Experiments.NaturalNumbers
 import Axiomscope.Experiments.PeanoAxioms
 import Axiomscope.Experiments.FirstOrderArithmetic
+import Axiomscope.Experiments.ComparativeInfinity
