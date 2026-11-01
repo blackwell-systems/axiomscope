@@ -105,4 +105,86 @@ proof -
     using embedding not_onto unfolding has_proper_self_embedding_def by blast
 qed
 
+
+text \<open>
+  Conversely, any injective, nonsurjective endomap has an element
+  outside its image. Iterating the map from that element gives an
+  infinite sequence. The orbit cannot repeat: a first collision can
+  be pulled backward using injectivity until it contradicts the
+  missing-image starting point. This is all internal to Isabelle/ZF.
+\<close>
+
+lemma proper_self_embedding_gives_nat_injection:
+  assumes proper: "has_proper_self_embedding(A)"
+  shows "has_nat_injection(A)"
+proof -
+  obtain f where fi: "f \<in> inj(A,A)" and notsurj: "f \<notin> surj(A,A)"
+    using proper unfolding has_proper_self_embedding_def by blast
+  have ff: "f \<in> A -> A" using fi by (rule inj_is_fun)
+  obtain a where aa: "a \<in> A" and missing: "\<forall>x\<in>A. f`x \<noteq> a"
+    using ff notsurj unfolding surj_def by blast
+  let ?orbit = "\<lambda>n. rec(n,a,\<lambda>k x. f`x)"
+  have orb_in: "\<And>n. n \<in> nat \<Longrightarrow> ?orbit(n) \<in> A"
+  proof -
+    fix n assume n: "n \<in> nat"
+    show "?orbit(n) \<in> A"
+      using n by (induct n rule: nat_induct)
+        (use aa ff in \<open>auto intro: apply_type\<close>)
+  qed
+  have no_repeat_base: "\<And>n. n \<in> nat \<Longrightarrow> ?orbit(succ(n)) \<noteq> a"
+    using orb_in missing by auto
+  have positive_base: "\<And>n. \<lbrakk>n \<in> nat; ?orbit(n) = a\<rbrakk> \<Longrightarrow> n = 0"
+  proof -
+    fix n assume nn: "n \<in> nat" and hit: "?orbit(n) = a"
+    from nn show "n = 0"
+    proof (cases rule: natE)
+      case 0
+      thus ?thesis by simp
+    next
+      case (succ m)
+      hence "?orbit(n) \<noteq> a" using no_repeat_base by simp
+      with hit show ?thesis by blast
+    qed
+  qed
+  have orbit_distinct:
+    "\<And>m n. \<lbrakk>m \<in> nat; n \<in> nat\<rbrakk> \<Longrightarrow> (?orbit(m) = ?orbit(n) \<longrightarrow> m = n)"
+  proof -
+    fix m n assume m: "m \<in> nat" and n: "n \<in> nat"
+    from m n show "?orbit(m) = ?orbit(n) \<longrightarrow> m = n"
+    proof (induct m n rule: diff_induct)
+      case (0 x)
+      show ?case using "0" positive_base by auto
+    next
+      case (0_succ y)
+      show ?case using "0_succ" no_repeat_base by auto
+    next
+      case (succ_succ x y)
+      show ?case
+      proof
+        assume eq: "?orbit(succ(x)) = ?orbit(succ(y))"
+        have fx: "f`(?orbit(x)) = f`(?orbit(y))" using eq by simp
+        have xy: "?orbit(x) = ?orbit(y)"
+          by (rule inj_apply_equality
+            [OF fi fx orb_in[OF succ_succ.hyps(1)] orb_in[OF succ_succ.hyps(2)]])
+        have "x = y" using succ_succ.hyps xy by blast
+        then show "succ(x) = succ(y)" by simp
+      qed
+    qed
+  qed
+  let ?g = "\<lambda>n\<in>nat. ?orbit(n)"
+  have gf: "?g \<in> nat -> A"
+    by (rule lam_type, rule orb_in)
+  have gi: "\<forall>m\<in>nat. \<forall>n\<in>nat. ?g`m = ?g`n \<longrightarrow> m=n"
+    using orbit_distinct by auto
+  have "?g \<in> inj(nat,A)"
+    using gf gi unfolding inj_def by blast
+  hence "nat \<lesssim> A" unfolding lepoll_def by blast
+  thus ?thesis unfolding has_nat_injection_def .
+qed
+
+theorem dedekind_infinity_equivalence:
+  "has_nat_injection(A) \<longleftrightarrow> has_proper_self_embedding(A)"
+  by (blast intro: nat_injection_gives_proper_self_embedding
+                   proper_self_embedding_gives_nat_injection)
+
 end
