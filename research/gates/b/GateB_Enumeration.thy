@@ -20,9 +20,12 @@ proof -
     using selected_index_represents [OF f q y] by blast
   have kn: "k \<in> nat" using n k by (blast intro: Ord_trans Ord_nat)
   have ln: "l \<in> nat" using m l by (blast intro: Ord_trans Ord_nat)
+  have np: "\<langle>n,k\<rangle> \<in> nat\<times>nat" using n kn by blast
+  have mp: "\<langle>m,l\<rangle> \<in> nat\<times>nat" using m ln by blast
+  have qc: "q`\<langle>n,k\<rangle> = q`\<langle>m,l\<rangle>"
+    using cx cy eq by simp
   have pair: "\<langle>n,k\<rangle> = \<langle>m,l\<rangle>"
-    using q n kn m ln cx cy eq
-    by (blast intro: inj_apply_equality)
+    by (rule inj_apply_equality [OF q qc np mp])
   thus ?thesis using vx vy by simp
 qed
 
@@ -39,8 +42,14 @@ proof -
   have hf: "?h \<in> ?U -> nat"
     by (rule lam_type) (blast intro: selected_index_natural [OF f q])
   have hi: "\<forall>x\<in>?U. \<forall>y\<in>?U. ?h`x = ?h`y \<longrightarrow> x=y"
-    using f q
-    by (auto intro: selected_index_injective [OF f q])
+  proof (intro ballI impI)
+    fix x y
+    assume x: "x \<in> ?U" and y: "y \<in> ?U"
+      and h: "?h`x = ?h`y"
+    have code: "selected_index(f,q,x) = selected_index(f,q,y)"
+      using x y h by simp
+    show "x=y" by (rule selected_index_injective [OF f q x y code])
+  qed
   have "?h \<in> inj(?U,nat)"
     using hf hi unfolding inj_def by blast
   thus ?thesis unfolding lepoll_def by blast
