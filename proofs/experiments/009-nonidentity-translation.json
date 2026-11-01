@@ -16,6 +16,7 @@
       "experiment": "009-nonidentity-translation",
       "variant": "proof_translation",
       "axioms": [
+        "Quot.sound",
         "propext"
       ],
       "uses_classical_choice": false
