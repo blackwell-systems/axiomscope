@@ -4,9 +4,7 @@
 
 We want to compare the *same* set-theoretic distinction:
 
-[
-\text{infinite}(A) \Longrightarrow \text{Dedekind-infinite}(A)
-]
+**Infinite(A) ⇒ DedekindInfinite(A)**
 
 across independently specified foundations. The relevant definition of ordinary
 finite is `Finite(A) ≡ ∃n∈ω. A≈n`. A Dedekind-infinite witness may be stated
