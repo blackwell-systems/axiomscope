@@ -47,4 +47,50 @@ proof -
   then show ?thesis by (simp cong: Pi_cong)
 qed
 
+
+text \<open>
+  Without any choice principle, a nonfinite set has an injection from
+  each individual finite ordinal. This does not choose those injections
+  simultaneously, which is exactly why the countable choice axiom is
+  needed in the next step.
+\<close>
+
+lemma infinite_has_finite_injections:
+  assumes inf: "\<not> Finite(A)"
+      and n: "n \<in> nat"
+  shows "inj(n,A) \<noteq> 0"
+  using n
+proof (induct n)
+  case 0
+  show ?case by (auto simp add: inj_def)
+next
+  case (succ n)
+  obtain f where f: "f \<in> inj(n,A)" using succ.hyps(2) by blast
+  have fn: "f \<in> n -> A" using f by (rule inj_is_fun)
+  have finite_range: "Finite(range(f))"
+  proof -
+    have r: "range(f) = {f`x. x \<in> n}"
+      using fn by (auto dest: apply_equality simp add: Pi_iff)
+    have "Finite(n)" using succ.hyps(1) by (rule nat_into_Finite)
+    then have "Finite({f`x. x \<in> n})"
+      by (rule Finite_RepFun)
+    then show ?thesis using r by simp
+  qed
+  have fresh: "\<exists>y\<in>A. y \<notin> range(f)"
+    using inf finite_range by (blast intro: subset_Finite)
+  obtain y where yA: "y \<in> A" and yr: "y \<notin> range(f)"
+    using fresh by blast
+  have fr: "f \<in> inj(n,range(f))"
+    using f unfolding inj_def by (blast intro: range_of_fun)
+  have ext: "cons(\<langle>n,y\<rangle>,f) \<in>
+       inj(succ(n),cons(y,range(f)))"
+    using fr yr succ.hyps(1)
+    by (blast intro: inj_extend simp add: succ_def)
+  have sub: "cons(y,range(f)) \<subseteq> A"
+    using fn yA by (auto dest: range_type)
+  have "cons(\<langle>n,y\<rangle>,f) \<in> inj(succ(n),A)"
+    using ext sub by (rule inj_weaken_type)
+  then show ?case by blast
+qed
+
 end
