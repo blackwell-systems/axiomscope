@@ -85,7 +85,7 @@ next
   have ext: "cons(\<langle>n,y\<rangle>,f) \<in>
        inj(succ(n),cons(y,range(f)))"
     using fr yr succ.hyps(1)
-    by (blast intro: inj_extend simp add: succ_def)
+    by (auto intro: inj_extend simp add: succ_def)
   have sub: "cons(y,range(f)) \<subseteq> A"
     using fn yA by (auto dest: range_type)
   have "cons(\<langle>n,y\<rangle>,f) \<in> inj(succ(n),A)"
