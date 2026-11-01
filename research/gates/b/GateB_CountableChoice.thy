@@ -82,10 +82,12 @@ next
     using fresh by blast
   have fr: "f \<in> inj(n,range(f))"
     using f unfolding inj_def by (blast intro: range_of_fun)
+  have extended: "cons(\<langle>n,y\<rangle>,f) \<in>
+       inj(cons(n,n),cons(y,range(f)))"
+    by (rule inj_extend [OF fr _ yr], rule mem_not_refl)
   have ext: "cons(\<langle>n,y\<rangle>,f) \<in>
        inj(succ(n),cons(y,range(f)))"
-    using fr yr succ.hyps(1)
-    by (auto intro: inj_extend simp add: succ_def)
+    using extended by (simp add: succ_def)
   have sub: "cons(y,range(f)) \<subseteq> A"
     using fn yA by (auto dest: range_type)
   have "cons(\<langle>n,y\<rangle>,f) \<in> inj(succ(n),A)"
