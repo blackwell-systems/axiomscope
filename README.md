@@ -6,6 +6,25 @@ AXIOMSCOPE is an experimental project in foundations of mathematics. Its first g
 
 The initial work uses **Lean 4 and Mathlib**, which provide an established logical foundation and a small trusted kernel. AxiomScope v0.1 is a research *scaffold*, not yet a distinct axiomatic system.
 
+## Foundations v0.2 — assumption-context experiment
+
+We are now testing a candidate architecture rather than adding another
+isolated proof. The [Foundations v0.2 specification](docs/FOUNDATIONS-v0.2.md)
+models a foundational context, a goal, and *registered verified proofs*
+whose premises must be supplied before they can be applied.
+
+An [executable scenario probe](scripts/foundation_probe_v02.py) computes
+which Isabelle/ZF Gate B proofs are applicable when countable Choice or
+a local well-order witness is added or removed. The
+[scenario inputs](research/foundations-v0.2/scenarios.json) and
+[generated report](research/foundations-v0.2/report.json) are tested in CI.
+**No registered witness** means only that our current proofs cannot
+discharge the stated premises; it is *not* an independence result.
+
+This is a **prototype of contextual proof analysis**, not yet a new
+axiomatic system, automated cross-foundation transport, or a demonstrated
+improvement on Isabelle/Lean's existing tooling.
+
 ## First experiment: three facts about infinity
 
 | Result | Formal artifact | Interpretation |
