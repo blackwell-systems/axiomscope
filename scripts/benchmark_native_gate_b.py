@@ -37,15 +37,18 @@ def parse_export(raw: str) -> dict[str, dict]:
         cells = line.split("\t")
         if len(cells) != 6:
             raise ValueError("Bad native dependency TSV field count")
-        key, direct, total, local, oracles, direct_description = cells
+        key, direct, total, local, oracles, immediate_local = cells
         if key not in EXPECTED or key in output:
             raise ValueError("Unregistered or duplicate theorem ID: " + key)
         if not all(s.isdecimal() for s in (direct, total, oracles)):
             raise ValueError("Invalid dependency or oracle count")
         deps = [x for x in local.split(",") if x]
-        if any(not x.startswith("GateB_") for x in deps) or len(set(deps)) != len(deps):
+        immediate = [x for x in immediate_local.split(",") if x]
+        if (any(not x.startswith("GateB_") for x in deps + immediate)
+                or len(set(deps)) != len(deps)
+                or len(set(immediate)) != len(immediate)):
             raise ValueError("Invalid local named theorem dependencies")
-        if len(deps) > int(total):
+        if len(deps) > int(total) or len(immediate) > int(direct):
             raise ValueError("Local named theorem count exceeds total")
         output[key] = {
             "id": key,
@@ -53,7 +56,7 @@ def parse_export(raw: str) -> dict[str, dict]:
             "native_transitive_named_theorem_count": int(total),
             "native_local_named_theorems": deps,
             "native_oracle_count": int(oracles),
-            "native_immediate_report": direct_description,
+            "native_immediate_local_named_theorems": immediate,
         }
     if set(output) != set(EXPECTED):
         raise ValueError("Missing Isabelle theorem entry")
@@ -79,6 +82,10 @@ def compare(native: dict[str, dict], scenarios: dict) -> dict:
         if outcome[id_]["registered_witness_count"] != 1:
             raise ValueError("Expected one alternate verified proof route")
     local_edges = sum(len(row["native_local_named_theorems"]) for row in native.values())
+    immediate_edges = sum(
+        len(row["native_immediate_local_named_theorems"])
+        for row in native.values()
+    )
     return {
         "schema_version": 1,
         "benchmark": "native-isabelle-vs-axiomscope-assumption-witness",
@@ -91,6 +98,7 @@ def compare(native: dict[str, dict], scenarios: dict) -> dict:
                 for row in native.values()
             ),
             "local_named_dependency_references_observed": local_edges,
+            "local_immediate_dependency_references_observed": immediate_edges,
             "theorems_with_oracle_dependencies": sum(
                 bool(row["native_oracle_count"]) for row in native.values()
             ),
