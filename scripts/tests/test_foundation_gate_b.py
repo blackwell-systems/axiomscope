@@ -86,6 +86,19 @@ class GateBTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "within the Isabelle/ZF"):
             gate.validate(self.manifest, self.theory, "theory Other imports Main begin end")
 
+    def test_dedekind_equivalence_verified_without_choice(self):
+        report = gate.validate(self.manifest, self.theory)
+        claims = {c["id"]: c for c in report["claims"]}
+        for key, theorem in (
+            ("dedekind_forward", "nat_injection_gives_proper_self_embedding"),
+            ("dedekind_reverse", "proper_self_embedding_gives_nat_injection"),
+            ("dedekind_equivalence", "dedekind_infinity_equivalence"),
+        ):
+            self.assertEqual(claims[key]["status"], "formal_isabelle_kernel")
+            self.assertEqual(claims[key]["theorem"], "GateB_CountableConverse." + theorem)
+            self.assertEqual(claims[key]["assumptions"], [])
+        self.assertFalse(report["scientific_gate_passed"])
+
     def test_new_axioms_or_admitted_proofs_are_rejected(self):
         with self.assertRaisesRegex(ValueError, "forbidden"):
             gate.validate(self.manifest, self.theory.replace("end\n", "sorry\nend\n"))
