@@ -23,6 +23,17 @@ class GateBTests(unittest.TestCase):
         self.assertEqual(len(published), 2)
         self.assertTrue(all(c["machine_check"] == "NOT_MACHINE_VERIFIED_HERE" for c in published))
 
+    def test_infinite_union_verified_without_promoting_converse(self):
+        report = gate.validate(self.manifest, self.theory)
+        by_id = {c["id"]: c for c in report["claims"]}
+        self.assertEqual(by_id["selected_union_infinite"]["status"], "formal_isabelle_kernel")
+        self.assertEqual(
+            by_id["countable_choice_yields_infinite_enumerated_union"]["status"],
+            "formal_isabelle_kernel",
+        )
+        self.assertEqual(by_id["countable_choice"]["status"], "published_not_checked_here")
+        self.assertFalse(report["scientific_gate_passed"])
+
     def test_published_countermodel_cannot_be_upgraded(self):
         altered = copy.deepcopy(self.manifest)
         next(c for c in altered["claims"] if c["id"] == "cohen_symmetric_countermodel")["status"] = "formal_isabelle_kernel"

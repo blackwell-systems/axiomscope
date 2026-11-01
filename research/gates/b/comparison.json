@@ -64,6 +64,33 @@
       "machine_check": "Isabelle2026 CI build of GateB_ZF required"
     },
     {
+      "id": "selected_union_infinite",
+      "statement": "(∀n∈nat. f`n∈inj(n,A)) ⇒ ¬Finite(⋃n∈nat. range(f`n))",
+      "status": "formal_isabelle_kernel",
+      "theorem": "GateB_Assemble.selected_union_infinite",
+      "source": "research/gates/b/GateB_Assemble.thy",
+      "assumptions": [
+        "Supplied family of all finite injections, one for every natural n"
+      ],
+      "foundational_scope": "Isabelle/ZF; nonfiniteness uses no countable choice beyond supplied family",
+      "evidence": [],
+      "machine_check": "Isabelle2026 CI build of GateB_ZF required"
+    },
+    {
+      "id": "countable_choice_yields_infinite_enumerated_union",
+      "statement": "¬Finite(A) ∧ ACω ⇒ ∃f∈Πn∈nat inj(n,A). ¬Finite(⋃n∈nat. range(f`n))",
+      "status": "formal_isabelle_kernel",
+      "theorem": "GateB_Assemble.countable_choice_yields_infinite_enumerated_union",
+      "source": "research/gates/b/GateB_Assemble.thy",
+      "assumptions": [
+        "A is nonfinite",
+        "Countable Choice (ACω) as a ZF object-level proposition"
+      ],
+      "foundational_scope": "Isabelle/ZF plus explicitly supplied countable-choice proposition; does NOT yet prove nat≲A",
+      "evidence": [],
+      "machine_check": "Isabelle2026 CI build of GateB_ZF required"
+    },
+    {
       "id": "countable_choice",
       "statement": "ZF + ACω ⊢ ∀A(¬Finite(A) ⇒ nat ≲ A)",
       "status": "published_not_checked_here",
@@ -117,6 +144,7 @@
     "No Isabelle implementation or kernel replay of Cohen's first symmetric model is provided.",
     "The two notions of Dedekind infinity (nat injection versus proper self-embedding) have not been linked by a Gate B theorem.",
     "Cross-source comparison still requires rigorous formal mappings before an independence theorem may be marked verified.",
-    "Although ACω now selects an injection n→A for every finite n, the ZF-level construction assembling them into one injection nat→A remains unproved."
+    "Although ACω now selects an injection n→A for every finite n, the ZF-level construction assembling them into one injection nat→A remains unproved.",
+    "We have a genuinely infinite union of the enumerated finite images, but the proof that it embeds into nat is in an unmerged development branch and not yet Isabelle-verified."
   ]
 }

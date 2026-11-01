@@ -14,17 +14,23 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 MANIFEST = ROOT / "research/gates/b/manifest.json"
 THEORY = ROOT / "research/gates/b/GateB_ZF.thy"
+ASSEMBLE_THEORY = ROOT / "research/gates/b/GateB_Assemble.thy"
 CHOICE_THEORY = ROOT / "research/gates/b/GateB_CountableChoice.thy"
 REPORT = ROOT / "research/gates/b/comparison.json"
 
 FORMAL = {"injection_to_infinite", "wellorderable_to_injection",
-          "finite_injection_candidates", "countable_choice_finite_witnesses"}
+          "finite_injection_candidates", "countable_choice_finite_witnesses",
+          "selected_union_infinite", "countable_choice_yields_infinite_enumerated_union"}
 PUBLISHED = {"countable_choice", "cohen_symmetric_countermodel"}
 
 
-def validate(manifest: dict, theory: str, choice_theory: str | None = None) -> dict:
+def validate(manifest: dict, theory: str, choice_theory: str | None = None,
+             assemble_theory: str | None = None) -> dict:
     if choice_theory is None:
         choice_theory = CHOICE_THEORY.read_text(encoding="utf-8")
+        assemble_theory = ASSEMBLE_THEORY.read_text(encoding="utf-8")
+    if assemble_theory is None:
+        assemble_theory = ASSEMBLE_THEORY.read_text(encoding="utf-8")
     if manifest.get("gate") != "B" or manifest.get("schema_version") != 1:
         raise ValueError("Invalid Gate B manifest")
     entries = manifest["claims"]
@@ -41,6 +47,10 @@ def validate(manifest: dict, theory: str, choice_theory: str | None = None) -> d
         raise ValueError("Missing explicit ZF countable-choice proposition")
     if re.search(r"(?m)^\s*(sorry|oops|axiomatization)\b", choice_theory):
         raise ValueError("Untrusted choice theory proof or new axiom forbidden")
+    if not re.search(r"theory GateB_Assemble\s+imports GateB_CountableChoice\s+begin", assemble_theory):
+        raise ValueError("Assembly must import checked Isabelle/ZF choice theory")
+    if re.search(r"(?m)^\s*(sorry|oops|axiomatization)\b", assemble_theory):
+        raise ValueError("Admitted assembly proof or new axiom forbidden")
     by_id = {claim["id"]: claim for claim in entries}
     for key in FORMAL:
         c = by_id[key]
@@ -49,6 +59,7 @@ def validate(manifest: dict, theory: str, choice_theory: str | None = None) -> d
         sources = {
             "research/gates/b/GateB_ZF.thy": ("GateB_ZF.", theory),
             "research/gates/b/GateB_CountableChoice.thy": ("GateB_CountableChoice.", choice_theory),
+            "research/gates/b/GateB_Assemble.thy": ("GateB_Assemble.", assemble_theory),
         }
         if c.get("source") not in sources or not c.get("theorem"):
             raise ValueError("A formal claim must have exact source and theorem")
@@ -105,7 +116,7 @@ def main() -> int:
         manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
         theory = THEORY.read_text(encoding="utf-8")
         choice_theory = CHOICE_THEORY.read_text(encoding="utf-8")
-        out = json.dumps(validate(manifest, theory, choice_theory), ensure_ascii=False, indent=2) + "\n"
+        out = json.dumps(validate(manifest, theory, choice_theory, assemble_theory), ensure_ascii=False, indent=2) + "\n"
         if a.check:
             if not REPORT.is_file() or REPORT.read_text(encoding="utf-8") != out:
                 raise ValueError("Comparison drift: regenerate with --write")

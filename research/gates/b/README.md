@@ -47,6 +47,23 @@ injections have not yet been combined into an injection `nat → A`.
 Thus we have formalized a meaningful partial countable-choice proof,
 not the full claim `ZF + ACω ⊢ Infinite(A) → DedekindInfinite(A)`.
 
+## Verified infinite union of selected finite injections
+
+[GateB_Assemble.thy](GateB_Assemble.thy) proves that if one injection
+`f_n : n ↪ A` is supplied for each finite ordinal `n`, the union
+`⋃ₙ range(f_n)` is infinite. Otherwise, if the union were equipotent
+to a finite ordinal `m`, the selected `f_(m+1)` would imply an
+injection `m+1 ↪ m`, contradicting the ZF finite-cardinal theorem.
+
+It then combines the earlier **explicit countable-choice proposition**
+with the finite-witness results to verify the existence of such an
+infinite enumerated union under `¬Finite(A) ∧ ACω`.
+
+These statements are part of the proof of the countable-choice
+converse, **not yet the converse itself**. The bridge proving that
+this union embeds in `nat` remains to be checked before claiming
+`nat ≲ A`.
+
 ## Published, but not kernel-checked here
 
 The countable choice principle `ACω` suffices to show every infinite set
