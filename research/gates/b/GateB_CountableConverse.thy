@@ -143,23 +143,26 @@ proof -
     "\<And>m n. \<lbrakk>m \<in> nat; n \<in> nat\<rbrakk> \<Longrightarrow> (?orbit(m) = ?orbit(n) \<longrightarrow> m = n)"
   proof -
     fix m n assume m: "m \<in> nat" and n: "n \<in> nat"
-    from m n show "?orbit(m) = ?orbit(n) \<longrightarrow> m = n"
-    proof (induct m n rule: diff_induct)
-      case (0 x)
-      show ?case using "0" positive_base by auto
+    show "?orbit(m) = ?orbit(n) \<longrightarrow> m = n"
+    proof (rule diff_induct [OF m n])
+      fix x assume xn: "x \<in> nat"
+      show "?orbit(x) = ?orbit(0) \<longrightarrow> x = 0"
+        using xn positive_base by auto
     next
-      case (0_succ y)
-      show ?case using "0_succ" no_repeat_base by auto
+      fix y assume yn: "y \<in> nat"
+      show "?orbit(0) = ?orbit(succ(y)) \<longrightarrow> 0 = succ(y)"
+        using yn no_repeat_base by auto
     next
-      case (succ_succ x y)
-      show ?case
+      fix x y
+      assume xn: "x \<in> nat" and yn: "y \<in> nat"
+        and ih: "?orbit(x) = ?orbit(y) \<longrightarrow> x = y"
+      show "?orbit(succ(x)) = ?orbit(succ(y)) \<longrightarrow> succ(x) = succ(y)"
       proof
         assume eq: "?orbit(succ(x)) = ?orbit(succ(y))"
         have fx: "f`(?orbit(x)) = f`(?orbit(y))" using eq by simp
         have xy: "?orbit(x) = ?orbit(y)"
-          by (rule inj_apply_equality
-            [OF fi fx orb_in[OF succ_succ.hyps(1)] orb_in[OF succ_succ.hyps(2)]])
-        have "x = y" using succ_succ.hyps xy by blast
+          by (rule inj_apply_equality [OF fi fx orb_in[OF xn] orb_in[OF yn]])
+        have "x = y" using ih xy by blast
         then show "succ(x) = succ(y)" by simp
       qed
     qed
