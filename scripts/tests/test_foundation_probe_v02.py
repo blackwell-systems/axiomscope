@@ -6,6 +6,7 @@ import json
 import unittest
 
 from scripts import foundation_probe_v02 as probe
+from scripts.isabelle_premises_v02 import extract_signature
 
 
 class FoundationProbeTests(unittest.TestCase):
@@ -89,6 +90,61 @@ class FoundationProbeTests(unittest.TestCase):
                 claim["assumptions"] = []
         with self.assertRaisesRegex(ValueError, "ACω.*distinct|contract changed"):
             probe.evaluate(self.config, wrong)
+
+    def test_requirements_are_extracted_from_isabelle_source(self):
+        by_id, signatures = probe.checked_claims(self.manifest)
+        self.assertEqual(
+            signatures["countable_choice"].premises,
+            (r"\<not> Finite(A)", "countable_choice"),
+        )
+        self.assertEqual(
+            signatures["wellorderable_to_injection"].premises,
+            (r"\<not> Finite(A)", r"\<exists>a. Ord(a) \<and> A \<approx> a"),
+        )
+        self.assertEqual(
+            signatures["injection_to_infinite"].premises,
+            ("has_nat_injection(A)",),
+        )
+        self.assertEqual(
+            by_id["countable_choice"]["status"], "formal_isabelle_kernel"
+        )
+
+    def test_report_displays_source_signatures(self):
+        witness = self.goal(
+            self.by_id["zf_acomega"], "nonfinite_to_nat_injection"
+        )["witnesses"][0]
+        self.assertEqual(
+            witness["source_premises"], [r"\<not> Finite(A)", "countable_choice"]
+        )
+        self.assertEqual(witness["source_conclusion"], "has_nat_injection(A)")
+
+    def test_unknown_extra_assumption_is_rejected_not_ignored(self):
+        source = (
+            'lemma target:\n'
+            '  assumes "has_nat_injection(A)" and "unregistered_principle"\n'
+            '  shows "\\<not> Finite(A)"\n'
+            '  by blast\n'
+        )
+        signature = extract_signature(source, "target")
+        with self.assertRaises(KeyError):
+            for premise in signature.premises:
+                _ = probe.PREMISE_TAGS[premise]
+        
+    def test_unsupported_unquoted_syntax_fails_closed(self):
+        source = (
+            'lemma target:\n'
+            '  assumes "has_nat_injection(A)" and SOME_UNQUOTED_TERM\n'
+            '  shows "\\<not> Finite(A)"\n'
+            '  by blast\n'
+        )
+        with self.assertRaisesRegex(ValueError, "Unsupported declaration"):
+            extract_signature(source, "target")
+
+    def test_no_fallback_to_manual_requirements(self):
+        self.assertFalse(
+            hasattr(probe.CONTRACTS[0], "requires"),
+            "Applicability requirements must originate from source propositions",
+        )
 
     def test_deterministic_report(self):
         self.assertEqual(
