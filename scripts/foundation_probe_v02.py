@@ -14,9 +14,11 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path
 
-from scripts import check_foundation_gate_b as gate_b
-
 ROOT = Path(__file__).resolve().parent.parent
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from scripts import check_foundation_gate_b as gate_b
 SCENARIOS = ROOT / "research/foundations-v0.2/scenarios.json"
 REPORT = ROOT / "research/foundations-v0.2/report.json"
 MANIFEST = ROOT / "research/gates/b/manifest.json"
