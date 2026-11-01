@@ -648,6 +648,50 @@
       "foundation_profile": "choice_free",
       "experiment": "009-nonidentity-translation",
       "variant": "composed_interpretation"
+    },
+    {
+      "declaration": "Axiomscope.Experiment010.certified_derivation",
+      "statement": "Certified Kripke interpretation carries every intuitionistic derivation",
+      "source": "Axiomscope/Experiments/Experiment010.lean",
+      "kind": "theorem",
+      "construction": "Use the certificate's underlying proof transport",
+      "provenance": "Experiment 010 checked semantic interpretation certificates",
+      "foundation_profile": "choice_free",
+      "experiment": "010-semantic-certificates",
+      "variant": "proof_certificate"
+    },
+    {
+      "declaration": "Axiomscope.Experiment010.certified_contexts",
+      "statement": "Certified translation preserves and reflects Kripke satisfaction of arbitrary contexts",
+      "source": "Axiomscope/Experiments/Experiment010.lean",
+      "kind": "theorem",
+      "construction": "Instantiate the general context equivalence theorem",
+      "provenance": "Experiment 010 checked semantic interpretation certificates",
+      "foundation_profile": "choice_free",
+      "experiment": "010-semantic-certificates",
+      "variant": "context_certificate"
+    },
+    {
+      "declaration": "Axiomscope.Experiment010.composed_semantics",
+      "statement": "Composition with semantic identity preserves and reflects Kripke forcing",
+      "source": "Axiomscope/Experiments/Experiment010.lean",
+      "kind": "theorem",
+      "construction": "Compose two semantic certificates and use their equivalence",
+      "provenance": "Experiment 010 checked semantic interpretation certificates",
+      "foundation_profile": "choice_free",
+      "experiment": "010-semantic-certificates",
+      "variant": "semantic_composition"
+    },
+    {
+      "declaration": "Axiomscope.Experiment010.composed_derivation",
+      "statement": "Composition with semantic identity transports intuitionistic proofs",
+      "source": "Axiomscope/Experiments/Experiment010.lean",
+      "kind": "theorem",
+      "construction": "Use the composed certificate's underlying proof interpretation",
+      "provenance": "Experiment 010 checked semantic interpretation certificates",
+      "foundation_profile": "choice_free",
+      "experiment": "010-semantic-certificates",
+      "variant": "proof_composition"
     }
   ],
   "axiom_profiles": {
@@ -794,6 +838,17 @@
         "Axiomscope.Experiment009.context_semantics_equiv",
         "Axiomscope.Experiment009.top_not_in_image",
         "Axiomscope.Experiment009.embedding_compose_identity"
+      ]
+    },
+    {
+      "id": "010-semantic-certificates",
+      "question": "Can derivation preservation and semantic equivalence be combined into a reusable composable certificate, and can a genuine mismatch obstruct certification?",
+      "scope": "Shared-index satisfaction predicates, certified proof transport, identity and composition, arbitrary context satisfaction, and a model-indexed Kripke instance from Experiment 009. Does not transport between model classes or foundations.",
+      "variants": [
+        "Axiomscope.Experiment010.certified_derivation",
+        "Axiomscope.Experiment010.certified_contexts",
+        "Axiomscope.Experiment010.composed_semantics",
+        "Axiomscope.Experiment010.composed_derivation"
       ]
     }
   ]
