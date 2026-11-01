@@ -1,190 +1,197 @@
 # AXIOMSCOPE
 
-**Proofs carry their assumptions.**
+**Proofs carry their assumptions. Foundations have relationships.**
 
-AXIOMSCOPE is an experimental project in foundations of mathematics. Its first goal is not to replace ZFC or introduce unsupported new axioms: it is to make the objects, proof principles, constructions, and limitations behind familiar theorems explicit and mechanically checkable.
+AXIOMSCOPE is an experimental research project investigating how mathematical
+foundations, their assumptions, and theorems can be represented and related in
+a precise, machine-checkable way.
 
-The initial work uses **Lean 4 and Mathlib**, which provide an established logical foundation and a small trusted kernel. AxiomScope v0.1 is a research *scaffold*, not yet a distinct axiomatic system.
+We use Lean 4 and Isabelle to test that idea. **The aim is not to build another
+theorem prover or merely catalogue known proofs.** The long-term question is
+whether we can develop a rigorous and useful account of transformations between
+foundational systems: what can be interpreted, what is preserved, and what
+cannot be transferred without additional assumptions.
 
-## Foundations v0.2 — assumption-context experiment
+> **Research question:** Given a mathematical statement or construction proved
+> in foundation F₁, under what verified conditions can it be interpreted or
+> reconstructed in foundation F₂? If it cannot, can we establish a genuine
+> mathematical obstruction rather than merely fail to find a proof?
 
-We are now testing a candidate architecture rather than adding another
-isolated proof. The [Foundations v0.2 specification](docs/FOUNDATIONS-v0.2.md)
-models a foundational context, a goal, and *registered verified proofs*
-whose premises must be supplied before they can be applied.
+This objective builds on substantial prior work in mathematical logic, theory
+interpretations, proof assistants, and categorical and structural foundations.
+We claim **no new foundation or mathematical discovery** at present.
 
-An [executable scenario probe](scripts/foundation_probe_v02.py) computes
-which Isabelle/ZF Gate B proofs are applicable when countable Choice or
-a local well-order witness is added or removed. The
-[scenario inputs](research/foundations-v0.2/scenarios.json) and
-[generated report](research/foundations-v0.2/report.json) are tested in CI.
-**No registered witness** means only that our current proofs cannot
-discharge the stated premises; it is *not* an independence result.
+## The intended contribution
 
-This is a **prototype of contextual proof analysis**, not yet a new
-axiomatic system, automated cross-foundation transport, or a demonstrated
-improvement on Isabelle/Lean's existing tooling.
+A successful AXIOMSCOPE should do more than display axioms used by a proof.
+The research program asks whether a coherent framework can connect:
 
-## Foundations v0.3 — prover-certified signature evidence
+| Component | What must be represented or verified |
+| --- | --- |
+| **Foundations** | Primitive objects, formation and inference rules, axioms, and semantics |
+| **Proof contexts** | Which assumptions are available for a particular claim |
+| **Mathematical constructions** | How objects and witnesses are defined, not just whether they exist |
+| **Interpretations** | Explicit translations between mathematical languages and structures |
+| **Preservation results** | Proofs that a translation preserves designated statements or constructions |
+| **Obstructions** | Actual countermodels, noninterpretability results, or other verified failures of preservation |
 
-The [Foundations v0.3 experiment](docs/FOUNDATIONS-v0.3.md) validates the
-v0.2 source-derived assumptions against **actual elaborated Isabelle/ZF
-theorem propositions**. A generated Isabelle/ML bridge checks theorem
-objects before exporting their rendered statements; the Python scenario
-consumer records the exported evidence. Failures abort CI.
+For a suitably verified interpretation `I : F₁ → F₂`, the kind of
+preservation result we want to investigate has the form:
 
-This is statement correspondence, **not** a proof-term dependency graph,
-cross-foundation interpretation, new axiom system, or discovery of a new
-theorem.
+```text
+F₁ ⊢ T      ⟹      F₂ ⊢ I(T)
+```
 
-## First experiment: three facts about infinity
+The implication **requires hypotheses and a proof about I**; it is not true
+for an arbitrary translation or any pair of foundations. Finding the exact
+conditions, their compositional behavior, and useful cases of failure is
+part of the mathematical work.
 
-| Result | Formal artifact | Interpretation |
+There are also general limits: no tool can automatically decide arbitrary
+mathematical statements, always find the weakest assumptions, or universally
+transport proofs between unrelated logics. AXIOMSCOPE must report those limits
+rather than hide them.
+
+## What exists today
+
+The current repository is a **verified research scaffold**, not a new
+axiomatic system. Our experiments fall into three categories:
+
+| Area | Verified work | Important limit |
 | --- | --- | --- |
-| The natural numbers correspond bijectively to the even natural numbers | `Axiomscope.natEquivEven` | Cardinality need not measure natural density |
-| The natural numbers correspond bijectively to the integers | `Axiomscope.natEquivInt` | Adding infinitely many negative integers need not increase cardinality |
-| No function from the naturals onto their power set is surjective | `Axiomscope.cantorDiagonal` | The power set is strictly larger in the relevant cardinal sense |
+| **Lean foundations experiments** | Cardinality, excluded middle, Kripke nonderivability, independent natural-number constructions, Peano-style structures and first-order induction | These experiments use Lean's existing logical rules and do not establish a new foundation |
+| **Isabelle foundational comparisons** | Reproduced ZF versus hereditarily finite foundations (Gate A); proved the positive ZF + countable-choice infinity implication (Gate B) | The symmetric-model independence side of Gate B is *published literature*, not machine-checked here |
+| **Foundations v0.2–v0.3 prototypes** | Context-sensitive applicability of three registered Isabelle/ZF proofs; explicit premises extracted from source and checked against elaborated Isabelle theorem statements with exported evidence | This is neither automatic transitive proof-dependency extraction nor cross-foundation proof transport |
 
-The even-number bijection is written out explicitly. The integer bijection initially reuses Mathlib's constructive equivalence `Equiv.intEquivNat`; rewriting it from scratch is a later educational exercise. Cantor's diagonal argument is written out directly.
+The detailed results, caveats, and proof evidence live in the research
+documents and machine-generated reports. **A missing registered proof never
+counts as evidence that a theorem is false or independent.**
 
-## Experiment 001 — changing logical assumptions
+## Our next mathematical milestone
 
-Four Lean proofs examine the difference between constructively provable double-negated excluded middle, excluded middle with an explicit decision procedure, and unrestricted classical excluded middle and double-negation elimination. The experiment generates a [comparison record](proofs/experiments/001-excluded-middle.json) from proof-checked axiom output. See [the experiment explanation](docs/experiments/001-excluded-middle.md).
+We must now test the *relationships between foundations themselves*, not
+continue indefinitely adding proof-analysis features.
 
-**Scope:** This compares specific Lean proofs and their assumptions, not different ZFC models; it does not establish an independence theorem. Lean's `Classical.choice` is not synonymous with the set-theoretic Axiom of Choice.
+**Target:** Specify two genuinely different formal foundations, a precise
+interpretation between a carefully chosen fragment of their languages, and
+one machine-checked theorem about what that interpretation preserves. Where
+appropriate, construct or import a genuine model-based obstruction.
 
-## Experiment 002 — a genuine nonderivability proof
+We will measure this against what Isabelle, Lean, and existing foundational
+interpretation frameworks already provide. The experiment must establish at
+least one of the following:
 
-A two-world Kripke model shows that `atom ∨ ¬atom` is not forced at the root, even though the atom becomes true at a later accessible world. We define a small intuitionistic natural-deduction calculus for implication, disjunction, and falsity, prove **every derivation is sound in this semantics**, and conclude that this excluded-middle instance is **not derivable in that calculus**.
+1. **A verifiable mathematical result** about the conditions under which a
+   construction or statement survives a foundational interpretation.
+2. **A useful verified capability** for comparing or composing such
+   interpretations that a clear baseline does not already provide.
 
-This is stronger than Experiment 001's proof-dependency inspection. It is a mathematically checked nonderivability theorem **for the explicitly defined calculus**, not a claim of novelty or a result about ZFC independence.
+A failed benchmark is a reason to narrow the problem or pivot—not to
+manufacture novelty. New axioms or a distinct formal system would be
+considered **only after** a concrete mathematical need has been demonstrated.
 
-Read the [formal explanation](docs/experiments/002-kripke-countermodel.md), [Lean code](Axiomscope/Experiments/KripkeCountermodel.lean), and [machine-readable comparison](proofs/experiments/002-kripke-countermodel.json).
+See the [research roadmap](docs/ROADMAP.md) for completed and open proof
+obligations.
 
-## Experiment 003 — generalized Kripke models
+## Current prototype: assumption-context analysis
 
-We now formalize arbitrary atomic propositions and preordered worlds with persistent forcing. The [general soundness and nonderivability criterion](Axiomscope/Experiments/GeneralKripke.lean) uses **no additional Lean axioms**. The present concrete two-world specialization uses `propext`, `Quot.sound`, and `Classical.choice` in its proof and is labeled accordingly. This is a proof-level dependency, not a requirement of the general countermodel theorem.
+The [Foundations v0.2 specification](docs/FOUNDATIONS-v0.2.md) models a
+foundation, context, theorem, and registered proof witness. Given a context
+such as `¬Finite(A)`, it asks which **already checked proofs** can establish
+a desired conclusion if additional premises (for example countable choice
+or local well-orderability) are supplied.
 
-See the [experiment write-up](docs/experiments/003-general-kripke.md) and [audited comparison](proofs/experiments/003-general-kripke.json).
+The [scenario engine](scripts/foundation_probe_v02.py) uses
+[explicit scenarios](research/foundations-v0.2/scenarios.json) and a
+[deterministic report](research/foundations-v0.2/report.json).
 
-## Experiment 004 — rebuilding the natural numbers
+The [Foundations v0.3 experiment](docs/FOUNDATIONS-v0.3.md) adds
+[Isabelle-generated statement checks](research/gates/b/GateB_ProverBridge.thy).
+These compare the parsed assumptions with **elaborated theorem objects** and
+export prover-rendered signatures for CI to consume. That improves the
+provenance of the analysis, but does **not** inspect all transitive
+proof dependencies or prove translation between logical systems.
 
-We declare a **fresh inductive number type** with zero and successor, independent of the *definition* of Lean's `Nat`. From its constructors we recover an induction rule and a recursion principle with uniqueness, and recursively define addition and multiplication. Explicit functions in both directions establish `Experiment004.Number ≃ Nat`. We prove the operations agree with ordinary arithmetic and recover familiar laws.
+A native Isabelle exporter or dependency tool may already supply much of
+this functionality. The prototype is a research test bed, **not a claim of
+uniqueness**.
 
-**Foundational boundary:** this uses Lean's existing inductive-type rules. It does **not** derive infinity from our propositional Kripke calculus, and transporting arithmetic laws from built-in `Nat` is not an independent proof of arithmetic's foundations. The experiment's contribution is auditable construction provenance and compatibility.
+## Mathematical experiments
 
-See [the Lean module](Axiomscope/Experiments/NaturalNumbers.lean), [experiment explanation](docs/experiments/004-natural-numbers.md), and [axiom report](proofs/experiments/004-natural-numbers.json).
+The early experiments establish checked examples and probe specific
+foundational distinctions. They are supporting evidence, **not** the
+long-term research objective.
 
-## Experiment 005 — axiomatic Peano systems
+| Experiment | Question | Formalization and explanation |
+| --- | --- | --- |
+| Baseline | How do bijections and Cantor diagonalization compare cardinalities? | [Lean proofs](Axiomscope/CardinalExamples.lean) |
+| 001 | What changes when excluded middle requires a decision procedure or classical reasoning? | [Explanation](docs/experiments/001-excluded-middle.md) |
+| 002 | Can a Kripke countermodel prove nonderivability in a specified intuitionistic calculus? | [Explanation](docs/experiments/002-kripke-countermodel.md) |
+| 003 | Does the Kripke soundness argument generalize to arbitrary atoms and worlds? | [Explanation](docs/experiments/003-general-kripke.md) |
+| 004 | Can we reconstruct natural numbers and verify equivalence to built-in `Nat`? | [Explanation](docs/experiments/004-natural-numbers.md) |
+| 005 | What exactly does full predicate induction provide in a Peano-style structure? | [Explanation](docs/experiments/005-peano-axioms.md) |
+| 006 | How does first-order induction over formulas differ from full predicate induction? | [Explanation](docs/experiments/006-first-order-induction.md) |
+| 007 | Which infinity arguments use explicit selection versus ambient assumptions? | [Explanation](docs/experiments/007-comparative-infinity.md) |
+| Gate A | What changes between Isabelle/ZF and a hereditarily finite model? | [Evidence and limitations](research/gates/a/README.md) |
+| Gate B | How does countable choice establish `ω ↪ A` for nonfinite `A`? | [Formal result and open negative case](research/gates/b/README.md) |
 
-Rather than introducing another inductive datatype, we specify **zero, successor, addition, multiplication, and explicit laws** over an arbitrary carrier. Our `PeanoSystem` includes induction over **every** Lean predicate—not merely the first-order induction schema. The [Lean formalization](Axiomscope/Experiments/PeanoAxioms.lean) proves a canonical map from our Experiment 004 numbers is injective and surjective, and preserves the arithmetic operations. It also exhibits a two-track zero/successor structure satisfying disjointness and injectivity but **failing induction**, showing why the induction assumption matters.
-
-**Scope:** The categorical conclusion here depends on full higher-order induction. It is not a proof of categoricity for first-order Peano arithmetic, which admits nonstandard models. This also does not derive the existence of a model from pure logic: we construct a model inside Lean's inductive type theory.
-
-See the [research explanation](docs/experiments/005-peano-axioms.md) and [generated report](proofs/experiments/005-peano-axioms.json).
-
-## Experiment 006 — first-order syntax and induction schema
-
-We now define a **first-order arithmetic language** as explicit term and formula syntax, including equality, addition, multiplication, connectives, and quantified individual variables. The [formal semantics](Axiomscope/Experiments/FirstOrderArithmetic.lean) interpret formulas in an arbitrary arithmetic signature. Crucially, the induction schema ranges over **syntax-definable formulas**, not over arbitrary predicates of the carrier.
-
-We prove that Experiment 005's *full predicate induction* validates every semantic first-order induction instance. A two-track model fails one explicit formula instance, showing the schema imposes genuine constraints beyond an arbitrary zero/successor signature. This is **not** a nonstandard model of PA or proof that first-order PA lacks categoricity.
-
-See [Experiment 006's scope and formalization](docs/experiments/006-first-order-induction.md).
-
-## Experiment 007 — comparative infinity
-
-We are testing the project's first explicit-assumption comparison. A supplied
-**uniform finite-avoidance selector** generates an injective sequence of
-distinct elements; a separate Mathlib proof recovers such a sequence from
-the ambient `Infinite` typeclass. We audit the different proof dependencies,
-and give concrete Dedekind witnesses via successor and explicit equivalences.
-
-**Scope:** These are two proof/assumption profiles *within Lean*, not yet
-distinct set-theoretic models. The experiment does not establish an
-independence result over ZF.
-
-See [the implementation](Axiomscope/Experiments/ComparativeInfinity.lean),
-[write-up](docs/experiments/007-comparative-infinity.md), and
-[generated ledger](proofs/experiments/007-comparative-infinity.json).
-
-## Foundational comparison gates — actual Isabelle/ZF results
-
-The initial [Gate A comparison](research/gates/a/README.md) reproduces
-Isabelle/ZF and the hereditarily finite model of ZFfin using pinned sources,
-with explicit proof-assistant build evidence. This is a known foundational
-contrast, not mathematical novelty.
-
-**Gate B has now verified its positive result:** assuming the countable
-Axiom of Choice as an explicit proposition *inside Isabelle/ZF*, every
-nonfinite set contains an injective copy of the natural numbers:
+For Gate B, the checked positive result is:
 
 ```text
 ZF + ACω ⊢ ∀A. ¬Finite(A) → (ω ↪ A)
 ```
 
-Isabelle/ZF also now verifies, **without Choice**, that `nat ≲ A`
-is equivalent to an injective, nonsurjective self-map of `A`. See the
-[Dedekind bridge](research/gates/b/README.md) and its
-[successful Isabelle2026 replay](https://github.com/blackwell-systems/axiomscope/actions/runs/41291106509).
+This is established mathematics, reproduced in Isabelle/ZF with an explicit
+object-level assumption of countable choice.
 
-The [formal theorem](research/gates/b/GateB_CountableConverse.thy)
-constructs an infinite union of countably chosen finite injections,
-gives each element a least occurrence index to obtain a countable
-well-ordering, and extracts a single injection `ω ↪ A`.
+Independently of Choice, Isabelle/ZF also verifies the **Dedekind-infinity
+equivalence**: a set admits an injection from the natural numbers if and
+only if it admits an injective, nonsurjective self-map. See the
+[verified Gate B bridge](research/gates/b/README.md) and
+[successful Isabelle2026 proof replay](https://github.com/blackwell-systems/axiomscope/actions/runs/41291106509). A machine-checked model of ZF
+with an infinite Dedekind-finite set has **not** been constructed in this
+repository.
 
-The [typed proof/evidence comparison](research/gates/b/comparison.json)
-marks this positive theorem as **Isabelle kernel-verified**. The opposite
-side—the existence of infinite Dedekind-finite sets in a symmetric model
-of ZF without Choice—remains **published evidence only** within AxiomScope.
-This is an unfinished independence benchmark; no novel theorem is claimed.
+## Reproduce the results
 
-## Build
-
-Install [Lean 4 through elan](https://lean-lang.org/install/manual/), then run:
+Install [Lean 4 with elan](https://lean-lang.org/install/manual/).
+The `lean-toolchain`, Mathlib dependency and `lake-manifest.json` pin the
+Lean environment.
 
 ```sh
 lake exe cache get
 lake build
-lake env lean Axiomscope/CardinalExamples.lean
-lake env lean Axiomscope/Experiments/ExcludedMiddle.lean
-lake env lean Axiomscope/Experiments/KripkeCountermodel.lean
-lake env lean Axiomscope/Experiments/GeneralKripke.lean
-lake env lean Axiomscope/Experiments/NaturalNumbers.lean
-lake env lean Axiomscope/Experiments/PeanoAxioms.lean
-lake env lean Axiomscope/Experiments/FirstOrderArithmetic.lean
-lake env lean Axiomscope/Experiments/ComparativeInfinity.lean
 python3 -m unittest discover -s scripts/tests -v
 python3 scripts/generate_proof_ledger.py --check
+python3 scripts/build_comparison.py --check
+python3 scripts/check_foundation_gate_b.py --check
+python3 scripts/foundation_probe_v02.py --check
+python3 scripts/generate_prover_bridge_v03.py --check
 ```
 
-The `lean-toolchain`, Mathlib dependency, and committed `lake-manifest.json` are pinned to **v4.35.0** and its exact dependency revisions. Run `lake update` only when intentionally updating and recommitting the lockfile. **All three initial formal results have passed Lean compilation and axiom inspection** in the [successful CI run](https://github.com/blackwell-systems/axiomscope/actions/runs/40219540458). See the [proof ledger](docs/PROOF-LEDGER.md) for the observed axiom dependencies.
+The Isabelle/ZF tests and prover-export integration are replayed in
+[GitHub Actions](.github/workflows/gate-b-isabelle.yml) using the pinned
+Isabelle2026 container. They do not follow from running Lean alone.
+See the [generated proof ledger](docs/PROOF-LEDGER.md) and
+[Gate B evidence](research/gates/b/comparison.json) for precise scope.
 
-The proof ledger is **generated**, not manually maintained. After editing proofs, run `python3 scripts/generate_proof_ledger.py --write` and commit both `proofs/dependencies.json` and `docs/PROOF-LEDGER.md`. CI recomputes their axiom lists from Lean and rejects drift or unapproved axioms. Only the mathematical descriptions and construction provenance in `proofs/catalog.json` are manually curated. This is an *axiom-dependency* report, not yet a complete transitive lemma-dependency graph.
+## Research documents
 
-## Working principles
-
-1. **Precision first.** State the underlying universe, type, equivalence relation, and proof obligations.
-2. **Construction provenance.** Distinguish a witness-producing proof from existence inferred by other principles.
-3. **Explicit dependency accounting.** Audit which axioms a theorem actually uses; do not confuse library imports with proof dependencies.
-4. **No conflation of sizes.** Cardinality, density, measure, and order type answer different questions.
-5. **Independent results stay independent.** Changing foundations does not automatically resolve ZFC-independent propositions.
-6. **Compatibility before novelty.** Document what Mathlib, ZFC, ETCS, constructive set theory, and type theory already provide before claiming any new result.
-
-## Documents
-
-- [Foundations v0.1 specification](docs/FOUNDATIONS-v0.1.md)
-- [Generated proof ledger](docs/PROOF-LEDGER.md)
-- [Machine-readable axiom dependencies](proofs/dependencies.json)
-- [Experiment 001 comparison](proofs/experiments/001-excluded-middle.json)
-- [Experiment 002: Kripke countermodel and soundness](docs/experiments/002-kripke-countermodel.md)
-- [Experiment 003: generalized Kripke models](docs/experiments/003-general-kripke.md)
-- [Experiment 004: natural numbers reconstruction](docs/experiments/004-natural-numbers.md)
-- [Experiment 005: axiomatic Peano systems](docs/experiments/005-peano-axioms.md)
-- [Experiment 006: first-order arithmetic induction schema](docs/experiments/006-first-order-induction.md)
-- [Experiment 007: comparative infinity](docs/experiments/007-comparative-infinity.md)
-- [Declaration metadata catalogue](proofs/catalog.json)
+- [Foundations v0.1: initial research specification](docs/FOUNDATIONS-v0.1.md)
+- [Foundations v0.2: proof-context semantics](docs/FOUNDATIONS-v0.2.md)
+- [Foundations v0.3: prover-checked theorem statements](docs/FOUNDATIONS-v0.3.md)
 - [Research roadmap](docs/ROADMAP.md)
+- [Machine-readable axiom dependency ledger](proofs/dependencies.json)
+- [Declaration metadata catalogue](proofs/catalog.json)
 
-## Status
+## Scientific status
 
-**Experimental / v0.1.** The three baseline infinity results are machine-verified, with observed axiom dependencies documented. The proposed foundational framework itself is not established as a new mathematical theory; no new independence theorem is claimed.
+**Exploratory research.** We have verified foundational examples and
+built auditable proof-context tooling. We have **not** yet established a
+distinct foundational theory, a machine-checked cross-foundation proof
+transport theorem, a new independence result, or a demonstrated advantage
+over existing mathematical interpretation frameworks.
+
+Success is measured by precise new mathematics or independently useful,
+verifiable capabilities—not by the number of experiments, commits,
+or proof-assistant builds.
