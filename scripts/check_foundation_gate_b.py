@@ -116,6 +116,7 @@ def main() -> int:
         manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
         theory = THEORY.read_text(encoding="utf-8")
         choice_theory = CHOICE_THEORY.read_text(encoding="utf-8")
+        assemble_theory = ASSEMBLE_THEORY.read_text(encoding="utf-8")
         out = json.dumps(validate(manifest, theory, choice_theory, assemble_theory), ensure_ascii=False, indent=2) + "\n"
         if a.check:
             if not REPORT.is_file() or REPORT.read_text(encoding="utf-8") != out:
