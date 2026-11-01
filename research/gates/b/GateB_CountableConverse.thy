@@ -136,15 +136,8 @@ proof -
   have positive_base: "\<And>n. \<lbrakk>n \<in> nat; ?orbit(n) = a\<rbrakk> \<Longrightarrow> n = 0"
   proof -
     fix n assume nn: "n \<in> nat" and hit: "?orbit(n) = a"
-    from nn show "n = 0"
-    proof (cases rule: natE)
-      case 0
-      thus ?thesis by simp
-    next
-      case (succ m)
-      hence "?orbit(n) \<noteq> a" using no_repeat_base by simp
-      with hit show ?thesis by blast
-    qed
+    show "n = 0"
+      using nn hit no_repeat_base by (cases n rule: natE) auto
   qed
   have orbit_distinct:
     "\<And>m n. \<lbrakk>m \<in> nat; n \<in> nat\<rbrakk> \<Longrightarrow> (?orbit(m) = ?orbit(n) \<longrightarrow> m = n)"
