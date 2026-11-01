@@ -3,6 +3,7 @@
   "experiment": "foundations-v0.2-assumption-probe",
   "logic": "Isabelle/ZF",
   "source_manifest": "research/gates/b/manifest.json",
+  "premise_extraction": "Restricted parsing of named Isabelle/ZF theorem declaration headers. Not transitive proof-dependency extraction; kernel replay is separate.",
   "scope": "Conditional application of known, formally classified proofs within one object logic; not proof translation, theorem search, or independence.",
   "scenarios": [
     {
@@ -20,6 +21,11 @@
               "claim_id": "countable_choice",
               "theorem": "GateB_CountableConverse.countable_choice_infinite_has_nat_injection",
               "source": "research/gates/b/GateB_CountableConverse.thy",
+              "source_premises": [
+                "\\<not> Finite(A)",
+                "countable_choice"
+              ],
+              "source_conclusion": "has_nat_injection(A)",
               "missing_conditions": [
                 "AComega"
               ]
@@ -28,6 +34,11 @@
               "claim_id": "wellorderable_to_injection",
               "theorem": "GateB_ZF.wellorderable_infinite_has_nat_injection",
               "source": "research/gates/b/GateB_ZF.thy",
+              "source_premises": [
+                "\\<not> Finite(A)",
+                "\\<exists>a. Ord(a) \\<and> A \\<approx> a"
+              ],
+              "source_conclusion": "has_nat_injection(A)",
               "missing_conditions": [
                 "wellorder_A"
               ]
@@ -44,6 +55,10 @@
               "claim_id": "injection_to_infinite",
               "theorem": "GateB_ZF.countable_injection_implies_infinite",
               "source": "research/gates/b/GateB_ZF.thy",
+              "source_premises": [
+                "has_nat_injection(A)"
+              ],
+              "source_conclusion": "\\<not> Finite(A)",
               "missing_conditions": [
                 "nat_injection_A"
               ]
@@ -67,7 +82,12 @@
             {
               "claim_id": "countable_choice",
               "theorem": "GateB_CountableConverse.countable_choice_infinite_has_nat_injection",
-              "source": "research/gates/b/GateB_CountableConverse.thy"
+              "source": "research/gates/b/GateB_CountableConverse.thy",
+              "source_premises": [
+                "\\<not> Finite(A)",
+                "countable_choice"
+              ],
+              "source_conclusion": "has_nat_injection(A)"
             }
           ],
           "candidate_requirements": [],
@@ -82,6 +102,10 @@
               "claim_id": "injection_to_infinite",
               "theorem": "GateB_ZF.countable_injection_implies_infinite",
               "source": "research/gates/b/GateB_ZF.thy",
+              "source_premises": [
+                "has_nat_injection(A)"
+              ],
+              "source_conclusion": "\\<not> Finite(A)",
               "missing_conditions": [
                 "nat_injection_A"
               ]
@@ -105,7 +129,12 @@
             {
               "claim_id": "wellorderable_to_injection",
               "theorem": "GateB_ZF.wellorderable_infinite_has_nat_injection",
-              "source": "research/gates/b/GateB_ZF.thy"
+              "source": "research/gates/b/GateB_ZF.thy",
+              "source_premises": [
+                "\\<not> Finite(A)",
+                "\\<exists>a. Ord(a) \\<and> A \\<approx> a"
+              ],
+              "source_conclusion": "has_nat_injection(A)"
             }
           ],
           "candidate_requirements": [],
@@ -120,6 +149,10 @@
               "claim_id": "injection_to_infinite",
               "theorem": "GateB_ZF.countable_injection_implies_infinite",
               "source": "research/gates/b/GateB_ZF.thy",
+              "source_premises": [
+                "has_nat_injection(A)"
+              ],
+              "source_conclusion": "\\<not> Finite(A)",
               "missing_conditions": [
                 "nat_injection_A"
               ]
@@ -144,6 +177,11 @@
               "claim_id": "countable_choice",
               "theorem": "GateB_CountableConverse.countable_choice_infinite_has_nat_injection",
               "source": "research/gates/b/GateB_CountableConverse.thy",
+              "source_premises": [
+                "\\<not> Finite(A)",
+                "countable_choice"
+              ],
+              "source_conclusion": "has_nat_injection(A)",
               "missing_conditions": [
                 "AComega",
                 "nonfinite_A"
@@ -153,6 +191,11 @@
               "claim_id": "wellorderable_to_injection",
               "theorem": "GateB_ZF.wellorderable_infinite_has_nat_injection",
               "source": "research/gates/b/GateB_ZF.thy",
+              "source_premises": [
+                "\\<not> Finite(A)",
+                "\\<exists>a. Ord(a) \\<and> A \\<approx> a"
+              ],
+              "source_conclusion": "has_nat_injection(A)",
               "missing_conditions": [
                 "nonfinite_A",
                 "wellorder_A"
@@ -168,7 +211,11 @@
             {
               "claim_id": "injection_to_infinite",
               "theorem": "GateB_ZF.countable_injection_implies_infinite",
-              "source": "research/gates/b/GateB_ZF.thy"
+              "source": "research/gates/b/GateB_ZF.thy",
+              "source_premises": [
+                "has_nat_injection(A)"
+              ],
+              "source_conclusion": "\\<not> Finite(A)"
             }
           ],
           "candidate_requirements": [],
@@ -192,12 +239,22 @@
             {
               "claim_id": "countable_choice",
               "theorem": "GateB_CountableConverse.countable_choice_infinite_has_nat_injection",
-              "source": "research/gates/b/GateB_CountableConverse.thy"
+              "source": "research/gates/b/GateB_CountableConverse.thy",
+              "source_premises": [
+                "\\<not> Finite(A)",
+                "countable_choice"
+              ],
+              "source_conclusion": "has_nat_injection(A)"
             },
             {
               "claim_id": "wellorderable_to_injection",
               "theorem": "GateB_ZF.wellorderable_infinite_has_nat_injection",
-              "source": "research/gates/b/GateB_ZF.thy"
+              "source": "research/gates/b/GateB_ZF.thy",
+              "source_premises": [
+                "\\<not> Finite(A)",
+                "\\<exists>a. Ord(a) \\<and> A \\<approx> a"
+              ],
+              "source_conclusion": "has_nat_injection(A)"
             }
           ],
           "candidate_requirements": [],
@@ -210,7 +267,11 @@
             {
               "claim_id": "injection_to_infinite",
               "theorem": "GateB_ZF.countable_injection_implies_infinite",
-              "source": "research/gates/b/GateB_ZF.thy"
+              "source": "research/gates/b/GateB_ZF.thy",
+              "source_premises": [
+                "has_nat_injection(A)"
+              ],
+              "source_conclusion": "\\<not> Finite(A)"
             }
           ],
           "candidate_requirements": [],

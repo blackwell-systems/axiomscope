@@ -19,6 +19,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from scripts import check_foundation_gate_b as gate_b
+from scripts.isabelle_premises_v02 import Signature, extract_signature
 SCENARIOS = ROOT / "research/foundations-v0.2/scenarios.json"
 REPORT = ROOT / "research/foundations-v0.2/report.json"
 MANIFEST = ROOT / "research/gates/b/manifest.json"
@@ -37,7 +38,6 @@ class ProofContract:
     theorem: str
     statement: str
     manifest_assumptions: tuple[str, ...]
-    requires: tuple[str, ...]
 
 
 # These exact contracts are checked against the machine-audited Gate B manifest.
@@ -49,7 +49,6 @@ CONTRACTS = (
         "GateB_CountableConverse.countable_choice_infinite_has_nat_injection",
         "ZF + ACω ⊢ ∀A(¬Finite(A) ⇒ nat ≲ A)",
         ("Countable Choice (ACω)",),
-        ("nonfinite_A", "AComega"),
     ),
     ProofContract(
         "nonfinite_to_nat_injection",
@@ -57,7 +56,6 @@ CONTRACTS = (
         "GateB_ZF.wellorderable_infinite_has_nat_injection",
         "¬Finite(A) ∧ (∃a. Ord(a) ∧ A≈a) ⇒ nat ≲ A",
         ("A is equipotent to an ordinal",),
-        ("nonfinite_A", "wellorder_A"),
     ),
     ProofContract(
         "nat_injection_to_nonfinite",
@@ -65,16 +63,30 @@ CONTRACTS = (
         "GateB_ZF.countable_injection_implies_infinite",
         "nat ≲ A ⇒ ¬Finite(A)",
         (),
-        ("nat_injection_A",),
     ),
 )
 GOALS = ("nonfinite_to_nat_injection", "nat_injection_to_nonfinite")
 
+# These are semantic vocabulary translations, NOT a per-theorem requirement list.
+# Unrecognized propositions must fail closed instead of dropping a premise.
+PREMISE_TAGS = {
+    r"\<not> Finite(A)": "nonfinite_A",
+    "countable_choice": "AComega",
+    r"\<exists>a. Ord(a) \<and> A \<approx> a": "wellorder_A",
+    "has_nat_injection(A)": "nat_injection_A",
+}
+GOAL_CONCLUSIONS = {
+    "has_nat_injection(A)": "nonfinite_to_nat_injection",
+    r"\<not> Finite(A)": "nat_injection_to_nonfinite",
+}
 
-def checked_claims(manifest: dict) -> dict[str, dict]:
+
+
+def checked_claims(manifest: dict) -> tuple[dict[str, dict], dict[str, Signature]]:
     """Reject tampering and refuse claims that lack kernel-verified classification."""
     gate_b.validate(manifest, gate_b.THEORY.read_text(encoding="utf-8"))
     by_id = {c["id"]: c for c in manifest["claims"]}
+    signatures: dict[str, Signature] = {}
     for contract in CONTRACTS:
         c = by_id[contract.claim_id]
         if (
@@ -88,18 +100,22 @@ def checked_claims(manifest: dict) -> dict[str, dict]:
         path = ROOT / c["source"]
         if path.parent != ROOT / "research/gates/b":
             raise ValueError("Untrusted theory source for: " + contract.claim_id)
-        if not re.search(
-            r"(?m)^(lemma|theorem)\s+" + re.escape(contract.theorem.split(".")[-1]) + r":",
+        signature = extract_signature(
             path.read_text(encoding="utf-8"),
-        ):
-            raise ValueError("Theorem declaration missing: " + contract.claim_id)
-    return by_id
+            contract.theorem.split(".")[-1],
+        )
+        if GOAL_CONCLUSIONS.get(signature.conclusion) != contract.goal:
+            raise ValueError("Unexpected theorem conclusion: " + contract.claim_id)
+        if any(premise not in PREMISE_TAGS for premise in signature.premises):
+            raise ValueError("Unsupported source theorem premise: " + contract.claim_id)
+        signatures[contract.claim_id] = signature
+    return by_id, signatures
 
 
 def evaluate(config: dict, manifest: dict) -> dict:
     if config.get("schema_version") != 1 or config.get("logic") != "Isabelle/ZF":
         raise ValueError("Only Isabelle/ZF schema v1 is supported")
-    claims = checked_claims(manifest)
+    claims, signatures = checked_claims(manifest)
     scenarios = config.get("scenarios")
     if not isinstance(scenarios, list) or not scenarios:
         raise ValueError("At least one scenario is required")
@@ -127,11 +143,14 @@ def evaluate(config: dict, manifest: dict) -> dict:
             for proof in CONTRACTS:
                 if proof.goal != goal:
                     continue
-                needed = set(proof.requires)
+                signature = signatures[proof.claim_id]
+                needed = {PREMISE_TAGS[p] for p in signature.premises}
                 detail = {
                     "claim_id": proof.claim_id,
                     "theorem": claims[proof.claim_id]["theorem"],
                     "source": claims[proof.claim_id]["source"],
+                    "source_premises": list(signature.premises),
+                    "source_conclusion": signature.conclusion,
                 }
                 if needed <= available:
                     usable.append(detail)
@@ -176,6 +195,10 @@ def evaluate(config: dict, manifest: dict) -> dict:
         "experiment": "foundations-v0.2-assumption-probe",
         "logic": "Isabelle/ZF",
         "source_manifest": "research/gates/b/manifest.json",
+        "premise_extraction": (
+            "Restricted parsing of named Isabelle/ZF theorem declaration headers. "
+            "Not transitive proof-dependency extraction; kernel replay is separate."
+        ),
         "scope": (
             "Conditional application of known, formally classified proofs within "
             "one object logic; not proof translation, theorem search, or independence."

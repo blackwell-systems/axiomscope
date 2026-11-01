@@ -63,7 +63,10 @@ For example, wellorder_A means the particular set A is equipotent to an
 ordinal; it is strictly different from assuming the global axiom of choice.
 The system never identifies Lean's Classical.choice with set-theoretic AComega.
 
-The v0.2 prototype has three explicit proof contracts from the existing
+The v0.2 prototype derives **explicit quoted theorem premises** from the Isabelle
+source declarations. A small checked semantic vocabulary translates those exact
+propositions to context tags. It does not discover axioms transitively used by
+proof terms. Three registered contracts are drawn from the existing
 [Gate B manifest](../research/gates/b/manifest.json):
 
 | Goal | Formal proof | Context requirements |
@@ -72,8 +75,12 @@ The v0.2 prototype has three explicit proof contracts from the existing
 | Nonfinite A -> nat injects into A | wellorderable_infinite_has_nat_injection | nonfinite_A, wellorder_A |
 | Nat injects into A -> A nonfinite | countable_injection_implies_infinite | nat_injection_A |
 
-These theorems and their concrete signatures are checked against the
-Gate B manifest and source file. Any attempt to use a published-only
+These declarations are parsed from their actual source, and the extracted
+conclusions are checked against the intended goals and the Gate B manifest.
+The parser deliberately rejects unrecognized syntax, extra unknown premises,
+missing conclusions, and undocumented theorem signatures. Removing a premise
+in source requires an explicit changed declaration and a new Isabelle proof
+replay; changing only the JSON metadata cannot silently weaken requirements. Any attempt to use a published-only
 countermodel as a kernel-verified proof is rejected. The GitHub CI also
 replays the existing Isabelle Gate B session, separately from this query
 tool.
@@ -126,8 +133,10 @@ and it answers the scenario queries reproducibly.
 That is NOT success for the larger foundational research objective.
 To justify a distinct research contribution, we still need to:
 
-1. **Replace manually curated applicability contracts** with a checked
-   extraction of proof dependencies and explicit premise discharge.
+1. **Replace the current source-header parser** with prover-produced,
+   elaborated theorem statements and immediate or transitive proof dependencies.
+   Source-header extraction is complete for the three registered proofs, but
+   it is not kernel-native dependency extraction.
 2. **Benchmark against Isabelle locales/interpretations, AFP, Lean
    declarations/axiom inspection and existing proof-analysis tools.**
    If they already do this just as well, do not label it novel.
@@ -139,6 +148,31 @@ To justify a distinct research contribution, we still need to:
 
 A failed comparison should lead to revising or stopping this architecture,
 not inventing new axioms to force a result.
+
+## 6a. Baseline comparison — capabilities already provided elsewhere
+
+We must distinguish our simple **applicability query UI** from the much
+stronger features already present in the host provers:
+
+- Isabelle's built-in `thm_deps` command prints immediate theorem dependencies.
+  Source: [Isabelle/Isar Reference](https://isabelle.in.tum.de/website-Isabelle2026-RC0/dist/library/Doc/Isar_Ref/Outer_Syntax.html).
+- Isabelle `export_theory` can expose elaborated theorem content and
+  dependencies for external processing; this should be investigated before
+  creating a bespoke proof dependency graph.
+  [Isabelle theory export discussion](https://isabelle.systems/zulip-archive/stream/247541-Mirror.3A-Isabelle-Users-Mailing-List/topic/.5Bisabelle.5D.20a.20question.20about.Build.2Fexport_theory.2Escala.html).
+- Lean's `#print axioms` already reports axioms used directly or transitively
+  by a declaration. [Lean reference manual](https://lean-lang.org/doc/reference/latest/find/?domain=Verso.Genre.Manual.section&name=axiom-declarations).
+
+Our restricted parser does **less** than these tools: it recognizes only
+quoted explicit premises in three hand-selected Isabelle/ZF declarations.
+It is useful as a reproducible failure-closed *interface experiment*, not
+as evidence of better underlying proof analysis.
+
+**Next acceptance criterion:** obtain at least one prover-produced theorem
+statement, compare it to the source header and registry translation, and
+reject a case where the two do not agree. Then benchmark the query output
+against native Isabelle facilities. If no material advantage remains,
+pivot rather than asserting originality.
 
 ## 7. Running the experiment
 
@@ -153,9 +187,10 @@ the resulting report. GitHub Actions also runs these commands.
 
 ## 8. Current limits
 
-Only Isabelle/ZF and three *existing* theorems are covered. The registry
-is small and contracts are manually curated, so we cannot claim automated
-dependency discovery. Different representations of the same proposition
+Only Isabelle/ZF and three *existing* theorems are covered. The registry is small. Named proof registrations and the interpretation of
+supported proposition shapes remain curated, although each registered theorem's
+explicit quoted premises and conclusion now come from its Isabelle source.
+We cannot claim transitive proof-dependency discovery. Different representations of the same proposition
 are not automatically equated. Proofs in different kernels are not
 transported. We have not proved a new mathematical theorem, found a
 countermodel, or established independence of ZF principles.

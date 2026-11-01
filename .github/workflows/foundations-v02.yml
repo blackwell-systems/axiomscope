@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'scripts/foundation_probe_v02.py'
+      - 'scripts/isabelle_premises_v02.py'
       - 'scripts/tests/test_foundation_probe_v02.py'
       - 'research/foundations-v0.2/**'
       - 'research/gates/b/**'
@@ -13,6 +14,7 @@ on:
     branches: [main]
     paths:
       - 'scripts/foundation_probe_v02.py'
+      - 'scripts/isabelle_premises_v02.py'
       - 'scripts/tests/test_foundation_probe_v02.py'
       - 'research/foundations-v0.2/**'
       - 'research/gates/b/**'
