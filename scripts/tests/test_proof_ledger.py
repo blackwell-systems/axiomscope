@@ -42,6 +42,12 @@ NAMES = {"Axiomscope.natEquivEven", "Axiomscope.natEquivInt", "Axiomscope.cantor
         "bind_same", "bind_other", "zeroOrSuccessor_iff",
         "full_induction_implies_first_order", "twoTracks_not_first_order_inductive"
     )
+} | {
+    "Axiomscope.Experiment007." + name for name in (
+        "earlier_mem_prefix", "chosen_injective", "finite_avoidance_suffices",
+        "countable_subset_implies_infinite", "ambient_infinite_has_countable_subset",
+        "nat_has_proper_self_embedding", "proper_self_embedding_of_equiv_nat"
+    )
 }
 RESULT = (
     "'Axiomscope.natEquivEven' depends on axioms: [propext, Quot.sound]\n"
@@ -87,6 +93,13 @@ RESULT = (
     "'Axiomscope.Experiment006.zeroOrSuccessor_iff' depends on axioms: [Quot.sound, propext]\n"
     "'Axiomscope.Experiment006.full_induction_implies_first_order' does not depend on any axioms\n"
     "'Axiomscope.Experiment006.twoTracks_not_first_order_inductive' depends on axioms: [Quot.sound, propext]\n"
+    "'Axiomscope.Experiment007.earlier_mem_prefix' depends on axioms: [propext]\n"
+    "'Axiomscope.Experiment007.chosen_injective' depends on axioms: [propext]\n"
+    "'Axiomscope.Experiment007.finite_avoidance_suffices' depends on axioms: [propext]\n"
+    "'Axiomscope.Experiment007.countable_subset_implies_infinite' depends on axioms: [Classical.choice, Quot.sound, propext]\n"
+    "'Axiomscope.Experiment007.ambient_infinite_has_countable_subset' depends on axioms: [Classical.choice, Quot.sound, propext]\n"
+    "'Axiomscope.Experiment007.nat_has_proper_self_embedding' depends on axioms: [propext]\n"
+    "'Axiomscope.Experiment007.proper_self_embedding_of_equiv_nat' depends on axioms: [Quot.sound, propext]\n"
 )
 
 
@@ -129,8 +142,8 @@ class LedgerTests(unittest.TestCase):
     def test_json_markdown_agree(self):
         catalog = json.loads(ledger.CATALOG.read_text(encoding="utf-8"))
         data = ledger.collect(catalog, RESULT, "leanprover/lean4:v4.35.0")
-        self.assertEqual(len(data["records"]), 43)
-        self.assertEqual(sum(d["uses_classical_choice"] for d in data["records"]), 4)
+        self.assertEqual(len(data["records"]), 50)
+        self.assertEqual(sum(d["uses_classical_choice"] for d in data["records"]), 6)
         self.assertIn("Quot.sound", ledger.markdown(data))
 
     def test_classical_profile_rejects_missing_choice(self):
@@ -221,6 +234,23 @@ class LedgerTests(unittest.TestCase):
              [], ["Quot.sound", "propext"]],
         )
         self.assertFalse(any(r["uses_classical_choice"] for r in report["variants"]))
+
+    def test_comparative_infinity_assumption_profiles(self):
+        catalog = json.loads(ledger.CATALOG.read_text(encoding="utf-8"))
+        data = ledger.collect(catalog, RESULT, "leanprover/lean4:v4.35.0")
+        report = json.loads(ledger.experiment_reports(catalog, data)["007-comparative-infinity"])
+        self.assertEqual(len(report["variants"]), 7)
+        self.assertEqual(
+            [r["axioms"] for r in report["variants"]],
+            [["propext"], ["propext"], ["propext"],
+             ["Classical.choice", "Quot.sound", "propext"],
+             ["Classical.choice", "Quot.sound", "propext"],
+             ["propext"], ["Quot.sound", "propext"]],
+        )
+        self.assertEqual(
+            [r["uses_classical_choice"] for r in report["variants"]],
+            [False, False, False, True, True, False, False],
+        )
 
     def test_stale_artifact_rejected(self):
         with patch.object(ledger.Path, "exists", return_value=False):

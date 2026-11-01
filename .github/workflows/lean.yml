@@ -32,3 +32,5 @@ jobs:
         run: python3 -m unittest discover -s scripts/tests -v
       - name: Check generated proof records against Lean
         run: python3 scripts/generate_proof_ledger.py --check
+      - name: Check generated comparison report
+        run: python3 scripts/build_comparison.py --check

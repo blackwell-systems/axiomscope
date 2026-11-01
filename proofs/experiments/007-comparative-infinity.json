@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "id": "007-comparative-infinity",
+  "question": "When does a set known infinite admit an injective Nat sequence, and how do explicit selectors and ambient Lean choice affect the proofs?",
+  "scope": "Compare two assumption/proof profiles inside Lean: explicit uniform finite avoidance versus Mathlib's Infinite typeclass; illustrate Dedekind witnesses for Nat and explicitly Nat-equivalent types. No model of ZF minus Choice, independence result, or proof that a specific use of Classical.choice is necessary.",
+  "toolchain": "leanprover/lean4:v4.35.0",
+  "variants": [
+    {
+      "declaration": "Axiomscope.Experiment007.earlier_mem_prefix",
+      "statement": "Earlier selected elements belong to every later finite prefix",
+      "source": "Axiomscope/Experiments/ComparativeInfinity.lean",
+      "kind": "theorem",
+      "construction": "Induction on prefix length, using elementary natural-number order lemmas",
+      "provenance": "Experiment 007 explicit-assumption comparison",
+      "foundation_profile": "choice_free",
+      "experiment": "007-comparative-infinity",
+      "variant": "prefix_membership",
+      "axioms": [
+        "propext"
+      ],
+      "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.Experiment007.chosen_injective",
+      "statement": "A uniform fresh-point selector generates a sequence with no repeated elements",
+      "source": "Axiomscope/Experiments/ComparativeInfinity.lean",
+      "kind": "theorem",
+      "construction": "Construct selected points by finite prefixes and use freshness",
+      "provenance": "Experiment 007 explicit-assumption comparison",
+      "foundation_profile": "choice_free",
+      "experiment": "007-comparative-infinity",
+      "variant": "explicit_selector_injection",
+      "axioms": [
+        "propext"
+      ],
+      "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.Experiment007.finite_avoidance_suffices",
+      "statement": "FiniteAvoidance α → HasCountableSubset α",
+      "source": "Axiomscope/Experiments/ComparativeInfinity.lean",
+      "kind": "theorem",
+      "construction": "Explicit uniform finite-avoidance selector, no ambient choice hypothesis",
+      "provenance": "Experiment 007 explicit-assumption comparison",
+      "foundation_profile": "choice_free",
+      "experiment": "007-comparative-infinity",
+      "variant": "explicit_selector",
+      "axioms": [
+        "propext"
+      ],
+      "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.Experiment007.countable_subset_implies_infinite",
+      "statement": "HasCountableSubset α → Infinite α",
+      "source": "Axiomscope/Experiments/ComparativeInfinity.lean",
+      "kind": "theorem",
+      "construction": "Use Mathlib Infinite.of_injective from a supplied injection",
+      "provenance": "Experiment 007 explicit-assumption comparison",
+      "foundation_profile": "classical_choice",
+      "experiment": "007-comparative-infinity",
+      "variant": "injection_implies_infinite",
+      "axioms": [
+        "Classical.choice",
+        "Quot.sound",
+        "propext"
+      ],
+      "uses_classical_choice": true
+    },
+    {
+      "declaration": "Axiomscope.Experiment007.ambient_infinite_has_countable_subset",
+      "statement": "Infinite α → HasCountableSubset α in the ambient Mathlib foundation",
+      "source": "Axiomscope/Experiments/ComparativeInfinity.lean",
+      "kind": "theorem",
+      "construction": "Use Mathlib Infinite.natEmbedding, whose current proof uses Classical.choice",
+      "provenance": "Experiment 007 explicit-assumption comparison",
+      "foundation_profile": "classical_choice",
+      "experiment": "007-comparative-infinity",
+      "variant": "ambient_infinite",
+      "axioms": [
+        "Classical.choice",
+        "Quot.sound",
+        "propext"
+      ],
+      "uses_classical_choice": true
+    },
+    {
+      "declaration": "Axiomscope.Experiment007.nat_has_proper_self_embedding",
+      "statement": "HasProperSelfEmbedding Nat",
+      "source": "Axiomscope/Experiments/ComparativeInfinity.lean",
+      "kind": "theorem",
+      "construction": "The successor map is injective and omits zero",
+      "provenance": "Experiment 007 explicit-assumption comparison",
+      "foundation_profile": "choice_free",
+      "experiment": "007-comparative-infinity",
+      "variant": "nat_dedekind",
+      "axioms": [
+        "propext"
+      ],
+      "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.Experiment007.proper_self_embedding_of_equiv_nat",
+      "statement": "(α ≃ Nat) → HasProperSelfEmbedding α",
+      "source": "Axiomscope/Experiments/ComparativeInfinity.lean",
+      "kind": "theorem",
+      "construction": "Transport the successor shift along an explicitly supplied equivalence",
+      "provenance": "Experiment 007 explicit-assumption comparison",
+      "foundation_profile": "choice_free",
+      "experiment": "007-comparative-infinity",
+      "variant": "transported_dedekind",
+      "axioms": [
+        "Quot.sound",
+        "propext"
+      ],
+      "uses_classical_choice": false
+    }
+  ]
+}

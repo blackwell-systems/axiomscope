@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "experiment_id": "007-comparative-infinity",
+  "title": "Comparative infinity: assumptions versus consequences",
+  "claim": "Existence of an injective sequence of distinct elements",
+  "toolchain": "leanprover/lean4:v4.35.0",
+  "proof_source": "proofs/experiments/007-comparative-infinity.json",
+  "cases": [
+    {
+      "id": "uniform_finite_avoidance",
+      "assumptions": [
+        "FiniteAvoidance α: uniform fresh point for each finite list"
+      ],
+      "conclusion": "∃ f : Nat → α, Injective f",
+      "proof": "Axiomscope.Experiment007.finite_avoidance_suffices",
+      "verified": true,
+      "axioms": [
+        "propext"
+      ],
+      "uses_classical_choice": false,
+      "provenance": "Experiment 007 explicit-assumption comparison",
+      "interpretation": "constructive relative to supplied selector"
+    },
+    {
+      "id": "ambient_infinite",
+      "assumptions": [
+        "Infinite α within Lean/Mathlib"
+      ],
+      "conclusion": "∃ f : Nat → α, Injective f",
+      "proof": "Axiomscope.Experiment007.ambient_infinite_has_countable_subset",
+      "verified": true,
+      "axioms": [
+        "Classical.choice",
+        "Quot.sound",
+        "propext"
+      ],
+      "uses_classical_choice": true,
+      "provenance": "Experiment 007 explicit-assumption comparison",
+      "interpretation": "uses Mathlib's ambient existence construction"
+    },
+    {
+      "id": "injection_implies_infinite",
+      "assumptions": [
+        "∃ f : Nat → α, Injective f"
+      ],
+      "conclusion": "Infinite α",
+      "proof": "Axiomscope.Experiment007.countable_subset_implies_infinite",
+      "verified": true,
+      "axioms": [
+        "Classical.choice",
+        "Quot.sound",
+        "propext"
+      ],
+      "uses_classical_choice": true,
+      "provenance": "Experiment 007 explicit-assumption comparison",
+      "interpretation": "logical implication from explicit witness"
+    },
+    {
+      "id": "nat_dedekind_witness",
+      "assumptions": [
+        "carrier is Nat"
+      ],
+      "conclusion": "HasProperSelfEmbedding Nat",
+      "proof": "Axiomscope.Experiment007.nat_has_proper_self_embedding",
+      "verified": true,
+      "axioms": [
+        "propext"
+      ],
+      "uses_classical_choice": false,
+      "provenance": "Experiment 007 explicit-assumption comparison",
+      "interpretation": "successor is injective and misses zero"
+    },
+    {
+      "id": "transport_dedekind_witness",
+      "assumptions": [
+        "explicit e : α ≃ Nat"
+      ],
+      "conclusion": "HasProperSelfEmbedding α",
+      "proof": "Axiomscope.Experiment007.proper_self_embedding_of_equiv_nat",
+      "verified": true,
+      "axioms": [
+        "Quot.sound",
+        "propext"
+      ],
+      "uses_classical_choice": false,
+      "provenance": "Experiment 007 explicit-assumption comparison",
+      "interpretation": "transport along a provided equivalence"
+    }
+  ],
+  "limitations": [
+    "All profiles use Lean as their ambient foundation.",
+    "A particular proof using Classical.choice does not establish a ZF independence theorem.",
+    "No choice-free set-theoretic countermodel is constructed."
+  ]
+}
