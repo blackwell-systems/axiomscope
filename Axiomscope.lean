@@ -9,3 +9,5 @@ import Axiomscope.Experiments.ComparativeInfinity
 import Axiomscope.FoundationalInterpretations
 import Axiomscope.Experiments.Experiment008
 import Axiomscope.Experiments.Experiment009
+import Axiomscope.SemanticInterpretations
+import Axiomscope.Experiments.Experiment010
