@@ -6,7 +6,7 @@ from scripts import benchmark_native_gate_b as bench
 class NativeBaselineTests(unittest.TestCase):
     def sample(self):
         return "\n".join(
-            f"{id_}\t2\t4\tGateB_CountableChoice.sample\t0\tDependency excerpt"
+            f"{id_}\t2\t4\tGateB_CountableChoice.sample\t0\tGateB_CountableChoice.sample"
             for id_ in bench.EXPECTED
         ) + "\n"
 
@@ -14,6 +14,10 @@ class NativeBaselineTests(unittest.TestCase):
         found = bench.parse_export(self.sample())
         self.assertEqual(len(found), 7)
         self.assertEqual(found["finite_witnesses"]["native_oracle_count"], 0)
+        self.assertEqual(
+            found["finite_witnesses"]["native_immediate_local_named_theorems"],
+            ["GateB_CountableChoice.sample"],
+        )
 
     def test_missing_theorem_rejected(self):
         with self.assertRaisesRegex(ValueError, "Incomplete"):
@@ -34,6 +38,14 @@ class NativeBaselineTests(unittest.TestCase):
             bench.parse_export(self.sample().replace(
                 "GateB_CountableChoice.sample", "SomeArbitraryClaim"
             ))
+
+    def test_immediate_local_dependency_must_be_valid(self):
+        raw = self.sample().replace(
+            "\\t0\\tGateB_CountableChoice.sample",
+            "\\t0\\tFakeUnregisteredClaim",
+        )
+        with self.assertRaisesRegex(ValueError, "Invalid local"):
+            bench.parse_export(raw)
 
     def test_no_automatic_originality_claim(self):
         native = bench.parse_export(self.sample())
