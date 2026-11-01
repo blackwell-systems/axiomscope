@@ -11,7 +11,7 @@ fun benchmark (id, theorem) =
       flatten_line (Pretty.string_of (Thm_Deps.pretty_thm_deps baseline_ctxt [theorem]));
     val body = Proofterm.strip_thm_body (Thm.proof_body_of theorem);
     val transitive = Proofterm.fold_body_thms
-      (fn {name, ...} => insert (op =) name) [body] [];
+      (fn {thm_name, ...} => insert (op =) (Thm_Name.print thm_name)) [body] [];
     val local_names = filter (String.isPrefix "GateB_") transitive;
     val all_oracles = Thm_Deps.all_oracles [theorem];
   in
