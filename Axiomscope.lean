@@ -8,3 +8,4 @@ import Axiomscope.Experiments.FirstOrderArithmetic
 import Axiomscope.Experiments.ComparativeInfinity
 import Axiomscope.FoundationalInterpretations
 import Axiomscope.Experiments.Experiment008
+import Axiomscope.Experiments.Experiment009

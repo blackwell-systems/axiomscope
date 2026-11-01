@@ -593,6 +593,61 @@
       "foundation_profile": "classical_choice",
       "experiment": "008-foundational-interpretations",
       "variant": "identity_reverse_obstruction"
+    },
+    {
+      "declaration": "Axiomscope.Experiment009.translate_derivation",
+      "statement": "Source IPC derivations transport to the expanded formula calculus with translated assumptions",
+      "source": "Axiomscope/Experiments/Experiment009.lean",
+      "kind": "theorem",
+      "construction": "Induction on all source inference rules; explicit set-image transport",
+      "provenance": "Experiment 009 Kripke-preserving nonidentity encoding",
+      "foundation_profile": "choice_free",
+      "experiment": "009-nonidentity-translation",
+      "variant": "proof_translation"
+    },
+    {
+      "declaration": "Axiomscope.Experiment009.semantics_equiv",
+      "statement": "Target forcing of translate φ iff source forcing of φ at every world",
+      "source": "Axiomscope/Experiments/Experiment009.lean",
+      "kind": "theorem",
+      "construction": "Structural recursion; arbitrary persistent Kripke models",
+      "provenance": "Experiment 009 Kripke-preserving nonidentity encoding",
+      "foundation_profile": "choice_free",
+      "experiment": "009-nonidentity-translation",
+      "variant": "semantic_preservation"
+    },
+    {
+      "declaration": "Axiomscope.Experiment009.context_semantics_equiv",
+      "statement": "Satisfaction of translated premise images iff satisfaction of source context",
+      "source": "Axiomscope/Experiments/Experiment009.lean",
+      "kind": "theorem",
+      "construction": "Equivalence of every source assumption with its translation",
+      "provenance": "Experiment 009 Kripke-preserving nonidentity encoding",
+      "foundation_profile": "choice_free",
+      "experiment": "009-nonidentity-translation",
+      "variant": "context_semantics"
+    },
+    {
+      "declaration": "Axiomscope.Experiment009.top_not_in_image",
+      "statement": "No source formula maps to primitive target top syntax",
+      "source": "Axiomscope/Experiments/Experiment009.lean",
+      "kind": "theorem",
+      "construction": "Constructor distinction proves a concrete non-surjectivity claim about syntax",
+      "provenance": "Experiment 009 Kripke-preserving nonidentity encoding",
+      "foundation_profile": "kernel_only",
+      "experiment": "009-nonidentity-translation",
+      "variant": "strict_syntax"
+    },
+    {
+      "declaration": "Axiomscope.Experiment009.embedding_compose_identity",
+      "statement": "Translated derivation remains valid after composing with target identity interpretation",
+      "source": "Axiomscope/Experiments/Experiment009.lean",
+      "kind": "theorem",
+      "construction": "Use composition of proof-preserving interpretations",
+      "provenance": "Experiment 009 Kripke-preserving nonidentity encoding",
+      "foundation_profile": "choice_free",
+      "experiment": "009-nonidentity-translation",
+      "variant": "composed_interpretation"
     }
   ],
   "axiom_profiles": {
@@ -727,6 +782,18 @@
         "Axiomscope.Experiment008.inclusion_preserves",
         "Axiomscope.Experiment008.inclusion_composed_with_identity",
         "Axiomscope.Experiment008.no_reverse_identity_interpretation"
+      ]
+    },
+    {
+      "id": "009-nonidentity-translation",
+      "question": "Can a nonidentity translation between two separately defined propositional languages preserve formal derivations, open contexts and meaning in every Kripke world?",
+      "scope": "Source IPC to a richer target syntax and natural-deduction calculus, with atoms mapped to their conjunction with truth. Proves proof/context transport and equivalence of Kripke forcing for every model/world, plus a syntactic non-surjectivity witness. Conservative encoding within Lean, not a semantic separation of foundations.",
+      "variants": [
+        "Axiomscope.Experiment009.translate_derivation",
+        "Axiomscope.Experiment009.semantics_equiv",
+        "Axiomscope.Experiment009.context_semantics_equiv",
+        "Axiomscope.Experiment009.top_not_in_image",
+        "Axiomscope.Experiment009.embedding_compose_identity"
       ]
     }
   ]

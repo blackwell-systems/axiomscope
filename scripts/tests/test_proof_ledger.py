@@ -53,6 +53,11 @@ NAMES = {"Axiomscope.natEquivEven", "Axiomscope.natEquivInt", "Axiomscope.cantor
         "intuitionistic_to_classical", "inclusion_preserves",
         "inclusion_composed_with_identity", "no_reverse_identity_interpretation"
     )
+} | {
+    "Axiomscope.Experiment009." + name for name in (
+        "translate_derivation", "semantics_equiv", "context_semantics_equiv",
+        "top_not_in_image", "embedding_compose_identity"
+    )
 }
 RESULT = (
     "'Axiomscope.natEquivEven' depends on axioms: [propext, Quot.sound]\n"
@@ -109,6 +114,11 @@ RESULT = (
     "'Axiomscope.Experiment008.inclusion_preserves' depends on axioms: [propext, Quot.sound]\n"
     "'Axiomscope.Experiment008.inclusion_composed_with_identity' depends on axioms: [propext, Quot.sound]\n"
     "'Axiomscope.Experiment008.no_reverse_identity_interpretation' depends on axioms: [propext, Classical.choice, Quot.sound]\n"
+    "'Axiomscope.Experiment009.translate_derivation' depends on axioms: [propext, Quot.sound]\n"
+    "'Axiomscope.Experiment009.semantics_equiv' depends on axioms: [propext]\n"
+    "'Axiomscope.Experiment009.context_semantics_equiv' depends on axioms: [propext]\n"
+    "'Axiomscope.Experiment009.top_not_in_image' does not depend on any axioms\n"
+    "'Axiomscope.Experiment009.embedding_compose_identity' depends on axioms: [propext, Quot.sound]\n"
 )
 
 
@@ -151,7 +161,7 @@ class LedgerTests(unittest.TestCase):
     def test_json_markdown_agree(self):
         catalog = json.loads(ledger.CATALOG.read_text(encoding="utf-8"))
         data = ledger.collect(catalog, RESULT, "leanprover/lean4:v4.35.0")
-        self.assertEqual(len(data["records"]), 54)
+        self.assertEqual(len(data["records"]), 59)
         self.assertEqual(sum(d["uses_classical_choice"] for d in data["records"]), 7)
         self.assertIn("Quot.sound", ledger.markdown(data))
 
@@ -276,6 +286,21 @@ class LedgerTests(unittest.TestCase):
             [r["uses_classical_choice"] for r in report["variants"]],
             [False, False, False, True],
         )
+
+    def test_nonidentity_semantic_preservation_report(self):
+        catalog = json.loads(ledger.CATALOG.read_text(encoding="utf-8"))
+        data = ledger.collect(catalog, RESULT, "leanprover/lean4:v4.35.0")
+        report = json.loads(ledger.experiment_reports(catalog, data)[
+            "009-nonidentity-translation"])
+        self.assertEqual(len(report["variants"]), 5)
+        self.assertEqual(
+            [r["axioms"] for r in report["variants"]],
+            [["Quot.sound", "propext"], ["propext"], ["propext"], [],
+             ["Quot.sound", "propext"]],
+        )
+        self.assertTrue(all(
+            not r["uses_classical_choice"] for r in report["variants"]
+        ))
 
     def test_stale_artifact_rejected(self):
         with patch.object(ledger.Path, "exists", return_value=False):
