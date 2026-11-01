@@ -7,8 +7,8 @@ text \<open>
   No ambient Isabelle/HOL lemma about infinite sets is used.
 
   A Dedekind-style witness is here an injection from the natural-number set.
-  Its equivalence to a proper self-embedding is an additional mathematical
-  bridge, and is not silently assumed by the proof checker.
+  The equivalence to a proper self-embedding is proved separately in
+  GateB_CountableConverse, without additional Choice.
 \<close>
 
 definition has_nat_injection :: "i \<Rightarrow> o" where
