@@ -65,6 +65,10 @@ Axiom dependencies are extracted from Lean after successfully elaborating the de
 | `Axiomscope.Experiment009.context_semantics_equiv` | Satisfaction of translated premise images iff satisfaction of source context | Equivalence of every source assumption with its translation (Experiment 009 Kripke-preserving nonidentity encoding) | `choice_free` | `propext` |
 | `Axiomscope.Experiment009.top_not_in_image` | No source formula maps to primitive target top syntax | Constructor distinction proves a concrete non-surjectivity claim about syntax (Experiment 009 Kripke-preserving nonidentity encoding) | `kernel_only` | None reported |
 | `Axiomscope.Experiment009.embedding_compose_identity` | Translated derivation remains valid after composing with target identity interpretation | Use composition of proof-preserving interpretations (Experiment 009 Kripke-preserving nonidentity encoding) | `choice_free` | `Quot.sound`, `propext` |
+| `Axiomscope.Experiment010.certified_derivation` | Certified Kripke interpretation carries every intuitionistic derivation | Use the certificate's underlying proof transport (Experiment 010 checked semantic interpretation certificates) | `choice_free` | `Quot.sound`, `propext` |
+| `Axiomscope.Experiment010.certified_contexts` | Certified translation preserves and reflects Kripke satisfaction of arbitrary contexts | Instantiate the general context equivalence theorem (Experiment 010 checked semantic interpretation certificates) | `choice_free` | `Quot.sound`, `propext` |
+| `Axiomscope.Experiment010.composed_semantics` | Composition with semantic identity preserves and reflects Kripke forcing | Compose two semantic certificates and use their equivalence (Experiment 010 checked semantic interpretation certificates) | `choice_free` | `Quot.sound`, `propext` |
+| `Axiomscope.Experiment010.composed_derivation` | Composition with semantic identity transports intuitionistic proofs | Use the composed certificate's underlying proof interpretation (Experiment 010 checked semantic interpretation certificates) | `choice_free` | `Quot.sound`, `propext` |
 
 ## Scope of the audit
 

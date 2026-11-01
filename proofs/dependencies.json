@@ -853,6 +853,70 @@
         "propext"
       ],
       "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.Experiment010.certified_derivation",
+      "statement": "Certified Kripke interpretation carries every intuitionistic derivation",
+      "source": "Axiomscope/Experiments/Experiment010.lean",
+      "kind": "theorem",
+      "construction": "Use the certificate's underlying proof transport",
+      "provenance": "Experiment 010 checked semantic interpretation certificates",
+      "foundation_profile": "choice_free",
+      "experiment": "010-semantic-certificates",
+      "variant": "proof_certificate",
+      "axioms": [
+        "Quot.sound",
+        "propext"
+      ],
+      "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.Experiment010.certified_contexts",
+      "statement": "Certified translation preserves and reflects Kripke satisfaction of arbitrary contexts",
+      "source": "Axiomscope/Experiments/Experiment010.lean",
+      "kind": "theorem",
+      "construction": "Instantiate the general context equivalence theorem",
+      "provenance": "Experiment 010 checked semantic interpretation certificates",
+      "foundation_profile": "choice_free",
+      "experiment": "010-semantic-certificates",
+      "variant": "context_certificate",
+      "axioms": [
+        "Quot.sound",
+        "propext"
+      ],
+      "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.Experiment010.composed_semantics",
+      "statement": "Composition with semantic identity preserves and reflects Kripke forcing",
+      "source": "Axiomscope/Experiments/Experiment010.lean",
+      "kind": "theorem",
+      "construction": "Compose two semantic certificates and use their equivalence",
+      "provenance": "Experiment 010 checked semantic interpretation certificates",
+      "foundation_profile": "choice_free",
+      "experiment": "010-semantic-certificates",
+      "variant": "semantic_composition",
+      "axioms": [
+        "Quot.sound",
+        "propext"
+      ],
+      "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.Experiment010.composed_derivation",
+      "statement": "Composition with semantic identity transports intuitionistic proofs",
+      "source": "Axiomscope/Experiments/Experiment010.lean",
+      "kind": "theorem",
+      "construction": "Use the composed certificate's underlying proof interpretation",
+      "provenance": "Experiment 010 checked semantic interpretation certificates",
+      "foundation_profile": "choice_free",
+      "experiment": "010-semantic-certificates",
+      "variant": "proof_composition",
+      "axioms": [
+        "Quot.sound",
+        "propext"
+      ],
+      "uses_classical_choice": false
     }
   ]
 }
