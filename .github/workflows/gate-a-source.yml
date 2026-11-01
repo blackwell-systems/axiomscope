@@ -1,0 +1,22 @@
+name: Gate A — pinned foundational declarations
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-source-provenance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test foundation comparison contracts
+        run: python3 -m unittest scripts.tests.test_foundation_gate_a -v
+      - name: Verify pinned blobs, declarations and report
+        run: python3 scripts/check_foundation_gate_a.py --check
