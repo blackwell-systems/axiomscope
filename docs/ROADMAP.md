@@ -40,6 +40,14 @@
 - [ ] Compare **first-order** PA with full predicate induction through independently modeled nonstandard models or interpretation results, without claiming first-order categoricity.
 - [ ] Interpret natural-number arithmetic in a separate set-theoretic theory and compare assumptions.
 
+## Phase 2c — comparative foundations
+
+- [x] Experiment 007 pilot: contrast explicit finite-avoidance selection with ambient infinity, with machine-audited proofs.
+- [x] Exhibit Dedekind self-embedding witnesses for Nat and types equipped with explicit equivalences to Nat.
+- [ ] Model independent weak set theories, including a precise choice principle.
+- [ ] Establish a genuine nonimplication with an independently justified model, not simply a failed proof or reliance on `Classical.choice`.
+- [ ] Extend proof reports with semantic assumption profiles and witness provenance.
+
 ## Phase 3 — mathematical research
 
 - [ ] Identify a precise conjecture or technical limitation of existing frameworks.
