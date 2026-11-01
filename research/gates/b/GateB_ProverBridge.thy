@@ -12,4 +12,7 @@ text \<open>
 
 ML_file "GateB_ProverBridge.ML"
 
+(* Independent baseline: native Isabelle proof-body and oracle APIs. *)
+ML_file "GateB_NativeBaseline.ML"
+
 end
