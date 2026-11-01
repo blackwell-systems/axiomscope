@@ -27,7 +27,8 @@ FORMAL = {"injection_to_infinite", "wellorderable_to_injection",
           "finite_injection_candidates", "countable_choice_finite_witnesses",
           "selected_union_infinite", "countable_choice_yields_infinite_enumerated_union",
           "selected_union_lepoll_nat", "selected_union_has_nat_injection",
-          "countable_choice"}
+          "countable_choice", "dedekind_forward", "dedekind_reverse",
+          "dedekind_equivalence"}
 PUBLISHED = {"cohen_symmetric_countermodel"}
 
 
@@ -85,6 +86,17 @@ def validate(manifest: dict, theory: str, choice_theory: str | None = None,
         'shows "has_nat_injection(A)"',
     )):
         raise ValueError("Positive theorem signature must assert ZF plus object-level ACω only")
+    bridge_signatures = (
+        'lemma nat_injection_gives_proper_self_embedding:',
+        'assumes countable: "has_nat_injection(A)"',
+        'shows "has_proper_self_embedding(A)"',
+        'lemma proper_self_embedding_gives_nat_injection:',
+        'assumes proper: "has_proper_self_embedding(A)"',
+        'theorem dedekind_infinity_equivalence:',
+        '"has_nat_injection(A) \<longleftrightarrow> has_proper_self_embedding(A)"',
+    )
+    if not all(fragment in converse for fragment in bridge_signatures):
+        raise ValueError("Dedekind-infinity bridge signature must remain explicit")
     if "GateB_CountableConverse" not in SESSION_ROOT.read_text(encoding="utf-8"):
         raise ValueError("Gate B Isabelle session does not compile the positive theorem")
     by_id = {claim["id"]: claim for claim in entries}
@@ -125,7 +137,7 @@ def validate(manifest: dict, theory: str, choice_theory: str | None = None,
     return {
         "schema_version": 1,
         "gate": "B",
-        "status": "POSITIVE_COUNTABLE_CHOICE_THEOREM_VERIFIED; NEGATIVE_MODEL_PUBLISHED_ONLY",
+        "status": "POSITIVE_COUNTABLE_CHOICE_AND_DEDEKIND_EQUIVALENCE_VERIFIED; NEGATIVE_MODEL_PUBLISHED_ONLY",
         "scientific_gate_passed": False,
         "same_object_logic_for_formal_results": True,
         "claim": manifest["claim"],

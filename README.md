@@ -91,6 +91,11 @@ nonfinite set contains an injective copy of the natural numbers:
 ZF + ACω ⊢ ∀A. ¬Finite(A) → (ω ↪ A)
 ```
 
+Isabelle/ZF also now verifies, **without Choice**, that `nat ≲ A`
+is equivalent to an injective, nonsurjective self-map of `A`. See the
+[Dedekind bridge](research/gates/b/README.md) and its
+[successful Isabelle2026 replay](https://github.com/blackwell-systems/axiomscope/actions/runs/41291106509).
+
 The [formal theorem](research/gates/b/GateB_CountableConverse.thy)
 constructs an infinite union of countably chosen finite injections,
 gives each element a least occurrence index to obtain a countable
