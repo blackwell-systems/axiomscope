@@ -131,6 +131,18 @@ These are established logical facts. This is not yet a translation
 between ZF and type theory, and it does not exclude other nonidentity
 translations of classical into intuitionistic logic.
 
+## Experiment 009 — a nonidentity translation with semantic evidence
+
+[Experiment 009](docs/experiments/009-nonidentity-translation.md) moves
+beyond Experiment 008's shared-language inclusion. A **distinct target
+formula language** adds conjunction and truth. We translate each source
+atom into its conjunction with truth, preserving all source derivations
+and the truth of every translated formula and context in arbitrary
+Kripke models.
+
+This is a verified **conservative encoding**, not yet a theorem between
+different mathematical foundations or a claim of novelty.
+
 ## Mathematical experiments
 
 The early experiments establish checked examples and probe specific
@@ -148,6 +160,7 @@ long-term research objective.
 | 006 | How does first-order induction over formulas differ from full predicate induction? | [Explanation](docs/experiments/006-first-order-induction.md) |
 | 007 | Which infinity arguments use explicit selection versus ambient assumptions? | [Explanation](docs/experiments/007-comparative-infinity.md) |
 | 008 | Which proofs survive a translation between intuitionistic and classical calculi, and where does the reverse identity map fail? | [Formal experiment](docs/experiments/008-foundational-interpretations.md) |
+| 009 | Can a nonidentity encoding between different formula languages preserve derivations and Kripke forcing? | [Formal experiment](docs/experiments/009-nonidentity-translation.md) |
 | Gate A | What changes between Isabelle/ZF and a hereditarily finite model? | [Evidence and limitations](research/gates/a/README.md) |
 | Gate B | How does countable choice establish `ω ↪ A` for nonfinite `A`? | [Formal result and open negative case](research/gates/b/README.md) |
 
