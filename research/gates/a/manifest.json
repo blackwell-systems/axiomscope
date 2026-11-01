@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "gate": "A",
+  "question": "Does an inductive set exist as a set-theoretic object?",
+  "result_type": "source-provenance-and-theory-contrast",
+  "warning": "An Isabelle axiom and an Isabelle/HOL locale model are not a formal equivalence/translation between the logics.",
+  "sources": [
+    {
+      "id": "isabelle_zf_base",
+      "repository": "isabelle-prover/mirror-isabelle",
+      "revision": "f86f290225eebcc52c1ae7dba2e098f405f51c21",
+      "path": "src/ZF/ZF_Base.thy",
+      "git_blob_sha1": "30531471e15926f1f3a54df39f288eda00089f48"
+    },
+    {
+      "id": "zffin_theory",
+      "repository": "isabelle-prover/mirror-afp-2026",
+      "revision": "3630b347b74dc3f44707bda24c7a5fd0486c6474",
+      "path": "thys/ZF_finite/ZFfin.thy",
+      "git_blob_sha1": "ac2513cb737f0e394d52a709f841a0b1a48f3a08"
+    },
+    {
+      "id": "zffin_hf_model",
+      "repository": "isabelle-prover/mirror-afp-2026",
+      "revision": "3630b347b74dc3f44707bda24c7a5fd0486c6474",
+      "path": "thys/ZF_finite/ZFfin_HF.thy",
+      "git_blob_sha1": "194997b523f0a04147c759abdd7b18f6840d03d1"
+    },
+    {
+      "id": "zffin_session",
+      "repository": "isabelle-prover/mirror-afp-2026",
+      "revision": "3630b347b74dc3f44707bda24c7a5fd0486c6474",
+      "path": "thys/ZF_finite/ROOT",
+      "git_blob_sha1": "e6dbc7a5204e02ea6230e0733b869fae4b1da083"
+    },
+    {
+      "id": "hf_carrier",
+      "repository": "isabelle-prover/mirror-afp-2026",
+      "revision": "3630b347b74dc3f44707bda24c7a5fd0486c6474",
+      "path": "thys/HereditarilyFinite/HF.thy",
+      "git_blob_sha1": "c93fcb1ac98de447db8a6001dc1fdcbe9d28378b"
+    }
+  ],
+  "cases": [
+    {
+      "id": "ZF",
+      "theory": "ZF_Base",
+      "host_logic": "Isabelle/FOL",
+      "positive_inductive_set": "assumed",
+      "declaration": "infinity",
+      "source_id": "isabelle_zf_base",
+      "statement": "0 ∈ Inf ∧ (∀y∈Inf. succ(y) ∈ Inf)",
+      "proof_kind": "object_logic_axiom"
+    },
+    {
+      "id": "ZFfin_in_HF",
+      "theory": "ZFfin_HF",
+      "host_logic": "Isabelle/HOL",
+      "positive_inductive_set": "refuted",
+      "declaration": "zfhf: ZFfin",
+      "assumption": "L_fin.fin",
+      "source_id": "zffin_hf_model",
+      "statement": "¬ (∃x. ∅ ∈ x ∧ (∀y. y ∈ x → setsucM y y ∈ x))",
+      "proof_kind": "model_interpretation"
+    }
+  ],
+  "upstream_build_evidence": {
+    "url": "https://devel.isa-afp.org/entries/ZF_finite.html",
+    "result": "ok",
+    "observed_at": "2026-10-28",
+    "isabelle_revision_reported": "5c69a6568d12",
+    "afp_revision_reported": "3224584dedb5",
+    "warning": "Upstream build revisions are Mercurial IDs and are NOT proved identical to pinned Git mirror revisions."
+  },
+  "limitations": [
+    "Different Isabelle object/meta logics; no interpretation proof between these two theories.",
+    "Pinned Git source plus declaration checks are not a re-execution of the Isabelle kernel.",
+    "Upstream AFP build status is independent evidence but not an attestation for the pinned Git revision.",
+    "This is a known contrast, not mathematical novelty."
+  ]
+}
