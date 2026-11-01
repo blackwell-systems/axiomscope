@@ -48,6 +48,11 @@ NAMES = {"Axiomscope.natEquivEven", "Axiomscope.natEquivInt", "Axiomscope.cantor
         "countable_subset_implies_infinite", "ambient_infinite_has_countable_subset",
         "nat_has_proper_self_embedding", "proper_self_embedding_of_equiv_nat"
     )
+} | {
+    "Axiomscope.Experiment008." + name for name in (
+        "intuitionistic_to_classical", "inclusion_preserves",
+        "inclusion_composed_with_identity", "no_reverse_identity_interpretation"
+    )
 }
 RESULT = (
     "'Axiomscope.natEquivEven' depends on axioms: [propext, Quot.sound]\n"
@@ -100,6 +105,10 @@ RESULT = (
     "'Axiomscope.Experiment007.ambient_infinite_has_countable_subset' depends on axioms: [Classical.choice, Quot.sound, propext]\n"
     "'Axiomscope.Experiment007.nat_has_proper_self_embedding' depends on axioms: [propext]\n"
     "'Axiomscope.Experiment007.proper_self_embedding_of_equiv_nat' depends on axioms: [Quot.sound, propext]\n"
+    "'Axiomscope.Experiment008.intuitionistic_to_classical' does not depend on any axioms\n"
+    "'Axiomscope.Experiment008.inclusion_preserves' depends on axioms: [propext, Quot.sound]\n"
+    "'Axiomscope.Experiment008.inclusion_composed_with_identity' depends on axioms: [propext, Quot.sound]\n"
+    "'Axiomscope.Experiment008.no_reverse_identity_interpretation' depends on axioms: [propext, Classical.choice, Quot.sound]\n"
 )
 
 
@@ -142,8 +151,8 @@ class LedgerTests(unittest.TestCase):
     def test_json_markdown_agree(self):
         catalog = json.loads(ledger.CATALOG.read_text(encoding="utf-8"))
         data = ledger.collect(catalog, RESULT, "leanprover/lean4:v4.35.0")
-        self.assertEqual(len(data["records"]), 50)
-        self.assertEqual(sum(d["uses_classical_choice"] for d in data["records"]), 6)
+        self.assertEqual(len(data["records"]), 54)
+        self.assertEqual(sum(d["uses_classical_choice"] for d in data["records"]), 7)
         self.assertIn("Quot.sound", ledger.markdown(data))
 
     def test_classical_profile_rejects_missing_choice(self):
@@ -250,6 +259,22 @@ class LedgerTests(unittest.TestCase):
         self.assertEqual(
             [r["uses_classical_choice"] for r in report["variants"]],
             [False, False, False, True, True, False, False],
+        )
+
+    def test_interpretation_preservation_and_strictness_report(self):
+        catalog = json.loads(ledger.CATALOG.read_text(encoding="utf-8"))
+        data = ledger.collect(catalog, RESULT, "leanprover/lean4:v4.35.0")
+        report = json.loads(ledger.experiment_reports(catalog, data)[
+            "008-foundational-interpretations"])
+        self.assertEqual(len(report["variants"]), 4)
+        self.assertEqual(
+            [r["axioms"] for r in report["variants"]],
+            [[], ["Quot.sound", "propext"], ["Quot.sound", "propext"],
+             ["Classical.choice", "Quot.sound", "propext"]],
+        )
+        self.assertEqual(
+            [r["uses_classical_choice"] for r in report["variants"]],
+            [False, False, False, True],
         )
 
     def test_stale_artifact_rejected(self):

@@ -716,6 +716,68 @@
         "propext"
       ],
       "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.Experiment008.intuitionistic_to_classical",
+      "statement": "IPC Γ φ → CPC Γ φ",
+      "source": "Axiomscope/Experiments/Experiment008.lean",
+      "kind": "theorem",
+      "construction": "Direct induction transporting every intuitionistic derivation constructor",
+      "provenance": "Experiment 008 proof-interpretation pilot",
+      "foundation_profile": "kernel_only",
+      "experiment": "008-foundational-interpretations",
+      "variant": "rulewise_inclusion",
+      "axioms": [],
+      "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.Experiment008.inclusion_preserves",
+      "statement": "Interpretation IPC CPC transports derivations and contexts",
+      "source": "Axiomscope/Experiments/Experiment008.lean",
+      "kind": "theorem",
+      "construction": "Apply the typed proof-preserving inclusion",
+      "provenance": "Experiment 008 proof-interpretation pilot",
+      "foundation_profile": "choice_free",
+      "experiment": "008-foundational-interpretations",
+      "variant": "context_preservation",
+      "axioms": [
+        "Quot.sound",
+        "propext"
+      ],
+      "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.Experiment008.inclusion_composed_with_identity",
+      "statement": "IPC → CPC → CPC preserves any IPC derivation",
+      "source": "Axiomscope/Experiments/Experiment008.lean",
+      "kind": "theorem",
+      "construction": "Compose the inclusion with a verified identity interpretation",
+      "provenance": "Experiment 008 proof-interpretation pilot",
+      "foundation_profile": "choice_free",
+      "experiment": "008-foundational-interpretations",
+      "variant": "composed_interpretation",
+      "axioms": [
+        "Quot.sound",
+        "propext"
+      ],
+      "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.Experiment008.no_reverse_identity_interpretation",
+      "statement": "No identity-on-formulas proof-preserving interpretation CPC → IPC",
+      "source": "Axiomscope/Experiments/Experiment008.lean",
+      "kind": "theorem",
+      "construction": "CPC excluded-middle proof contradicts Experiment 003 two-world Kripke countermodel",
+      "provenance": "Experiment 008 proof-interpretation pilot",
+      "foundation_profile": "classical_choice",
+      "experiment": "008-foundational-interpretations",
+      "variant": "identity_reverse_obstruction",
+      "axioms": [
+        "Classical.choice",
+        "Quot.sound",
+        "propext"
+      ],
+      "uses_classical_choice": true
     }
   ]
 }

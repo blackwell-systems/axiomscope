@@ -28,6 +28,8 @@ jobs:
         run: lake env lean Axiomscope/Experiments/FirstOrderArithmetic.lean
       - name: Check comparative infinity experiment
         run: lake env lean Axiomscope/Experiments/ComparativeInfinity.lean
+      - name: Check verified logical interpretations (Experiment 008)
+        run: lake env lean Axiomscope/FoundationalInterpretations.lean && lake env lean Axiomscope/Experiments/Experiment008.lean
       - name: Test ledger generator
         run: python3 -m unittest discover -s scripts/tests -v
       - name: Check generated proof records against Lean
