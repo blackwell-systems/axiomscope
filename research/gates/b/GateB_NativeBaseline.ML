@@ -7,8 +7,8 @@ fun flatten_line s =
 fun benchmark (id, theorem) =
   let
     val direct = Thm_Deps.thm_deps baseline_thy [theorem];
-    val pretty_direct =
-      flatten_line (Pretty.string_of (Thm_Deps.pretty_thm_deps baseline_ctxt [theorem]));
+    val immediate_names = map (Thm_Name.print o snd) direct;
+    val immediate_local = filter (String.isPrefix "GateB_") immediate_names;
     val body = Proofterm.strip_thm_body (Thm.proof_body_of theorem);
     val transitive = Proofterm.fold_body_thms
       (fn {thm_name, ...} => insert (op =) (Thm_Name.print thm_name)) [body] [];
@@ -18,7 +18,8 @@ fun benchmark (id, theorem) =
     id ^ "\t" ^ Int.toString (length direct) ^ "\t" ^
     Int.toString (length transitive) ^ "\t" ^
     String.concatWith "," (sort string_ord local_names) ^ "\t" ^
-    Int.toString (length all_oracles) ^ "\t" ^ pretty_direct
+    Int.toString (length all_oracles) ^ "\t" ^
+    String.concatWith "," (sort string_ord immediate_local)
   end;
 val baseline_rows = [
   benchmark ("finite_witnesses",
