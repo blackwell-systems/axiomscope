@@ -1010,6 +1010,101 @@
         "propext"
       ],
       "uses_classical_choice": true
+    },
+    {
+      "declaration": "Axiomscope.Experiment012.sentence_id",
+      "statement": "Sentence map preserves the identity signature morphism",
+      "source": "Axiomscope/Experiments/Experiment012.lean",
+      "kind": "theorem",
+      "construction": "Structural induction over propositional syntax",
+      "provenance": "Experiment 012 signature-indexed propositional institution baseline",
+      "foundation_profile": "choice_free",
+      "experiment": "012-signature-satisfaction",
+      "variant": "sentence_identity",
+      "axioms": [
+        "propext"
+      ],
+      "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.Experiment012.sentence_comp",
+      "statement": "Sentence translation preserves composition of signature morphisms",
+      "source": "Axiomscope/Experiments/Experiment012.lean",
+      "kind": "theorem",
+      "construction": "Structural induction for covariant renaming",
+      "provenance": "Experiment 012 signature-indexed propositional institution baseline",
+      "foundation_profile": "choice_free",
+      "experiment": "012-signature-satisfaction",
+      "variant": "sentence_composition",
+      "axioms": [
+        "propext"
+      ],
+      "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.Experiment012.reduct_comp",
+      "statement": "Valuation reduct reverses composition of signature morphisms",
+      "source": "Axiomscope/Experiments/Experiment012.lean",
+      "kind": "theorem",
+      "construction": "Definitional equality of composed valuations",
+      "provenance": "Experiment 012 signature-indexed propositional institution baseline",
+      "foundation_profile": "kernel_only",
+      "experiment": "012-signature-satisfaction",
+      "variant": "model_contravariance",
+      "axioms": [],
+      "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.Experiment012.satisfaction_condition",
+      "statement": "Truth is invariant under sentence translation and model reduct",
+      "source": "Axiomscope/Experiments/Experiment012.lean",
+      "kind": "theorem",
+      "construction": "Formula induction, including implication preservation",
+      "provenance": "Experiment 012 signature-indexed propositional institution baseline",
+      "foundation_profile": "kernel_only",
+      "experiment": "012-signature-satisfaction",
+      "variant": "satisfaction_law",
+      "axioms": [],
+      "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.Experiment012.satisfaction_comp",
+      "statement": "Satisfaction survives consecutive signature changes",
+      "source": "Axiomscope/Experiments/Experiment012.lean",
+      "kind": "theorem",
+      "construction": "Compose the two satisfaction equivalences",
+      "provenance": "Experiment 012 signature-indexed propositional institution baseline",
+      "foundation_profile": "kernel_only",
+      "experiment": "012-signature-satisfaction",
+      "variant": "satisfaction_composition",
+      "axioms": [],
+      "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.Experiment012.context_satisfaction",
+      "statement": "Satisfaction equivalence extends to arbitrary sets of hypotheses",
+      "source": "Axiomscope/Experiments/Experiment012.lean",
+      "kind": "theorem",
+      "construction": "Derive context equivalence from pointwise sentence satisfaction",
+      "provenance": "Experiment 012 signature-indexed propositional institution baseline",
+      "foundation_profile": "kernel_only",
+      "experiment": "012-signature-satisfaction",
+      "variant": "context_satisfaction",
+      "axioms": [],
+      "uses_classical_choice": false
+    },
+    {
+      "declaration": "Axiomscope.Experiment012.wrong_reduct_counterexample",
+      "statement": "An incorrect model reduct violates the satisfaction condition",
+      "source": "Axiomscope/Experiments/Experiment012.lean",
+      "kind": "theorem",
+      "construction": "Evaluate a true renamed atom against a constantly false source model",
+      "provenance": "Experiment 012 signature-indexed propositional institution baseline",
+      "foundation_profile": "kernel_only",
+      "experiment": "012-signature-satisfaction",
+      "variant": "mismatched_reduct",
+      "axioms": [],
+      "uses_classical_choice": false
     }
   ]
 }
