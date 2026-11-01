@@ -95,4 +95,23 @@ next
   then show ?case by blast
 qed
 
+
+text \<open>
+  This makes the actual countable-choice assumption discharge the
+  countably many separate finite-witness selections. The construction
+  of a *single* injection nat \<rightarrow> A from this family remains
+  a separate obligation.
+\<close>
+
+lemma countable_choice_selects_all_finite_injections:
+  assumes inf: "\<not> Finite(A)"
+      and cc: "countable_choice"
+  shows "(\<Prod>n\<in>nat. inj(n,A)) \<noteq> 0"
+proof -
+  have "\<forall>n\<in>nat. inj(n,A) \<noteq> 0"
+    using inf by (blast intro: infinite_has_finite_injections)
+  then show ?thesis
+    using cc by (rule countable_choice_finite_injection_family)
+qed
+
 end
