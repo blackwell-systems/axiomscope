@@ -71,11 +71,14 @@ theorem translate_derivation {Atom : Type u}
   | orRight _ ih => exact ExpandedDerives.orRight ih
   | orElim _ _ _ ihp ihleft ihright =>
       apply ExpandedDerives.orElim ihp
-      · simpa only [Set.image_insert_eq] using ihleft
-      · simpa only [Set.image_insert_eq] using ihright
+      · rw [Set.image_insert_eq] at ihleft
+        exact ihleft
+      · rw [Set.image_insert_eq] at ihright
+        exact ihright
   | implIntro _ ih =>
       apply ExpandedDerives.implIntro
-      simpa only [Set.image_insert_eq] using ih
+      rw [Set.image_insert_eq] at ih
+      exact ih
   | implElim _ _ ihp ihq =>
       exact ExpandedDerives.implElim ihp ihq
   | exFalso _ ih =>
