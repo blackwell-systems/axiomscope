@@ -22,6 +22,10 @@ jobs:
     timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
+      - name: Verify Gate B evidence classifications
+        run: |
+          python3 -m unittest scripts.tests.test_foundation_gate_b -v
+          python3 scripts/check_foundation_gate_b.py --check
       - name: Fetch Isabelle2026
         run: docker pull makarius/isabelle:Isabelle2026
       - name: Prepare user heap
