@@ -4,7 +4,7 @@
 
 ## Motivation
 
-The v0.2 scenario engine interprets quoted \`assumes\` and \`shows\` clauses
+The v0.2 scenario engine interprets quoted `assumes` and `shows` clauses
 from Isabelle source. That is a useful prototype but **a source parser
 does not prove that its strings equal the elaborated theorem**. This
 milestone introduces a separate Isabelle-side correspondence check.
@@ -15,18 +15,18 @@ milestone introduces a separate Isabelle-side correspondence check.
    signatures. Each theorem is already classified as Isabelle kernel-verified
    by the existing manifest, which does not promote the published-only
    symmetric-model counterexample.
-2. \`scripts/generate_prover_bridge_v03.py --check\` checks that
-   \`GateB_ProverBridge.ML\` is exactly generated from those current
+2. `scripts/generate_prover_bridge_v03.py --check` checks that
+   `GateB_ProverBridge.ML` is exactly generated from those current
    signatures. No manually edited per-theorem expected propositions.
-3. The Isabelle/ZF session builds \`GateB_ProverBridge.thy\`. For each
-   registered theorem, Isabelle/ML retrieves its actual \`thm\` object,
+3. The Isabelle/ZF session builds `GateB_ProverBridge.thy`. For each
+   registered theorem, Isabelle/ML retrieves its actual `thm` object,
    constructs a candidate proposition from the source premises and
-   conclusion, compares it with \`Thm.prop_of\`, and checks the observed
-   number of \`Thm.prems_of\` premises. Any mismatch aborts the build.
+   conclusion, compares it with `Thm.prop_of`, and checks the observed
+   number of `Thm.prems_of` premises. Any mismatch aborts the build.
 4. The theory exports a TSV of **prover-rendered premises/conclusion** via
    Isabelle session exports. The exported content is produced from the
    actual theorem objects, not copied from the Python source parser.
-5. \`scripts/check_prover_bridge_v03.py\` consumes the export, rejects
+5. `scripts/check_prover_bridge_v03.py` consumes the export, rejects
    incomplete/duplicate/unsupported entries, and emits a scenario report
    augmented with the prover-rendered statements. CI archives these files.
    The report distinguishes *applicable registered proof* from mere absence
@@ -52,11 +52,11 @@ This is a narrow but material advance in *evidence provenance*.
 
 - The ML export provides **declaration premises**, NOT transitive
   dependencies on lemmas, definitions, or axioms used inside the proof.
-- \`Pattern.matches\` checks theorem shape up to schematic instantiation;
+- `Pattern.matches` checks theorem shape up to schematic instantiation;
   it is not a proof of representation independence or a general semantic
   equivalence procedure.
 - The scenario engine still uses manually assigned semantics for
-  \`nonfinite_A\`, \`AComega\`, \`wellorder_A\`, and \`nat_injection_A\`.
+  `nonfinite_A`, `AComega`, `wellorder_A`, and `nat_injection_A`.
 - The three theorem IDs and goals remain registered by hand; arbitrary
   theorems are not discovered.
 - Isabelle/ZF proof statements are not transported to Lean, HOL, or ZFfin.
@@ -68,7 +68,7 @@ This is a narrow but material advance in *evidence provenance*.
 
 This approach should be evaluated against standard Isabelle theorem
 exports and dependency tools before extending it. Isabelle can export
-elaborated theory content, and \`Thm.proof_body_of\` provides a route
+elaborated theory content, and `Thm.proof_body_of` provides a route
 toward proof-dependency information. Lean also supports its own axiom
 inspection and declaration introspection.
 
@@ -87,7 +87,7 @@ pivot instead of claiming an invention.
 ## Reproduction
 
 The Gate B GitHub Actions workflow runs the full chain under the pinned
-\`makarius/isabelle:Isabelle2026\` container:
+`makarius/isabelle:Isabelle2026` container:
 
     python3 scripts/generate_prover_bridge_v03.py --check
     python3 -m unittest scripts.tests.test_prover_bridge_v03 -v
