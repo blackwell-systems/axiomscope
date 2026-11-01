@@ -116,6 +116,21 @@ A native Isabelle exporter or dependency tool may already supply much of
 this functionality. The prototype is a research test bed, **not a claim of
 uniqueness**.
 
+## Experiment 008 — first verified interpretation between logical systems
+
+[Experiment 008](docs/experiments/008-foundational-interpretations.md) is
+our first direct test of the mathematical architecture. We formalize
+**intuitionistic and classical natural-deduction calculi** in one common
+propositional language, and a reusable interpretation carrying formulas,
+contexts, and proofs. An induction translates every intuitionistic
+derivation into a classical derivation; a Kripke countermodel rules out
+the reverse **identity-on-formulas** interpretation. Interpretations
+compose under verified proof preservation.
+
+These are established logical facts. This is not yet a translation
+between ZF and type theory, and it does not exclude other nonidentity
+translations of classical into intuitionistic logic.
+
 ## Mathematical experiments
 
 The early experiments establish checked examples and probe specific
@@ -132,6 +147,7 @@ long-term research objective.
 | 005 | What exactly does full predicate induction provide in a Peano-style structure? | [Explanation](docs/experiments/005-peano-axioms.md) |
 | 006 | How does first-order induction over formulas differ from full predicate induction? | [Explanation](docs/experiments/006-first-order-induction.md) |
 | 007 | Which infinity arguments use explicit selection versus ambient assumptions? | [Explanation](docs/experiments/007-comparative-infinity.md) |
+| 008 | Which proofs survive a translation between intuitionistic and classical calculi, and where does the reverse identity map fail? | [Formal experiment](docs/experiments/008-foundational-interpretations.md) |
 | Gate A | What changes between Isabelle/ZF and a hereditarily finite model? | [Evidence and limitations](research/gates/a/README.md) |
 | Gate B | How does countable choice establish `ω ↪ A` for nonfinite `A`? | [Formal result and open negative case](research/gates/b/README.md) |
 
