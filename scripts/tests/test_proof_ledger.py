@@ -58,6 +58,11 @@ NAMES = {"Axiomscope.natEquivEven", "Axiomscope.natEquivInt", "Axiomscope.cantor
         "translate_derivation", "semantics_equiv", "context_semantics_equiv",
         "top_not_in_image", "embedding_compose_identity"
     )
+} | {
+    "Axiomscope.Experiment010." + name for name in (
+        "certified_derivation", "certified_contexts",
+        "composed_semantics", "composed_derivation"
+    )
 }
 RESULT = (
     "'Axiomscope.natEquivEven' depends on axioms: [propext, Quot.sound]\n"
@@ -119,6 +124,10 @@ RESULT = (
     "'Axiomscope.Experiment009.context_semantics_equiv' depends on axioms: [propext]\n"
     "'Axiomscope.Experiment009.top_not_in_image' does not depend on any axioms\n"
     "'Axiomscope.Experiment009.embedding_compose_identity' depends on axioms: [propext, Quot.sound]\n"
+    "'Axiomscope.Experiment010.certified_derivation' depends on axioms: [propext, Quot.sound]\\n"
+    "'Axiomscope.Experiment010.certified_contexts' depends on axioms: [propext, Quot.sound]\\n"
+    "'Axiomscope.Experiment010.composed_semantics' depends on axioms: [propext, Quot.sound]\\n"
+    "'Axiomscope.Experiment010.composed_derivation' depends on axioms: [propext, Quot.sound]\\n"
 )
 
 
@@ -161,7 +170,7 @@ class LedgerTests(unittest.TestCase):
     def test_json_markdown_agree(self):
         catalog = json.loads(ledger.CATALOG.read_text(encoding="utf-8"))
         data = ledger.collect(catalog, RESULT, "leanprover/lean4:v4.35.0")
-        self.assertEqual(len(data["records"]), 59)
+        self.assertEqual(len(data["records"]), 63)
         self.assertEqual(sum(d["uses_classical_choice"] for d in data["records"]), 7)
         self.assertIn("Quot.sound", ledger.markdown(data))
 
@@ -297,6 +306,20 @@ class LedgerTests(unittest.TestCase):
             [r["axioms"] for r in report["variants"]],
             [["Quot.sound", "propext"], ["propext"], ["propext"], [],
              ["Quot.sound", "propext"]],
+        )
+        self.assertTrue(all(
+            not r["uses_classical_choice"] for r in report["variants"]
+        ))
+
+    def test_semantic_interpretation_certificates_report(self):
+        catalog = json.loads(ledger.CATALOG.read_text(encoding="utf-8"))
+        data = ledger.collect(catalog, RESULT, "leanprover/lean4:v4.35.0")
+        report = json.loads(ledger.experiment_reports(catalog, data)[
+            "010-semantic-certificates"])
+        self.assertEqual(len(report["variants"]), 4)
+        self.assertEqual(
+            [r["axioms"] for r in report["variants"]],
+            [["Quot.sound", "propext"]] * 4,
         )
         self.assertTrue(all(
             not r["uses_classical_choice"] for r in report["variants"]
