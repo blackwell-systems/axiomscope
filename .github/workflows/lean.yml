@@ -34,6 +34,8 @@ jobs:
         run: lake env lean Axiomscope/Experiments/Experiment009.lean
       - name: Verify composable semantic interpretation certificates (Experiment 010)
         run: lake env lean Axiomscope/SemanticInterpretations.lean && lake env lean Axiomscope/Experiments/Experiment010.lean
+      - name: Verify model-changing interpretation certificates (Experiment 011)
+        run: lake env lean Axiomscope/ModelInterpretations.lean && lake env lean Axiomscope/Experiments/Experiment011.lean
       - name: Test ledger generator
         run: python3 -m unittest discover -s scripts/tests -v
       - name: Check generated proof records against Lean

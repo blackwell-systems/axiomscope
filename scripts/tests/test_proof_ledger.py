@@ -63,6 +63,12 @@ NAMES = {"Axiomscope.natEquivEven", "Axiomscope.natEquivInt", "Axiomscope.cantor
         "certified_derivation", "certified_contexts",
         "composed_semantics", "composed_derivation"
     )
+} | {
+    "Axiomscope.Experiment011." + name for name in (
+        "pullback_forcing_equiv", "cover_context_equiv",
+        "cover_transports_derivation", "composed_cover_satisfaction",
+        "bad_projection_not_back", "bad_projection_changes_implication"
+    )
 }
 RESULT = (
     "'Axiomscope.natEquivEven' depends on axioms: [propext, Quot.sound]\n"
@@ -128,6 +134,12 @@ RESULT = (
     "'Axiomscope.Experiment010.certified_contexts' depends on axioms: [propext, Quot.sound]\n"
     "'Axiomscope.Experiment010.composed_semantics' depends on axioms: [propext, Quot.sound]\n"
     "'Axiomscope.Experiment010.composed_derivation' depends on axioms: [propext, Quot.sound]\n"
+    "'Axiomscope.Experiment011.pullback_forcing_equiv' does not depend on any axioms\n"
+    "'Axiomscope.Experiment011.cover_context_equiv' depends on axioms: [propext, Quot.sound]\n"
+    "'Axiomscope.Experiment011.cover_transports_derivation' depends on axioms: [propext, Quot.sound]\n"
+    "'Axiomscope.Experiment011.composed_cover_satisfaction' depends on axioms: [propext, Quot.sound]\n"
+    "'Axiomscope.Experiment011.bad_projection_not_back' depends on axioms: [propext]\n"
+    "'Axiomscope.Experiment011.bad_projection_changes_implication' depends on axioms: [propext, Classical.choice, Quot.sound]\n"
 )
 
 
@@ -170,8 +182,8 @@ class LedgerTests(unittest.TestCase):
     def test_json_markdown_agree(self):
         catalog = json.loads(ledger.CATALOG.read_text(encoding="utf-8"))
         data = ledger.collect(catalog, RESULT, "leanprover/lean4:v4.35.0")
-        self.assertEqual(len(data["records"]), 63)
-        self.assertEqual(sum(d["uses_classical_choice"] for d in data["records"]), 7)
+        self.assertEqual(len(data["records"]), 69)
+        self.assertEqual(sum(d["uses_classical_choice"] for d in data["records"]), 8)
         self.assertIn("Quot.sound", ledger.markdown(data))
 
     def test_classical_profile_rejects_missing_choice(self):
@@ -324,6 +336,23 @@ class LedgerTests(unittest.TestCase):
         self.assertTrue(all(
             not r["uses_classical_choice"] for r in report["variants"]
         ))
+
+    def test_kripke_model_translation_profiles(self):
+        catalog = json.loads(ledger.CATALOG.read_text(encoding="utf-8"))
+        data = ledger.collect(catalog, RESULT, "leanprover/lean4:v4.35.0")
+        report = json.loads(ledger.experiment_reports(catalog, data)[
+            "011-kripke-model-translation"])
+        self.assertEqual(len(report["variants"]), 6)
+        self.assertEqual(
+            [r["axioms"] for r in report["variants"]],
+            [[], ["Quot.sound", "propext"], ["Quot.sound", "propext"],
+             ["Quot.sound", "propext"], ["propext"],
+             ["Classical.choice", "Quot.sound", "propext"]],
+        )
+        self.assertEqual(
+            [r["uses_classical_choice"] for r in report["variants"]],
+            [False, False, False, False, False, True],
+        )
 
     def test_stale_artifact_rejected(self):
         with patch.object(ledger.Path, "exists", return_value=False):

@@ -156,6 +156,20 @@ The implementation still uses one shared semantic index and one Lean
 kernel. It does not transfer arbitrary models or prove that different
 mathematical foundations are equivalent.
 
+## Experiment 011 — models and worlds now translate too
+
+[Experiment 011](docs/experiments/011-model-translation.md) generalizes
+semantic certificates to **different source/target model and world types**.
+A Kripke bounded map transports atomic valuations, with a formally
+verified truth correspondence for all formulas. This combines with the
+nonidentity formula translation from Experiment 009 in one reusable
+model-indexed certificate.
+
+A two-world counterexample demonstrates that monotonicity **without
+back-lifting accessible futures** is not sufficient to preserve implication.
+These are established results about Kripke models, not a new foundational
+system or proof of mathematical novelty.
+
 ## Mathematical experiments
 
 The early experiments establish checked examples and probe specific
@@ -175,6 +189,7 @@ long-term research objective.
 | 008 | Which proofs survive a translation between intuitionistic and classical calculi, and where does the reverse identity map fail? | [Formal experiment](docs/experiments/008-foundational-interpretations.md) |
 | 009 | Can a nonidentity encoding between different formula languages preserve derivations and Kripke forcing? | [Formal experiment](docs/experiments/009-nonidentity-translation.md) |
 | 010 | Can proof-preserving interpretations carry semantic certificates that compose and reject genuine mismatches? | [Formal experiment](docs/experiments/010-semantic-certificates.md) |
+| 011 | Can a bounded world map and nonidentity formula translation preserve proofs and truth across different model classes? | [Formal experiment](docs/experiments/011-model-translation.md) |
 | Gate A | What changes between Isabelle/ZF and a hereditarily finite model? | [Evidence and limitations](research/gates/a/README.md) |
 | Gate B | How does countable choice establish `ω ↪ A` for nonfinite `A`? | [Formal result and open negative case](research/gates/b/README.md) |
 
