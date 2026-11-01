@@ -65,7 +65,8 @@
 - [x] Demonstrate alternative routes via countable Choice and local well-orderability.
 - [x] Fail closed on unknown assumptions, cross-logic claims, or published-only evidence.
 - [x] Keep machine-generated counterfactual results and explicit regression tests under CI.
-- [ ] Extract theorem prerequisites mechanically rather than curating them by hand.
+- [x] Extract the explicit quoted premise list and conclusion from registered Isabelle/ZF theorem source declarations (restricted grammar).
+- [ ] Obtain prover-elaborated statements and proof-term dependencies, beyond the restricted source-header parser.
 - [ ] Compare what the prototype adds beyond Isabelle locales, theory interpretations, Lean's axiom audit, AFP, and existing dependency tooling.
 - [ ] Prove a useful interpretation / transport correctness theorem across *explicitly linked* foundations.
 - [ ] Demonstrate measurable benefit or pivot; do not claim novelty from proof collection.
