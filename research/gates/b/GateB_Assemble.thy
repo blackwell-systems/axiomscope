@@ -30,7 +30,7 @@ proof
     using emb unfolding lepoll_def by blast
   have contradiction: "succ(m) \<lesssim> m"
     using le eq by (blast intro: eqpoll_imp_lepoll lepoll_trans)
-  exact succ_lepoll_natE [OF contradiction m]
+  show False by (rule succ_lepoll_natE [OF contradiction m])
 qed
 
 lemma countable_choice_yields_infinite_enumerated_union:
