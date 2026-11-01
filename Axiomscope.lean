@@ -6,3 +6,5 @@ import Axiomscope.Experiments.NaturalNumbers
 import Axiomscope.Experiments.PeanoAxioms
 import Axiomscope.Experiments.FirstOrderArithmetic
 import Axiomscope.Experiments.ComparativeInfinity
+import Axiomscope.FoundationalInterpretations
+import Axiomscope.Experiments.Experiment008
