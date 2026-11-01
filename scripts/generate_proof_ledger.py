@@ -42,7 +42,7 @@ def parse_axioms(output: str, expected: set[str]) -> dict[str, list[str]]:
         if name in results:
             raise LedgerError(f"Duplicate report for {name}")
         axioms = [item.strip() for item in listed.split(",")] if listed else []
-        if any(not re.fullmatch(r"[\\w.]+", x) for x in axioms):
+        if any(not re.fullmatch(r"[\w.]+", x) for x in axioms):
             raise LedgerError(f"Malformed axiom list for {name}")
         if len(set(axioms)) != len(axioms):
             raise LedgerError(f"Repeated axiom for {name}")
