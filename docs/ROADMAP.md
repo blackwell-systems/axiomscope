@@ -99,6 +99,15 @@
 - [ ] Register and audit the new theorems and preserve all existing Lean/Gate A checks.
 - [ ] Extend to explicit mappings between distinct classes of models; benchmark against existing institution/logical framework translations.
 
+## Experiment 011 — distinct model classes and Kripke bounded morphisms
+
+- [ ] Generalize certificates to source/target model classes and distinct world types, with verified identity and composition.
+- [ ] Prove arbitrary-formula forcing equivalence for valuations pulled back along bounded Kripke world maps (forth and back).
+- [ ] Instantiate a nonidentity syntax-plus-model translation from Nat worlds to Nat × Bool worlds.
+- [ ] Derive translated-context satisfaction and proof transport from the model-indexed certificate.
+- [ ] Exhibit an explicit counterexample showing a monotone world map without the back condition changes implication truth.
+- [ ] Audit Lean axioms and generated artifacts; compare against established bounded-morphism and institution-morphism theory before claiming novelty.
+
 ## Phase 3 — mathematical research
 
 - [ ] Identify a precise conjecture or technical limitation of existing frameworks.
