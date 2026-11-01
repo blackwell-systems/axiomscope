@@ -5,3 +5,4 @@ session GateB_ZF = ZF +
     GateB_Assemble
     GateB_Enumeration
     GateB_CountableConverse
+    GateB_ProverBridge
