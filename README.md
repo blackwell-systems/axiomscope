@@ -60,6 +60,22 @@ We prove that Experiment 005's *full predicate induction* validates every semant
 
 See [Experiment 006's scope and formalization](docs/experiments/006-first-order-induction.md).
 
+## Experiment 007 — comparative infinity
+
+We are testing the project's first explicit-assumption comparison. A supplied
+**uniform finite-avoidance selector** generates an injective sequence of
+distinct elements; a separate Mathlib proof recovers such a sequence from
+the ambient `Infinite` typeclass. We audit the different proof dependencies,
+and give concrete Dedekind witnesses via successor and explicit equivalences.
+
+**Scope:** These are two proof/assumption profiles *within Lean*, not yet
+distinct set-theoretic models. The experiment does not establish an
+independence result over ZF.
+
+See [the implementation](Axiomscope/Experiments/ComparativeInfinity.lean),
+[write-up](docs/experiments/007-comparative-infinity.md), and
+[generated ledger](proofs/experiments/007-comparative-infinity.json).
+
 ## Build
 
 Install [Lean 4 through elan](https://lean-lang.org/install/manual/), then run:
@@ -74,6 +90,7 @@ lake env lean Axiomscope/Experiments/GeneralKripke.lean
 lake env lean Axiomscope/Experiments/NaturalNumbers.lean
 lake env lean Axiomscope/Experiments/PeanoAxioms.lean
 lake env lean Axiomscope/Experiments/FirstOrderArithmetic.lean
+lake env lean Axiomscope/Experiments/ComparativeInfinity.lean
 python3 -m unittest discover -s scripts/tests -v
 python3 scripts/generate_proof_ledger.py --check
 ```
@@ -102,6 +119,7 @@ The proof ledger is **generated**, not manually maintained. After editing proofs
 - [Experiment 004: natural numbers reconstruction](docs/experiments/004-natural-numbers.md)
 - [Experiment 005: axiomatic Peano systems](docs/experiments/005-peano-axioms.md)
 - [Experiment 006: first-order arithmetic induction schema](docs/experiments/006-first-order-induction.md)
+- [Experiment 007: comparative infinity](docs/experiments/007-comparative-infinity.md)
 - [Declaration metadata catalogue](proofs/catalog.json)
 - [Research roadmap](docs/ROADMAP.md)
 
