@@ -70,7 +70,7 @@ next
   have finite_range: "Finite(range(f))"
   proof -
     have r: "range(f) = {f`x. x \<in> n}"
-      using fn by (auto dest: apply_equality simp add: Pi_iff)
+      using fn by (blast dest: Pi_memberD intro: apply_Pair)
     have "Finite(n)" using succ.hyps(1) by (rule nat_into_Finite)
     then have "Finite({f`x. x \<in> n})"
       by (rule Finite_RepFun)
