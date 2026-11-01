@@ -109,7 +109,12 @@ lemma countable_choice_selects_all_finite_injections:
   shows "(\<Prod>n\<in>nat. inj(n,A)) \<noteq> 0"
 proof -
   have "\<forall>n\<in>nat. inj(n,A) \<noteq> 0"
-    using inf by (blast intro: infinite_has_finite_injections)
+  proof (intro ballI)
+    fix n
+    assume hn: "n \<in> nat"
+    show "inj(n,A) \<noteq> 0"
+      by (rule infinite_has_finite_injections [OF inf hn])
+  qed
   then show ?thesis
     using cc by (rule countable_choice_finite_injection_family)
 qed
