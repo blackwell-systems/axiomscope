@@ -12,12 +12,12 @@ fun benchmark (id, theorem) =
     val body = Proofterm.strip_thm_body (Thm.proof_body_of theorem);
     val transitive = Proofterm.fold_body_thms
       (fn {name, ...} => insert (op =) name) [body] [];
-    val local = filter (String.isPrefix "GateB_") transitive;
+    val local_names = filter (String.isPrefix "GateB_") transitive;
     val all_oracles = Thm_Deps.all_oracles [theorem];
   in
     id ^ "\t" ^ Int.toString (length direct) ^ "\t" ^
     Int.toString (length transitive) ^ "\t" ^
-    String.concatWith "," (sort string_ord local) ^ "\t" ^
+    String.concatWith "," (sort string_ord local_names) ^ "\t" ^
     Int.toString (length all_oracles) ^ "\t" ^ pretty_direct
   end;
 val baseline_rows = [
