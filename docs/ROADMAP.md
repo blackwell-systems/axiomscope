@@ -83,11 +83,11 @@
 
 ## Experiment 009 — nonidentity syntax translation and semantic preservation
 
-- [ ] Introduce an independently defined richer target object-language and natural deduction calculus.
-- [ ] Verify derivation transport through a nonidentity formula translation, including open contexts.
-- [ ] Prove preservation and reflection of Kripke forcing for all models/worlds, plus context satisfaction.
-- [ ] Exhibit a target syntax constructor outside the literal translation image without overstating semantic expressivity.
-- [ ] Audit all new theorems through Lean's generated proof ledger and regression tests.
+- [x] Introduce an independently defined richer target object-language and natural deduction calculus.
+- [x] Verify derivation transport through a nonidentity formula translation, including open contexts.
+- [x] Prove preservation and reflection of Kripke forcing for all models/worlds, plus context satisfaction.
+- [x] Exhibit a target syntax constructor outside the literal translation image without overstating semantic expressivity.
+- [x] Audit all new theorems through Lean's generated proof ledger and regression tests.
 - [ ] Compare semantic interpretation certificates with native Lean/Isabelle and established theory-morphism frameworks before claiming novelty.
 
 ## Phase 3 — mathematical research
