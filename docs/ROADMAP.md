@@ -90,6 +90,15 @@
 - [x] Audit all new theorems through Lean's generated proof ledger and regression tests.
 - [ ] Compare semantic interpretation certificates with native Lean/Isabelle and established theory-morphism frameworks before claiming novelty.
 
+## Experiment 010 — composable semantic interpretation certificates
+
+- [ ] Define a reusable certificate requiring proof transport and satisfaction equivalence over a shared index.
+- [ ] Verify identity, composition, and context satisfaction preservation from the general certificate.
+- [ ] Prove that a concrete semantic mismatch rules out a certificate for that formula map.
+- [ ] Instantiate the certificate with Experiment 009's nonidentity Kripke translation, including composed proof and semantic preservation.
+- [ ] Register and audit the new theorems and preserve all existing Lean/Gate A checks.
+- [ ] Extend to explicit mappings between distinct classes of models; benchmark against existing institution/logical framework translations.
+
 ## Phase 3 — mathematical research
 
 - [ ] Identify a precise conjecture or technical limitation of existing frameworks.
