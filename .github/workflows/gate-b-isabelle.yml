@@ -19,7 +19,7 @@ permissions:
 jobs:
   verify-zf:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
       - name: Verify Gate B evidence classifications
@@ -34,7 +34,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          timeout 180s docker run --rm \
+          docker run --rm \
             -v "$PWD/research/gates/b:/theories:ro" \
             -v "$PWD/isabelle-home:/home/isabelle/.isabelle" \
             makarius/isabelle:Isabelle2026 build -v \

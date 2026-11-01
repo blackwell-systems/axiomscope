@@ -62,16 +62,71 @@
       "evidence": []
     },
     {
+      "id": "selected_union_infinite",
+      "statement": "(∀n∈nat. f`n∈inj(n,A)) ⇒ ¬Finite(⋃n∈nat. range(f`n))",
+      "status": "formal_isabelle_kernel",
+      "theorem": "GateB_Assemble.selected_union_infinite",
+      "source": "research/gates/b/GateB_Assemble.thy",
+      "assumptions": [
+        "Supplied family of all finite injections, one for every natural n"
+      ],
+      "foundational_scope": "Isabelle/ZF; nonfiniteness uses no countable choice beyond supplied family",
+      "evidence": []
+    },
+    {
+      "id": "countable_choice_yields_infinite_enumerated_union",
+      "statement": "¬Finite(A) ∧ ACω ⇒ ∃f∈Πn∈nat inj(n,A). ¬Finite(⋃n∈nat. range(f`n))",
+      "status": "formal_isabelle_kernel",
+      "theorem": "GateB_Assemble.countable_choice_yields_infinite_enumerated_union",
+      "source": "research/gates/b/GateB_Assemble.thy",
+      "assumptions": [
+        "A is nonfinite",
+        "Countable Choice (ACω) as a ZF object-level proposition"
+      ],
+      "foundational_scope": "Isabelle/ZF plus explicitly supplied countable-choice proposition; does NOT yet prove nat≲A",
+      "evidence": []
+    },
+    {
+      "id": "selected_union_lepoll_nat",
+      "statement": "For f∈Πn∈nat inj(n,A), the union of ranges of f is at most countable: selected_union(f)≲nat",
+      "status": "formal_isabelle_kernel",
+      "theorem": "GateB_Enumeration.selected_union_lepoll_nat",
+      "source": "research/gates/b/GateB_Enumeration.thy",
+      "assumptions": [
+        "Explicit selected finite injections for all natural n"
+      ],
+      "foundational_scope": "Isabelle/ZF, no additional Choice (use least code of an occurrence)",
+      "evidence": []
+    },
+    {
+      "id": "selected_union_has_nat_injection",
+      "statement": "If f∈Πn∈nat inj(n,A), then nat≲selected_union(f)",
+      "status": "formal_isabelle_kernel",
+      "theorem": "GateB_CountableConverse.selected_union_has_nat_injection",
+      "source": "research/gates/b/GateB_CountableConverse.thy",
+      "assumptions": [
+        "Explicit selected finite injections for all natural n"
+      ],
+      "foundational_scope": "Isabelle/ZF, no additional Choice beyond supplied finite injection family",
+      "evidence": []
+    },
+    {
       "id": "countable_choice",
       "statement": "ZF + ACω ⊢ ∀A(¬Finite(A) ⇒ nat ≲ A)",
-      "status": "published_not_checked_here",
-      "theorem": null,
-      "source": null,
+      "status": "formal_isabelle_kernel",
+      "theorem": "GateB_CountableConverse.countable_choice_infinite_has_nat_injection",
+      "source": "research/gates/b/GateB_CountableConverse.thy",
       "assumptions": [
         "Countable Choice (ACω)"
       ],
-      "foundational_scope": "ZF + countable choice",
+      "foundational_scope": "Isabelle/ZF with an explicitly assumed object-level countable_choice proposition; theorem is fully kernel-checked",
       "evidence": [
+        {
+          "kind": "isabelle2026_ci_success",
+          "url": "https://github.com/blackwell-systems/axiomscope/actions/runs/41278192193"
+        }
+      ],
+      "background_evidence": [
         {
           "kind": "textbook",
           "title": "Open Logic Project, Set Theory, Theorem 9.9",
@@ -109,10 +164,9 @@
     }
   ],
   "known_gaps": [
-    "No Isabelle/ZF theorem that ACω implies Dedekind infinity has been built in AxiomScope.",
-    "No Isabelle implementation or kernel replay of Cohen's first symmetric model is provided.",
-    "The two notions of Dedekind infinity (nat injection versus proper self-embedding) have not been linked by a Gate B theorem.",
-    "Cross-source comparison still requires rigorous formal mappings before an independence theorem may be marked verified.",
-    "Although ACω now selects an injection n→A for every finite n, the ZF-level construction assembling them into one injection nat→A remains unproved."
+    "No Isabelle implementation or kernel replay of Cohen's first symmetric model is provided. The nonimplication in ZF without Choice remains published evidence only.",
+    "The equivalence of an injection nat→A with a proper non-surjective self-embedding A→A has not yet been kernel-checked in this Gate B development.",
+    "Formal source correspondence and independently justified choice-free countermodel evidence remain required before marking the scientific independence benchmark complete.",
+    "No novel mathematical result is claimed: the positive countable-choice implication is established mathematics."
   ]
 }

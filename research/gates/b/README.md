@@ -47,11 +47,55 @@ injections have not yet been combined into an injection `nat → A`.
 Thus we have formalized a meaningful partial countable-choice proof,
 not the full claim `ZF + ACω ⊢ Infinite(A) → DedekindInfinite(A)`.
 
+## Verified infinite union of selected finite injections
+
+[GateB_Assemble.thy](GateB_Assemble.thy) proves that if one injection
+`f_n : n ↪ A` is supplied for each finite ordinal `n`, the union
+`⋃ₙ range(f_n)` is infinite. Otherwise, if the union were equipotent
+to a finite ordinal `m`, the selected `f_(m+1)` would imply an
+injection `m+1 ↪ m`, contradicting the ZF finite-cardinal theorem.
+
+It then combines the earlier **explicit countable-choice proposition**
+with the finite-witness results to verify the existence of such an
+infinite enumerated union under `¬Finite(A) ∧ ACω`.
+
+These statements are part of the proof of the countable-choice
+converse, **not yet the converse itself**. The bridge proving that
+this union embeds in `nat` remains to be checked before claiming
+`nat ≲ A`.
+
+## Complete positive theorem — ZF plus countable choice
+
+The following result is now **Isabelle2026 kernel-verified**:
+
+```isabelle
+theorem countable_choice_infinite_has_nat_injection:
+  assumes inf: "\\<not> Finite(A)" and cc: "countable_choice"
+  shows "has_nat_injection(A)"
+```
+
+See [GateB_CountableConverse.thy](GateB_CountableConverse.thy) and the
+[successful Isabelle2026 build](https://github.com/blackwell-systems/axiomscope/actions/runs/41278192193).
+
+The proof runs in **Isabelle/ZF**, whose `ZF` base theory explicitly excludes
+Choice. `countable_choice` is defined as a separate object-level proposition,
+and passed as an explicit theorem assumption.
+
+The construction takes the countably selected finite injections,
+proves their ranges have an infinite union, then assigns each element
+the **least natural-number code** of one of its occurrences. That gives
+an injection from the union into `nat` without additional Choice.
+Since the union is both nonfinite and well-orderable, it contains a
+copy of `nat`, and the inclusion into `A` completes the proof.
+
+The positive countable-choice result is standard mathematics, now
+reproduced and checked in this project. It is **not** a novel theorem.
+
 ## Published, but not kernel-checked here
 
 The countable choice principle `ACω` suffices to show every infinite set
 contains an injection of `ω`. The Open Logic Project, *Set Theory*,
-Theorem 9.9 provides a textbook proof:
+Theorem 9.9 provides background to this now machine-checked positive theorem:
 https://builds.openlogicproject.org/content/set-theory/set-theory.pdf
 
 Cohen's first symmetric model contains an infinite Dedekind-finite set of
@@ -61,12 +105,10 @@ A modern peer-reviewed account is in the *Journal of Symbolic Logic*,
 Section 3.1 of *Does DC imply ACω uniformly?*:
 https://www.cambridge.org/core/journals/journal-of-symbolic-logic/article/does-mathsf-dc-imply-mathsf-acomega-uniformly/05069A84199B3477B3BEA2E58EF21AF6
 
-**These are external literature claims, not declarations in
-`GateB_ZF.thy`.** A cited paper is not proof-assistant verification.
+**The positive theorem above is machine-verified. The Cohen countermodel remains literature-only.** A cited paper is not proof-assistant verification.
 
 ## Exact outstanding gaps
 
-- No Isabelle/ZF proof of the countable-choice (`ACω`) converse.
 - No kernel-checked first Cohen symmetric model within this project.
 - No kernel-checked bridge from `nat ≲ A` to a proper self-embedding here.
 - No machine-checked *negative* independence result in this repository.
@@ -76,6 +118,4 @@ The evidence compiler must reject any attempt to change the paper-backed
 claims to `formal_isabelle_kernel` or to substitute a well-order witness
 for countable choice.
 
-**Status: Gate B remains open.** Passing its initial Isabelle proof checks is
-substantive progress toward faithful comparative foundations, but not
-completion of the original independence benchmark.
+**Status: positive countable-choice theorem complete; Gate B independence benchmark remains open.** The negative symmetric-model result is still external literature evidence, not a kernel-checked model in this project.
