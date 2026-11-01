@@ -26,6 +26,8 @@ jobs:
         run: lake env lean Axiomscope/Experiments/PeanoAxioms.lean
       - name: Check first-order arithmetic experiment
         run: lake env lean Axiomscope/Experiments/FirstOrderArithmetic.lean
+      - name: Check comparative infinity experiment
+        run: lake env lean Axiomscope/Experiments/ComparativeInfinity.lean
       - name: Test ledger generator
         run: python3 -m unittest discover -s scripts/tests -v
       - name: Check generated proof records against Lean
