@@ -56,6 +56,10 @@ Axiom dependencies are extracted from Lean after successfully elaborating the de
 | `Axiomscope.Experiment007.ambient_infinite_has_countable_subset` | Infinite α → HasCountableSubset α in the ambient Mathlib foundation | Use Mathlib Infinite.natEmbedding, whose current proof uses Classical.choice (Experiment 007 explicit-assumption comparison) | `classical_choice` | `Classical.choice`, `Quot.sound`, `propext` |
 | `Axiomscope.Experiment007.nat_has_proper_self_embedding` | HasProperSelfEmbedding Nat | The successor map is injective and omits zero (Experiment 007 explicit-assumption comparison) | `choice_free` | `propext` |
 | `Axiomscope.Experiment007.proper_self_embedding_of_equiv_nat` | (α ≃ Nat) → HasProperSelfEmbedding α | Transport the successor shift along an explicitly supplied equivalence (Experiment 007 explicit-assumption comparison) | `choice_free` | `Quot.sound`, `propext` |
+| `Axiomscope.Experiment008.intuitionistic_to_classical` | IPC Γ φ → CPC Γ φ | Direct induction transporting every intuitionistic derivation constructor (Experiment 008 proof-interpretation pilot) | `kernel_only` | None reported |
+| `Axiomscope.Experiment008.inclusion_preserves` | Interpretation IPC CPC transports derivations and contexts | Apply the typed proof-preserving inclusion (Experiment 008 proof-interpretation pilot) | `choice_free` | `Quot.sound`, `propext` |
+| `Axiomscope.Experiment008.inclusion_composed_with_identity` | IPC → CPC → CPC preserves any IPC derivation | Compose the inclusion with a verified identity interpretation (Experiment 008 proof-interpretation pilot) | `choice_free` | `Quot.sound`, `propext` |
+| `Axiomscope.Experiment008.no_reverse_identity_interpretation` | No identity-on-formulas proof-preserving interpretation CPC → IPC | CPC excluded-middle proof contradicts Experiment 003 two-world Kripke countermodel (Experiment 008 proof-interpretation pilot) | `classical_choice` | `Classical.choice`, `Quot.sound`, `propext` |
 
 ## Scope of the audit
 
