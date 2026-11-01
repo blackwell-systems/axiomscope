@@ -76,6 +76,32 @@ See [the implementation](Axiomscope/Experiments/ComparativeInfinity.lean),
 [write-up](docs/experiments/007-comparative-infinity.md), and
 [generated ledger](proofs/experiments/007-comparative-infinity.json).
 
+## Foundational comparison gates — actual Isabelle/ZF results
+
+The initial [Gate A comparison](research/gates/a/README.md) reproduces
+Isabelle/ZF and the hereditarily finite model of ZFfin using pinned sources,
+with explicit proof-assistant build evidence. This is a known foundational
+contrast, not mathematical novelty.
+
+**Gate B has now verified its positive result:** assuming the countable
+Axiom of Choice as an explicit proposition *inside Isabelle/ZF*, every
+nonfinite set contains an injective copy of the natural numbers:
+
+```text
+ZF + ACω ⊢ ∀A. ¬Finite(A) → (ω ↪ A)
+```
+
+The [formal theorem](research/gates/b/GateB_CountableConverse.thy)
+constructs an infinite union of countably chosen finite injections,
+gives each element a least occurrence index to obtain a countable
+well-ordering, and extracts a single injection `ω ↪ A`.
+
+The [typed proof/evidence comparison](research/gates/b/comparison.json)
+marks this positive theorem as **Isabelle kernel-verified**. The opposite
+side—the existence of infinite Dedekind-finite sets in a symmetric model
+of ZF without Choice—remains **published evidence only** within AxiomScope.
+This is an unfinished independence benchmark; no novel theorem is claimed.
+
 ## Build
 
 Install [Lean 4 through elan](https://lean-lang.org/install/manual/), then run:

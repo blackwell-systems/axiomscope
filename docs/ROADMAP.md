@@ -48,6 +48,16 @@
 - [ ] Establish a genuine nonimplication with an independently justified model, not simply a failed proof or reliance on `Classical.choice`.
 - [ ] Extend proof reports with semantic assumption profiles and witness provenance.
 
+## Gate A / Gate B research decisions
+
+- [x] Compare actual Isabelle/ZF and AFP ZFfin/HF foundations, with pinned source hashes, model interpretation evidence, and independent Isabelle2026 builds.
+- [x] State countable Choice as a ZF object-level proposition, not as ambient Lean/HOL choice.
+- [x] Verify that a nonfinite set admits injections from every finite ordinal with no Choice.
+- [x] Under `ACω`, select the finite injections, prove their union infinite, encode it in `nat`, and verify `nat ≲ A` in Isabelle/ZF.
+- [ ] Formally connect `nat ≲ A` to an injective nonsurjective endomap of `A` in the ZF object language.
+- [ ] Build or import a genuine machine-checked symmetric model with an infinite Dedekind-finite set, or leave the negative result clearly labeled as published-only.
+- [ ] Demonstrate a distinctive research/tooling capability beyond Isabelle/AFP's existing libraries, or decide to pivot the project.
+
 ## Phase 3 — mathematical research
 
 - [ ] Identify a precise conjecture or technical limitation of existing frameworks.

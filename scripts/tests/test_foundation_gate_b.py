@@ -20,8 +20,41 @@ class GateBTests(unittest.TestCase):
         report = gate.validate(self.manifest, self.theory)
         self.assertFalse(report["scientific_gate_passed"])
         published = [c for c in report["claims"] if c["status"] == "published_not_checked_here"]
-        self.assertEqual(len(published), 2)
+        self.assertEqual(len(published), 1)
         self.assertTrue(all(c["machine_check"] == "NOT_MACHINE_VERIFIED_HERE" for c in published))
+
+    def test_infinite_union_verified_without_promoting_converse(self):
+        report = gate.validate(self.manifest, self.theory)
+        by_id = {c["id"]: c for c in report["claims"]}
+        self.assertEqual(by_id["selected_union_infinite"]["status"], "formal_isabelle_kernel")
+        self.assertEqual(
+            by_id["countable_choice_yields_infinite_enumerated_union"]["status"],
+            "formal_isabelle_kernel",
+        )
+        self.assertEqual(by_id["countable_choice"]["status"], "formal_isabelle_kernel")
+        self.assertFalse(report["scientific_gate_passed"])
+
+    def test_full_positive_theorem_checked_and_negative_model_not(self):
+        report = gate.validate(self.manifest, self.theory)
+        by_id = {c["id"]: c for c in report["claims"]}
+        positive = by_id["countable_choice"]
+        self.assertEqual(positive["status"], "formal_isabelle_kernel")
+        self.assertEqual(positive["theorem"], "GateB_CountableConverse.countable_choice_infinite_has_nat_injection")
+        self.assertEqual(by_id["selected_union_lepoll_nat"]["status"], "formal_isabelle_kernel")
+        self.assertEqual(by_id["cohen_symmetric_countermodel"]["status"], "published_not_checked_here")
+        self.assertFalse(report["scientific_gate_passed"])
+
+    def test_positive_conclusion_cannot_be_altered(self):
+        source = gate.CONVERSE_THEORY.read_text(encoding="utf-8")
+        altered = source.replace('shows "has_nat_injection(A)"', 'shows "A = A"')
+        extra = {
+            "research/gates/b/GateB_EnumerationIntro.thy": gate.ENUM_INTRO.read_text(encoding="utf-8"),
+            "research/gates/b/GateB_EnumerationLeast.thy": gate.ENUM_LEAST.read_text(encoding="utf-8"),
+            "research/gates/b/GateB_Enumeration.thy": gate.ENUM_THEORY.read_text(encoding="utf-8"),
+            "research/gates/b/GateB_CountableConverse.thy": altered,
+        }
+        with self.assertRaisesRegex(ValueError, "Positive theorem signature"):
+            gate.validate(self.manifest, self.theory, extra_theories=extra)
 
     def test_published_countermodel_cannot_be_upgraded(self):
         altered = copy.deepcopy(self.manifest)
