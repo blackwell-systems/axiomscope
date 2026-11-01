@@ -72,6 +72,15 @@
 - [ ] Prove a useful interpretation / transport correctness theorem across *explicitly linked* foundations.
 - [ ] Demonstrate measurable benefit or pivot; do not claim novelty from proof collection.
 
+## Experiment 008 — interpretations between two deductive systems
+
+- [ ] Verify a general proof-preserving interpretation interface and its composition law in Lean.
+- [ ] Define an explicit classical extension of the existing intuitionistic propositional calculus and transport every deduction rule.
+- [ ] Establish a model-backed obstruction to the reverse **identity-on-formulas** interpretation using Experiment 003's Kripke countermodel.
+- [ ] Audit the resulting theorems' axiomatic dependencies; record evidence and nonclaims.
+- [ ] Benchmark this pilot against existing theory-interpretation machinery before broadening to different object languages.
+- [ ] Extend to a nonidentity formula translation with explicit connective and semantic preservation obligations.
+
 ## Phase 3 — mathematical research
 
 - [ ] Identify a precise conjecture or technical limitation of existing frameworks.
