@@ -43,9 +43,13 @@ proof -
        j = q`\<langle>n,k\<rangle> \<and> x = (f`n)`k" using property .
     show "Ord(j)" by (rule nat_into_Ord [OF j])
   qed
+  have jlt: "j < nat" by (rule ltI [OF j Ord_nat])
+  have least_lt: "(\<mu> v. \<exists>n\<in>nat. \<exists>k\<in>n.
+           v = q`\<langle>n,k\<rangle> \<and> x = (f`n)`k) < nat"
+    by (rule lt_trans1 [OF le jlt])
   have "(\<mu> v. \<exists>n\<in>nat. \<exists>k\<in>n.
            v = q`\<langle>n,k\<rangle> \<and> x = (f`n)`k) \<in> nat"
-    using j le by (blast intro: lt_trans1)
+    using least_lt by (rule ltD)
   thus ?thesis unfolding selected_index_def .
 qed
 
