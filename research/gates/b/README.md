@@ -30,6 +30,23 @@ checks these theorems in the first-order ZF object logic. It also checks the
 [typed claim manifest](manifest.json) and its deterministic
 [comparison report](comparison.json).
 
+## Explicit countable choice and the finite-witness theorem
+
+[GateB_CountableChoice.thy](GateB_CountableChoice.thy) introduces
+`countable_choice` **as a proposition in the ZF object logic**: every
+natural-number-indexed family of nonempty sets has a choice function.
+This is a conditional assumption, **not** a new global Isabelle axiom.
+
+The formal development proves that any infinite set has injections
+`n → A` for each individual finite ordinal `n` without Choice.
+Assuming `countable_choice`, it then selects a single family of such
+finite injections indexed by every natural number.
+
+**The crucial assembly step is still missing:** the selected finite
+injections have not yet been combined into an injection `nat → A`.
+Thus we have formalized a meaningful partial countable-choice proof,
+not the full claim `ZF + ACω ⊢ Infinite(A) → DedekindInfinite(A)`.
+
 ## Published, but not kernel-checked here
 
 The countable choice principle `ACω` suffices to show every infinite set

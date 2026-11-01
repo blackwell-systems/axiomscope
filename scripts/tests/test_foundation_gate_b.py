@@ -25,7 +25,7 @@ class GateBTests(unittest.TestCase):
 
     def test_published_countermodel_cannot_be_upgraded(self):
         altered = copy.deepcopy(self.manifest)
-        altered["claims"][3]["status"] = "formal_isabelle_kernel"
+        next(c for c in altered["claims"] if c["id"] == "cohen_symmetric_countermodel")["status"] = "formal_isabelle_kernel"
         with self.assertRaisesRegex(ValueError, "promoted"):
             gate.validate(altered, self.theory)
 
@@ -40,6 +40,18 @@ class GateBTests(unittest.TestCase):
         altered["claims"][1]["assumptions"] = ["Countable Choice (ACω)"]
         with self.assertRaisesRegex(ValueError, "well-order"):
             gate.validate(altered, self.theory)
+
+    def test_finite_injection_chain_is_classified_as_formal(self):
+        report = gate.validate(self.manifest, self.theory)
+        by_id = {c["id"]: c for c in report["claims"]}
+        for key in ("finite_injection_candidates", "countable_choice_finite_witnesses"):
+            self.assertEqual(by_id[key]["status"], "formal_isabelle_kernel")
+            self.assertIn("CountableChoice.thy", by_id[key]["source"])
+        self.assertFalse(report["scientific_gate_passed"])
+
+    def test_no_implicit_choice_or_unspecified_source(self):
+        with self.assertRaisesRegex(ValueError, "within the Isabelle/ZF"):
+            gate.validate(self.manifest, self.theory, "theory Other imports Main begin end")
 
     def test_new_axioms_or_admitted_proofs_are_rejected(self):
         with self.assertRaisesRegex(ValueError, "forbidden"):

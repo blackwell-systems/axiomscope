@@ -36,6 +36,32 @@
       "evidence": []
     },
     {
+      "id": "finite_injection_candidates",
+      "statement": "¬Finite(A) ∧ n∈nat ⇒ inj(n,A) ≠ 0",
+      "status": "formal_isabelle_kernel",
+      "theorem": "GateB_CountableChoice.infinite_has_finite_injections",
+      "source": "research/gates/b/GateB_CountableChoice.thy",
+      "assumptions": [
+        "A is nonfinite",
+        "n is a finite ordinal"
+      ],
+      "foundational_scope": "Isabelle/ZF; no choice assumption",
+      "evidence": []
+    },
+    {
+      "id": "countable_choice_finite_witnesses",
+      "statement": "¬Finite(A) ∧ ACω ⇒ (∏n∈nat. inj(n,A)) ≠ 0",
+      "status": "formal_isabelle_kernel",
+      "theorem": "GateB_CountableChoice.countable_choice_selects_all_finite_injections",
+      "source": "research/gates/b/GateB_CountableChoice.thy",
+      "assumptions": [
+        "A is nonfinite",
+        "Countable Choice (ACω) explicitly defined as an object-level ZF proposition"
+      ],
+      "foundational_scope": "Isabelle/ZF plus a separate countable-choice assumption; this conclusion is a selected family of finite injections, NOT nat ≲ A",
+      "evidence": []
+    },
+    {
       "id": "countable_choice",
       "statement": "ZF + ACω ⊢ ∀A(¬Finite(A) ⇒ nat ≲ A)",
       "status": "published_not_checked_here",
@@ -86,6 +112,7 @@
     "No Isabelle/ZF theorem that ACω implies Dedekind infinity has been built in AxiomScope.",
     "No Isabelle implementation or kernel replay of Cohen's first symmetric model is provided.",
     "The two notions of Dedekind infinity (nat injection versus proper self-embedding) have not been linked by a Gate B theorem.",
-    "Cross-source comparison still requires rigorous formal mappings before an independence theorem may be marked verified."
+    "Cross-source comparison still requires rigorous formal mappings before an independence theorem may be marked verified.",
+    "Although ACω now selects an injection n→A for every finite n, the ZF-level construction assembling them into one injection nat→A remains unproved."
   ]
 }
