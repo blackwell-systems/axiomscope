@@ -46,10 +46,9 @@ theorem earlier_mem_prefix {α : Type u} (s : FiniteAvoidance α)
   | succ n ih =>
       by_cases heq : m = n
       · subst m
-        change chosen s n = chosen s n ∨ chosen s n ∈ selectedPrefix s n
-        exact Or.inl rfl
+        simp [selectedPrefix, chosen]
       · have hlt : m < n := by omega
-        change chosen s m = chosen s n ∨ chosen s m ∈ selectedPrefix s n
+        simp only [selectedPrefix, List.mem_cons]
         exact Or.inr (ih hlt)
 
 /-- A uniform finite-avoidance selector generates an injection of Nat. -/
