@@ -5,11 +5,17 @@ on:
     branches: [main]
     paths:
       - 'research/gates/b/**'
+      - 'research/foundations-v0.2/**'
+      - 'scripts/foundation_probe_v02.py'
+      - 'scripts/tests/test_foundation_probe_v02.py'
       - '.github/workflows/gate-b-isabelle.yml'
   push:
     branches: [main]
     paths:
       - 'research/gates/b/**'
+      - 'research/foundations-v0.2/**'
+      - 'scripts/foundation_probe_v02.py'
+      - 'scripts/tests/test_foundation_probe_v02.py'
       - '.github/workflows/gate-b-isabelle.yml'
   workflow_dispatch:
 
