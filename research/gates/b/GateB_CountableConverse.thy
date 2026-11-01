@@ -62,4 +62,47 @@ proof -
   thus ?thesis unfolding has_nat_injection_def .
 qed
 
+
+text \<open>
+  The first half of the Dedekind-infinity bridge uses no choice principle.
+  The existing ZF CardinalArith theorem embeds succ(A) into A whenever
+  nat embeds into A. Restricting this injection to A omits the image
+  of the additional point A (which is not an element of itself).
+\<close>
+
+definition has_proper_self_embedding :: "i \<Rightarrow> o" where
+  "has_proper_self_embedding(A) \<equiv>
+    (\<exists>f. f \<in> inj(A,A) \<and> f \<notin> surj(A,A))"
+
+lemma nat_injection_gives_proper_self_embedding:
+  assumes countable: "has_nat_injection(A)"
+  shows "has_proper_self_embedding(A)"
+proof -
+  have n: "nat \<lesssim> A"
+    using countable unfolding has_nat_injection_def .
+  have extra: "succ(A) \<lesssim> A"
+    unfolding succ_def by (rule nat_cons_lepoll [OF n])
+  obtain g where g: "g \<in> inj(succ(A),A)"
+    using extra unfolding lepoll_def by blast
+  let ?h = "restrict(g,A)"
+  have narrower: "?h \<in> inj(A, A - {g`A})"
+    by (rule inj_succ_restrict [OF g])
+  have embedding: "?h \<in> inj(A,A)"
+    using narrower by (blast intro: inj_weaken_type)
+  have new: "A \<in> succ(A)" by simp
+  have missed: "g`A \<in> A"
+    using g new by (blast dest: inj_is_fun apply_type)
+  have not_onto: "?h \<notin> surj(A,A)"
+  proof
+    assume onto: "?h \<in> surj(A,A)"
+    then obtain x where xa: "x \<in> A" and hit: "?h`x = g`A"
+      using missed unfolding surj_def by blast
+    have "?h`x \<in> A - {g`A}"
+      using narrower xa by (blast dest: inj_is_fun apply_type)
+    with hit show False by blast
+  qed
+  show ?thesis
+    using embedding not_onto unfolding has_proper_self_embedding_def by blast
+qed
+
 end
