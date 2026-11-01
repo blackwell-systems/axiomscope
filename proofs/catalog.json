@@ -601,7 +601,7 @@
       "kind": "theorem",
       "construction": "Induction on all source inference rules; explicit set-image transport",
       "provenance": "Experiment 009 Kripke-preserving nonidentity encoding",
-      "foundation_profile": "kernel_only",
+      "foundation_profile": "choice_free",
       "experiment": "009-nonidentity-translation",
       "variant": "proof_translation"
     },
