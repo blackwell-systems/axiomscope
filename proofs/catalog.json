@@ -700,7 +700,7 @@
       "kind": "theorem",
       "construction": "Structural induction; implication uses bounded-map future back-lifting",
       "provenance": "Experiment 011 bounded Kripke model/world translation",
-      "foundation_profile": "choice_free",
+      "foundation_profile": "kernel_only",
       "experiment": "011-kripke-model-translation",
       "variant": "bounded_pullback"
     },
@@ -744,7 +744,7 @@
       "kind": "theorem",
       "construction": "Explicit future world cannot be reached from singleton",
       "provenance": "Experiment 011 bounded Kripke model/world translation",
-      "foundation_profile": "kernel_only",
+      "foundation_profile": "choice_free",
       "experiment": "011-kripke-model-translation",
       "variant": "back_obstruction"
     },
@@ -755,7 +755,7 @@
       "kind": "theorem",
       "construction": "Explicit two-world Kripke implication counterexample",
       "provenance": "Experiment 011 bounded Kripke model/world translation",
-      "foundation_profile": "kernel_only",
+      "foundation_profile": "classical_choice",
       "experiment": "011-kripke-model-translation",
       "variant": "semantic_obstruction"
     }
