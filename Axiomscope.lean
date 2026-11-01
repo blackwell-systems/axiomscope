@@ -11,3 +11,5 @@ import Axiomscope.Experiments.Experiment008
 import Axiomscope.Experiments.Experiment009
 import Axiomscope.SemanticInterpretations
 import Axiomscope.Experiments.Experiment010
+import Axiomscope.ModelInterpretations
+import Axiomscope.Experiments.Experiment011
