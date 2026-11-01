@@ -58,6 +58,18 @@
 - [ ] Build or import a genuine machine-checked symmetric model with an infinite Dedekind-finite set, or leave the negative result clearly labeled as published-only.
 - [ ] Demonstrate a distinctive research/tooling capability beyond Isabelle/AFP's existing libraries, or decide to pivot the project.
 
+## Foundations v0.2 — test the architecture, not another known theorem
+
+- [x] Define a restricted context / proof-witness / goal semantics without new axioms.
+- [x] Build a conservative scenario engine over already verified Isabelle/ZF proof contracts.
+- [x] Demonstrate alternative routes via countable Choice and local well-orderability.
+- [x] Fail closed on unknown assumptions, cross-logic claims, or published-only evidence.
+- [x] Keep machine-generated counterfactual results and explicit regression tests under CI.
+- [ ] Extract theorem prerequisites mechanically rather than curating them by hand.
+- [ ] Compare what the prototype adds beyond Isabelle locales, theory interpretations, Lean's axiom audit, AFP, and existing dependency tooling.
+- [ ] Prove a useful interpretation / transport correctness theorem across *explicitly linked* foundations.
+- [ ] Demonstrate measurable benefit or pivot; do not claim novelty from proof collection.
+
 ## Phase 3 — mathematical research
 
 - [ ] Identify a precise conjecture or technical limitation of existing frameworks.
