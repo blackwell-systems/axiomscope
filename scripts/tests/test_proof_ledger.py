@@ -114,7 +114,7 @@ RESULT = (
     "'Axiomscope.Experiment008.inclusion_preserves' depends on axioms: [propext, Quot.sound]\n"
     "'Axiomscope.Experiment008.inclusion_composed_with_identity' depends on axioms: [propext, Quot.sound]\n"
     "'Axiomscope.Experiment008.no_reverse_identity_interpretation' depends on axioms: [propext, Classical.choice, Quot.sound]\n"
-    "'Axiomscope.Experiment009.translate_derivation' depends on axioms: [propext]\n"
+    "'Axiomscope.Experiment009.translate_derivation' depends on axioms: [propext, Quot.sound]\n"
     "'Axiomscope.Experiment009.semantics_equiv' depends on axioms: [propext]\n"
     "'Axiomscope.Experiment009.context_semantics_equiv' depends on axioms: [propext]\n"
     "'Axiomscope.Experiment009.top_not_in_image' does not depend on any axioms\n"
@@ -295,7 +295,7 @@ class LedgerTests(unittest.TestCase):
         self.assertEqual(len(report["variants"]), 5)
         self.assertEqual(
             [r["axioms"] for r in report["variants"]],
-            [["propext"], ["propext"], ["propext"], [],
+            [["Quot.sound", "propext"], ["propext"], ["propext"], [],
              ["Quot.sound", "propext"]],
         )
         self.assertTrue(all(
