@@ -692,6 +692,72 @@
       "foundation_profile": "choice_free",
       "experiment": "010-semantic-certificates",
       "variant": "proof_composition"
+    },
+    {
+      "declaration": "Axiomscope.Experiment011.pullback_forcing_equiv",
+      "statement": "Bounded world maps preserve and reflect Kripke forcing for every formula",
+      "source": "Axiomscope/Experiments/Experiment011.lean",
+      "kind": "theorem",
+      "construction": "Structural induction; implication uses bounded-map future back-lifting",
+      "provenance": "Experiment 011 bounded Kripke model/world translation",
+      "foundation_profile": "choice_free",
+      "experiment": "011-kripke-model-translation",
+      "variant": "bounded_pullback"
+    },
+    {
+      "declaration": "Axiomscope.Experiment011.cover_context_equiv",
+      "statement": "Model-indexed certificate preserves truth of arbitrary contexts",
+      "source": "Axiomscope/Experiments/Experiment011.lean",
+      "kind": "theorem",
+      "construction": "Instantiate generic translated-context satisfaction theorem for Nat × Bool cover",
+      "provenance": "Experiment 011 bounded Kripke model/world translation",
+      "foundation_profile": "choice_free",
+      "experiment": "011-kripke-model-translation",
+      "variant": "model_contexts"
+    },
+    {
+      "declaration": "Axiomscope.Experiment011.cover_transports_derivation",
+      "statement": "Model-indexed certificate transports intuitionistic derivations",
+      "source": "Axiomscope/Experiments/Experiment011.lean",
+      "kind": "theorem",
+      "construction": "Apply proof-preservation field of combined formula/model interpretation",
+      "provenance": "Experiment 011 bounded Kripke model/world translation",
+      "foundation_profile": "choice_free",
+      "experiment": "011-kripke-model-translation",
+      "variant": "model_proof_transport"
+    },
+    {
+      "declaration": "Axiomscope.Experiment011.composed_cover_satisfaction",
+      "statement": "Composed model certificate preserves forcing across world and syntax maps",
+      "source": "Axiomscope/Experiments/Experiment011.lean",
+      "kind": "theorem",
+      "construction": "Use model-level certificate composition with identity",
+      "provenance": "Experiment 011 bounded Kripke model/world translation",
+      "foundation_profile": "choice_free",
+      "experiment": "011-kripke-model-translation",
+      "variant": "model_composition"
+    },
+    {
+      "declaration": "Axiomscope.Experiment011.bad_projection_not_back",
+      "statement": "Root-only projection from one world into a two-world frame fails back lifting",
+      "source": "Axiomscope/Experiments/Experiment011.lean",
+      "kind": "theorem",
+      "construction": "Explicit future world cannot be reached from singleton",
+      "provenance": "Experiment 011 bounded Kripke model/world translation",
+      "foundation_profile": "kernel_only",
+      "experiment": "011-kripke-model-translation",
+      "variant": "back_obstruction"
+    },
+    {
+      "declaration": "Axiomscope.Experiment011.bad_projection_changes_implication",
+      "statement": "Root-only monotone projection changes truth of p implies false",
+      "source": "Axiomscope/Experiments/Experiment011.lean",
+      "kind": "theorem",
+      "construction": "Explicit two-world Kripke implication counterexample",
+      "provenance": "Experiment 011 bounded Kripke model/world translation",
+      "foundation_profile": "kernel_only",
+      "experiment": "011-kripke-model-translation",
+      "variant": "semantic_obstruction"
     }
   ],
   "axiom_profiles": {
@@ -849,6 +915,19 @@
         "Axiomscope.Experiment010.certified_contexts",
         "Axiomscope.Experiment010.composed_semantics",
         "Axiomscope.Experiment010.composed_derivation"
+      ]
+    },
+    {
+      "id": "011-kripke-model-translation",
+      "question": "Can a verified interpretation translate source model and world types to distinct target types while preserving truth, and why does back-lifting matter?",
+      "scope": "A generic model/world/syntax translation certificate, bounded Kripke preorder maps, a nonidentity Nat to Nat×Bool pullback and expanded target syntax, model-level composition, and an explicit monotone-map semantic failure without back. No general institution morphism or novel theorem.",
+      "variants": [
+        "Axiomscope.Experiment011.pullback_forcing_equiv",
+        "Axiomscope.Experiment011.cover_context_equiv",
+        "Axiomscope.Experiment011.cover_transports_derivation",
+        "Axiomscope.Experiment011.composed_cover_satisfaction",
+        "Axiomscope.Experiment011.bad_projection_not_back",
+        "Axiomscope.Experiment011.bad_projection_changes_implication"
       ]
     }
   ]
