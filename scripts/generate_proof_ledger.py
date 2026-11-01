@@ -33,21 +33,20 @@ class LedgerError(Exception):
 
 
 def parse_axioms(output: str, expected: set[str]) -> dict[str, list[str]]:
-    """Require exactly one axiom report per registered Lean declaration."""
+    """Require exactly one report per declaration, including multi-line axiom lists."""
     results = {}
-    for line in output.splitlines():
-        for match in REPORT.finditer(line):
-            name, listed, none = match.groups()
-            if name not in expected:
-                raise LedgerError(f"Unexpected declaration in Lean output: {name}")
-            if name in results:
-                raise LedgerError(f"Duplicate report for {name}")
-            axioms = [item.strip() for item in listed.split(",")] if listed else []
-            if any(not re.fullmatch(r"[\w.]+", x) for x in axioms):
-                raise LedgerError(f"Malformed axiom list for {name}")
-            if len(set(axioms)) != len(axioms):
-                raise LedgerError(f"Repeated axiom for {name}")
-            results[name] = sorted(axioms)
+    for match in REPORT.finditer(output):
+        name, listed, none = match.groups()
+        if name not in expected:
+            raise LedgerError(f"Unexpected declaration in Lean output: {name}")
+        if name in results:
+            raise LedgerError(f"Duplicate report for {name}")
+        axioms = [item.strip() for item in listed.split(",")] if listed else []
+        if any(not re.fullmatch(r"[\\w.]+", x) for x in axioms):
+            raise LedgerError(f"Malformed axiom list for {name}")
+        if len(set(axioms)) != len(axioms):
+            raise LedgerError(f"Repeated axiom for {name}")
+        results[name] = sorted(axioms)
     missing = expected - results.keys()
     if missing:
         raise LedgerError("Missing Lean axiom reports: " + ", ".join(sorted(missing)))
