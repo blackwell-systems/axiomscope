@@ -41,8 +41,8 @@ class NativeBaselineTests(unittest.TestCase):
 
     def test_immediate_local_dependency_must_be_valid(self):
         raw = self.sample().replace(
-            "\\t0\\tGateB_CountableChoice.sample",
-            "\\t0\\tFakeUnregisteredClaim",
+            "\t0\tGateB_CountableChoice.sample",
+            "\t0\tFakeUnregisteredClaim",
         )
         with self.assertRaisesRegex(ValueError, "Invalid local"):
             bench.parse_export(raw)
