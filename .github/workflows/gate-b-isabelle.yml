@@ -12,6 +12,8 @@ on:
       - 'scripts/check_prover_bridge_v03.py'
       - 'scripts/tests/test_prover_bridge_v03.py'
       - 'scripts/tests/test_foundation_probe_v02.py'
+      - 'scripts/benchmark_native_gate_b.py'
+      - 'scripts/tests/test_benchmark_native_gate_b.py'
       - '.github/workflows/gate-b-isabelle.yml'
   push:
     branches: [main]
@@ -24,6 +26,8 @@ on:
       - 'scripts/check_prover_bridge_v03.py'
       - 'scripts/tests/test_prover_bridge_v03.py'
       - 'scripts/tests/test_foundation_probe_v02.py'
+      - 'scripts/benchmark_native_gate_b.py'
+      - 'scripts/tests/test_benchmark_native_gate_b.py'
       - '.github/workflows/gate-b-isabelle.yml'
   workflow_dispatch:
 
@@ -41,6 +45,7 @@ jobs:
           python3 -m unittest scripts.tests.test_foundation_gate_b -v
           python3 scripts/check_foundation_gate_b.py --check
           python3 -m unittest scripts.tests.test_prover_bridge_v03 -v
+          python3 -m unittest scripts.tests.test_benchmark_native_gate_b -v
           python3 scripts/generate_prover_bridge_v03.py --check
       - name: Fetch Isabelle2026
         run: docker pull makarius/isabelle:Isabelle2026
@@ -72,6 +77,23 @@ jobs:
           python3 scripts/check_prover_bridge_v03.py \
             --export isabelle-exports/GateB_ZF.GateB_ProverBridge/axiomscope_theorems.tsv \
             --output isabelle-exports/prover-certified-scenarios.json
+      - name: Export and compare native Isabelle dependency evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm \
+            -v "$PWD/research/gates/b:/theories:ro" \
+            -v "$PWD/isabelle-home:/home/isabelle/.isabelle" \
+            -v "$PWD/isabelle-exports:/exports" \
+            makarius/isabelle:Isabelle2026 export -n \
+              -d /theories \
+              -O /exports \
+              -x "GateB_ZF.GateB_ProverBridge:axiomscope_native_dependencies.tsv" \
+              GateB_ZF
+          python3 scripts/benchmark_native_gate_b.py \
+            --export isabelle-exports/GateB_ZF.GateB_ProverBridge/axiomscope_native_dependencies.tsv \
+            --output isabelle-exports/native-witness-benchmark.json
+          cat isabelle-exports/native-witness-benchmark.json
       - name: Upload prover statement and scenario evidence
         if: always()
         uses: actions/upload-artifact@v4

@@ -1,0 +1,140 @@
+{
+  "schema_version": 1,
+  "evidence_workflow": "https://github.com/blackwell-systems/axiomscope/actions/runs/41348268656",
+  "observed_head_sha": "892a9245cd734da69edccf9e98688d281a57c742",
+  "object_logic": "Isabelle/ZF",
+  "isabelle_tag": "makarius/isabelle:Isabelle2026",
+  "method": "Isabelle Thm_Deps and Proofterm APIs; seven original Gate B theorem objects",
+  "summary": {
+    "theorem_graphs": 7,
+    "immediate_local_named_references": 12,
+    "transitive_local_named_references": 38,
+    "graphs_with_oracles": 0
+  },
+  "rows": [
+    {
+      "id": "finite_witnesses",
+      "immediate_theorem_count": 70,
+      "transitive_named_theorem_count": 490,
+      "immediate_local_names": [],
+      "transitive_local_names": [],
+      "oracle_count": 0
+    },
+    {
+      "id": "countable_family",
+      "immediate_theorem_count": 34,
+      "transitive_named_theorem_count": 233,
+      "immediate_local_names": [
+        "GateB_CountableChoice.countable_choice_family"
+      ],
+      "transitive_local_names": [
+        "GateB_CountableChoice.countable_choice_def",
+        "GateB_CountableChoice.countable_choice_family"
+      ],
+      "oracle_count": 0
+    },
+    {
+      "id": "selected_family",
+      "immediate_theorem_count": 5,
+      "transitive_named_theorem_count": 503,
+      "immediate_local_names": [
+        "GateB_CountableChoice.countable_choice_finite_injection_family",
+        "GateB_CountableChoice.infinite_has_finite_injections"
+      ],
+      "transitive_local_names": [
+        "GateB_CountableChoice.countable_choice_def",
+        "GateB_CountableChoice.countable_choice_family",
+        "GateB_CountableChoice.countable_choice_finite_injection_family",
+        "GateB_CountableChoice.infinite_has_finite_injections"
+      ],
+      "oracle_count": 0
+    },
+    {
+      "id": "selected_union",
+      "immediate_theorem_count": 36,
+      "transitive_named_theorem_count": 402,
+      "immediate_local_names": [
+        "GateB_Assemble.selected_union_def"
+      ],
+      "transitive_local_names": [
+        "GateB_Assemble.selected_union_def"
+      ],
+      "oracle_count": 0
+    },
+    {
+      "id": "selected_to_injection",
+      "immediate_theorem_count": 5,
+      "transitive_named_theorem_count": 915,
+      "immediate_local_names": [
+        "GateB_Assemble.selected_union_infinite",
+        "GateB_CountableConverse.infinite_subcountable_has_nat_injection",
+        "GateB_Enumeration.selected_union_lepoll_nat"
+      ],
+      "transitive_local_names": [
+        "GateB_Assemble.selected_union_def",
+        "GateB_Assemble.selected_union_infinite",
+        "GateB_CountableConverse.infinite_subcountable_has_nat_injection",
+        "GateB_Enumeration.selected_index_injective",
+        "GateB_Enumeration.selected_union_lepoll_nat",
+        "GateB_EnumerationIntro.selected_code_candidate",
+        "GateB_EnumerationIntro.selected_index_def",
+        "GateB_EnumerationLeast.selected_index_natural",
+        "GateB_EnumerationLeast.selected_index_represents",
+        "GateB_ZF.has_nat_injection_def",
+        "GateB_ZF.wellorderable_infinite_has_nat_injection"
+      ],
+      "oracle_count": 0
+    },
+    {
+      "id": "choice_to_injection",
+      "immediate_theorem_count": 19,
+      "transitive_named_theorem_count": 992,
+      "immediate_local_names": [
+        "GateB_Assemble.countable_choice_yields_infinite_enumerated_union",
+        "GateB_CountableConverse.selected_union_has_nat_injection",
+        "GateB_EnumerationIntro.selected_union_subset",
+        "GateB_ZF.has_nat_injection_def"
+      ],
+      "transitive_local_names": [
+        "GateB_Assemble.countable_choice_yields_infinite_enumerated_union",
+        "GateB_Assemble.selected_union_def",
+        "GateB_Assemble.selected_union_infinite",
+        "GateB_CountableChoice.countable_choice_def",
+        "GateB_CountableChoice.countable_choice_family",
+        "GateB_CountableChoice.countable_choice_finite_injection_family",
+        "GateB_CountableChoice.countable_choice_selects_all_finite_injections",
+        "GateB_CountableChoice.infinite_has_finite_injections",
+        "GateB_CountableConverse.infinite_subcountable_has_nat_injection",
+        "GateB_CountableConverse.selected_union_has_nat_injection",
+        "GateB_Enumeration.selected_index_injective",
+        "GateB_Enumeration.selected_union_lepoll_nat",
+        "GateB_EnumerationIntro.selected_code_candidate",
+        "GateB_EnumerationIntro.selected_index_def",
+        "GateB_EnumerationIntro.selected_union_subset",
+        "GateB_EnumerationLeast.selected_index_natural",
+        "GateB_EnumerationLeast.selected_index_represents",
+        "GateB_ZF.has_nat_injection_def",
+        "GateB_ZF.wellorderable_infinite_has_nat_injection"
+      ],
+      "oracle_count": 0
+    },
+    {
+      "id": "wellorder_to_injection",
+      "immediate_theorem_count": 18,
+      "transitive_named_theorem_count": 399,
+      "immediate_local_names": [
+        "GateB_ZF.has_nat_injection_def"
+      ],
+      "transitive_local_names": [
+        "GateB_ZF.has_nat_injection_def"
+      ],
+      "oracle_count": 0
+    }
+  ],
+  "benchmark_verdict": "NO_DIFFERENTIATION_DEMONSTRATED",
+  "warnings": [
+    "Native dependencies are not logically minimal assumptions or a proof of independence.",
+    "The AxiomScope v0.2 scenario engine still offers a manually registered applicability view; this benchmark does not establish complete feature equivalence.",
+    "No second independent construction has been benchmarked, and no novel cross-foundation capability was shown."
+  ]
+}
