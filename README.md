@@ -1,13 +1,33 @@
 # AXIOMSCOPE
 
+> **Project status: Concluded — archival snapshot (November 2026).**
+>
+> AxiomScope was an experimental investigation of mathematical foundations,
+> formal verification, logical interpretations, and assumption-sensitive
+> constructions. Active development has ended. This public repository is
+> retained as a reproducible record of the investigation.
+>
+> **What was achieved:** machine-checked formalizations of established
+> mathematics in Lean 4 and Isabelle/ZF, plus experimental proof-context and
+> interpretation tools. **What was not achieved:** a new mathematical
+> foundation, an original mathematical theorem, a verified negative
+> set-theoretic independence model, or a demonstrated research advantage
+> over established tools.
+>
+> The final [native Isabelle benchmark](research/benchmarks/native-isabelle-choice/RESULTS.md)
+> found no distinguishing advantage for AxiomScope's registered
+> assumption/witness analysis. See the
+> [underlying observations](research/benchmarks/native-isabelle-choice/observed-isabelle2026.json)
+> and [proof ledger](docs/PROOF-LEDGER.md) for the evidence and limits.
+
 **Proofs carry their assumptions. Foundations have relationships.**
 
-AXIOMSCOPE is an experimental research project investigating how mathematical
-foundations, their assumptions, and theorems can be represented and related in
+AXIOMSCOPE was an experimental research project investigating how mathematical
+foundations, their assumptions, and theorems could be represented and related in
 a precise, machine-checkable way.
 
-We use Lean 4 and Isabelle to test that idea. **The aim is not to build another
-theorem prover or merely catalogue known proofs.** The long-term question is
+The work used Lean 4 and Isabelle to test that idea. **The aim was not to build another
+theorem prover or merely catalogue known proofs.** The motivating question was
 whether we can develop a rigorous and useful account of transformations between
 foundational systems: what can be interpreted, what is preserved, and what
 cannot be transferred without additional assumptions.
@@ -21,10 +41,10 @@ This objective builds on substantial prior work in mathematical logic, theory
 interpretations, proof assistants, and categorical and structural foundations.
 We claim **no new foundation or mathematical discovery** at present.
 
-## The intended contribution
+## Original research goal (historical)
 
-A successful AXIOMSCOPE should do more than display axioms used by a proof.
-The research program asks whether a coherent framework can connect:
+The intended contribution was to do more than display axioms used by a proof.
+The research program asked whether a coherent framework could connect:
 
 | Component | What must be represented or verified |
 | --- | --- |
@@ -67,33 +87,26 @@ The detailed results, caveats, and proof evidence live in the research
 documents and machine-generated reports. **A missing registered proof never
 counts as evidence that a theorem is false or independent.**
 
-## Our next mathematical milestone
+## Final research decision
 
-We must now test the *relationships between foundations themselves*, not
-continue indefinitely adding proof-analysis features.
+The final research benchmark compared the choice-sensitive witness analysis
+against native Isabelle2026 proof-dependency and oracle reporting. In seven
+machine-checked theorem graphs, native Isabelle exposed the relevant
+construction chain, including the finite-witness, countable-choice selection,
+and injection-extraction steps.
 
-**Target:** Specify two genuinely different formal foundations, a precise
-interpretation between a carefully chosen fragment of their languages, and
-one machine-checked theorem about what that interpretation preserves. Where
-appropriate, construct or import a genuine model-based obstruction.
+The benchmark **did not demonstrate a distinctive mathematical analysis
+capability** for the AxiomScope registry. This is a bounded negative
+assessment of the proposed research direction, not a theorem proving that
+future contributions are impossible. The project was concluded rather than
+expanded into additional experiments.
 
-We will measure this against what Isabelle, Lean, and existing foundational
-interpretation frameworks already provide. The experiment must establish at
-least one of the following:
+See [the benchmark methodology](research/benchmarks/native-isabelle-choice/README.md)
+and [recorded results](research/benchmarks/native-isabelle-choice/RESULTS.md).
+The earlier [research roadmap](docs/ROADMAP.md) is preserved as a historical
+record, not a current plan.
 
-1. **A verifiable mathematical result** about the conditions under which a
-   construction or statement survives a foundational interpretation.
-2. **A useful verified capability** for comparing or composing such
-   interpretations that a clear baseline does not already provide.
-
-A failed benchmark is a reason to narrow the problem or pivot—not to
-manufacture novelty. New axioms or a distinct formal system would be
-considered **only after** a concrete mathematical need has been demonstrated.
-
-See the [research roadmap](docs/ROADMAP.md) for completed and open proof
-obligations.
-
-## Current prototype: assumption-context analysis
+## Prototype: assumption-context analysis
 
 The [Foundations v0.2 specification](docs/FOUNDATIONS-v0.2.md) models a
 foundation, context, theorem, and registered proof witness. Given a context
@@ -257,14 +270,20 @@ See the [generated proof ledger](docs/PROOF-LEDGER.md) and
 - [Machine-readable axiom dependency ledger](proofs/dependencies.json)
 - [Declaration metadata catalogue](proofs/catalog.json)
 
-## Scientific status
+## Scientific status at conclusion
 
-**Exploratory research.** We have verified foundational examples and
-built auditable proof-context tooling. We have **not** yet established a
-distinct foundational theory, a machine-checked cross-foundation proof
-transport theorem, a new independence result, or a demonstrated advantage
-over existing mathematical interpretation frameworks.
+**Research concluded; no original mathematical discovery claimed.** The
+project verified examples and known mathematical results, including
+conditional choice-sensitive constructions, using existing trusted proof
+assistants. It also developed and tested experimental interpretation and
+proof-context interfaces.
 
-Success is measured by precise new mathematics or independently useful,
-verifiable capabilities—not by the number of experiments, commits,
-or proof-assistant builds.
+It did **not** establish a distinct foundational theory, a formally checked
+negative independence model, a general cross-foundation theorem transport,
+or a demonstrated advantage over existing mathematical interpretation
+frameworks. The native Isabelle benchmark found the proposed registry's
+distinctive research value unproven.
+
+The proofs, source code, workflows, and research records are preserved for
+inspection and reproduction. This archival description is not an endorsement
+of the original research conjectures or a claim of mathematical novelty.
